@@ -1,0 +1,36 @@
+#------------所有占位符------------#
+# {0} - 玩家名
+# {1} - 当前等级
+# {2} - 玩家所在世界
+
+#------------所有事件------------#
+#Level-Up-Event 玩家升级事件
+#Death-Event 玩家死亡事件(可用于死亡等级惩罚)
+#Exp-Change-Event 玩家经验变化事件
+
+#请与Levels中的标签一致
+MainLevel:
+  #每级执行
+  Every-Level:
+    Level-Up-Event:
+      - ""
+    Death-Event:
+      - ""
+  #0-5级执行
+  0-5:
+    #事件名
+    Level-Up-Event:
+      # 例如玩家Zha_Yun达到1(0-5级均会触发)级 则执行/fl take Zha_Yun 100
+      - "fl take {0} 100"
+    Death-Event:
+      - "fl take {0} 100"
+  6-10:
+    Level-Up-Event:
+    Death-Event:
+  # 单独一级请这样填写
+  11:
+    Level-Up-Event:
+    Death-Event:
+  12-100:
+    Level-Up-Event:
+    Death-Event:

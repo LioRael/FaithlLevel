@@ -1,0 +1,19 @@
+Options:
+  #更新提醒
+  Check-Update: true
+  #关闭原版经验变化
+  Disable-Origin-ExpChange: true
+  #原版等级同步(关闭将不会同步到原版等级，且原版等级时刻为0)
+  Main-Level-To-Origin: true
+  #主等级系统 请与Levels中的标签一致
+  Main-Level: MainLevel
+  #数据库配置
+  Database:
+    #MySQL,SQLite
+    Type: SQLite
+    #若为SQLite不用配置下列项目
+    Host: localhost
+    Port: 3306
+    User: root
+    Password: root
+    Database: minecraft
