@@ -18,8 +18,8 @@ Command-Set-Info: '&8[&3FaithlLevel&8][&b{0}&8] &r设置 &b{1}&r 玩家等级为
 Command-Status-Description: '查看玩家信息'
 Command-Status-Info: '&8[&3FaithlLevel&8][&b{0}&8] &r玩家 &b{1} &r当前信息: &b{2}&8 - &r[&b{3}&8/&3{4}&r]。'
 
-Level-Loader-Loaded: '&8[&3FaithlLevel&8][&bINFO&8] &b{0} &r个菜单已加载 &8({1} ms)'
-Level-Loader-Failed: '&8[&3FaithlLevel&8][&cERROR&8] &b{0} &r菜单加载失败, 原因:{1}'
+Level-Loader-Loaded: '&8[&3FaithlLevel&8][&bINFO&8] &b{0} &r个等级已加载 &8({1} ms)'
+Level-Loader-Failed: '&8[&3FaithlLevel&8][&cERROR&8] &b{0} &r等级加载失败, 原因:{1}'
 
 Player-Level-Max:
   - '[Chat][&c{0}&8] &r你已经满级了!'
