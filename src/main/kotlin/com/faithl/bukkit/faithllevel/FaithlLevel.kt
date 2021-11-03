@@ -67,7 +67,6 @@ object FaithlLevel:Plugin() {
                 player.setupDataContainer()
             }
         }
-//        ExpDataManager.autoSave()
     }
 
     fun checkUpdate(sender: Player? = null){
