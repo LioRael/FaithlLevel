@@ -23,6 +23,8 @@ taboolib {
         }
         dependencies {
             name("PlaceholderAPI").optional(true)
+            name("AttributePlus").optional(true)
+            name("MythicMobs").optional(true)
         }
     }
 

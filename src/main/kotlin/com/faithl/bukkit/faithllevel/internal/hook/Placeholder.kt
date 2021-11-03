@@ -16,7 +16,7 @@ object Placeholder: PlaceholderExpansion {
             //faithl_value
             1 -> {
                 val data = FaithlLevelAPI.getPlayerData(player,
-                    FaithlLevelAPI.getLevelData(FaithlLevel.setting.getString("Main-Level"))?:return "Null level"
+                    FaithlLevelAPI.getLevelData(FaithlLevel.setting.getString("Options.Main-Level"))?:return "Null level"
                 )
                 when(arr[0]){
                     "exp" -> return data.exp.toString()
