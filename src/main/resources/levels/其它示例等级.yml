@@ -19,7 +19,7 @@ SurvivalLevel:
       - '[Sound]ExpChange'
     Player-Level-Up:
       - '[ActionBar][&b{0}&8] &rLv.{1}&8 - &r[&b{2}&8/&3{3}&r] &r[{4}&r]'
-      - '[Title][&b{0}&8] &r你升级了!||&rLv.&b{1}&r &8 - &r升级所需:&b{2}'
+      - '[Title][&b{0}&8] &r你升级了!||&rLv.&b{1}&r &8 - &r升级所需:&b{3}'
       - '[Sound]LevelUp'
     No-Permissions:
       - '[Chat]&r[&b{0}&r] &c你没有权限来升到{1}'
