@@ -2,6 +2,7 @@ package com.faithl.bukkit.faithllevel.internal.listener
 
 import com.faithl.bukkit.faithllevel.FaithlLevel
 import com.faithl.bukkit.faithllevel.api.FaithlLevelAPI
+import com.faithl.bukkit.faithllevel.internal.level.Level
 import org.bukkit.event.player.AsyncPlayerChatEvent
 import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.player.PlayerQuitEvent
@@ -17,8 +18,8 @@ object DatabaseListener{
 
     @SubscribeEvent
     fun e(e: PlayerQuitEvent) {
-        FaithlLevelAPI.getLevelDataMap().forEach{
-            FaithlLevelAPI.getPlayerData(e.player, it.value).save()
+        Level.levels.forEach{
+            FaithlLevelAPI.getPlayerData(e.player, it).save()
         }
         e.player.releaseDataContainer()
     }

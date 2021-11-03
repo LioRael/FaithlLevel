@@ -17,3 +17,8 @@ Options:
     User: root
     Password: root
     Database: minecraft
+Loader:
+  #你可以在这里加入自定义等级文件夹
+  Level-Files:
+  #如- 'plugins/CustomLevelFolder'
+    - ''

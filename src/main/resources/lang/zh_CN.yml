@@ -18,8 +18,17 @@ Command-Set-Info: '&8[&3FaithlLevel&8][&b{0}&8] &r设置 &b{1}&r 玩家等级为
 Command-Status-Description: '查看玩家信息'
 Command-Status-Info: '&8[&3FaithlLevel&8][&b{0}&8] &r玩家 &b{1} &r当前信息: &b{2}&8 - &r[&b{3}&8/&3{4}&r]。'
 
-Player-Level-Max: '&8[&3FaithlLevel&8][&c{0}&8] &r你已经满级了!'
-Player-Exp-Change: '&8[&3FaithlLevel&8][&b{0}&8] &rLv.{1}&8 - &r[&b{2}&8/&3{3}&r] &r[{4}&r]'
+Level-Loader-Loaded: '&8[&3FaithlLevel&8][&bINFO&8] &b{0} &r个菜单已加载 &8({1} ms)'
+Level-Loader-Failed: '&8[&3FaithlLevel&8][&cERROR&8] &b{0} &r菜单加载失败, 原因:{1}'
+
+Player-Level-Max:
+  - '[Chat][&c{0}&8] &r你已经满级了!'
+Player-Exp-Change:
+  - '[ActionBar][&b{0}&8] &rLv.{1}&8 - &r[&b{2}&8/&3{3}&r] &r[{4}&r]'
+  - '[Sound]ExpChange'
 Player-Level-Up:
-  - '&8[&3FaithlLevel&8][&b{0}&8] &r你升级了!'
-  - '&rLv.&b{1}&r &8 - &r升级所需:&b{2}'
+  - '[ActionBar][&b{0}&8] &rLv.{1}&8 - &r[&b{2}&8/&3{3}&r] &r[{4}&r]'
+  - '[Title][&b{0}&8] &r你升级了!||&rLv.&b{1}&r &8 - &r升级所需:&b{2}'
+  - '[Sound]LevelUp'
+No-Permissions:
+  - '[Chat]&r[&b{0}&r] &c你没有权限来升到{1}'

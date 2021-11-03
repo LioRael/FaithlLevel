@@ -2,18 +2,21 @@ package com.faithl.bukkit.faithllevel.internal.command
 
 import com.faithl.bukkit.faithllevel.FaithlLevel
 import com.faithl.bukkit.faithllevel.api.FaithlLevelAPI
-import com.faithl.bukkit.faithllevel.internal.level.LevelDataManager
+import com.faithl.bukkit.faithllevel.internal.conf.Loader
+import com.faithl.bukkit.faithllevel.internal.level.Level
 import com.faithl.bukkit.faithllevel.internal.level.data.ExpDataManager
 import org.bukkit.Bukkit
 import org.bukkit.Bukkit.getPlayerExact
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import taboolib.common.platform.ProxyCommandSender
+import taboolib.common.platform.ProxyPlayer
 import taboolib.common.platform.command.CommandBody
 import taboolib.common.platform.command.CommandHeader
 import taboolib.common.platform.command.mainCommand
 import taboolib.common.platform.command.subCommand
 import taboolib.common.platform.function.adaptCommandSender
+import taboolib.common.platform.function.adaptPlayer
 import taboolib.common.platform.function.onlinePlayers
 import taboolib.common.platform.function.pluginVersion
 import taboolib.common5.Coerce
@@ -24,25 +27,27 @@ import taboolib.platform.util.asLangText
 import taboolib.platform.util.sendLang
 
 
-@CommandHeader(name = "faithllevel", aliases = ["fl","flevel"], permission = "FaithlLevel.access")
+@CommandHeader(name = "faithllevel", aliases = ["fl","flevel","level"], permission = "FaithlLevel.access")
 object CommandHandler {
     @CommandBody
     val status = subCommand {
-        execute<Player>{ sender, _, _ ->
-            for (levelSystem in FaithlLevelAPI.getLevelDataMap().values){
-                val playerData: ExpDataManager = FaithlLevelAPI.getPlayerData(sender,levelSystem)
-                sender.sendLang("Command-Status-Info",levelSystem.name,sender.name,playerData.getDisplay(),playerData.exp,playerData.getMaxExp())
+        execute<ProxyPlayer>{ sender, _, _ ->
+            for (levelSystem in Level.levels){
+                val playerData: ExpDataManager = FaithlLevelAPI.getPlayerData(sender.cast(),levelSystem)
+                sender.sendLang("Command-Status-Info",
+                    levelSystem.name!!,sender.name,playerData.getDisplay(),playerData.exp,playerData.getMaxExp())
             }
         }
         dynamic {
-            suggestion<Player> { _, _ ->
+            suggestion<ProxyCommandSender> { _, _ ->
                 onlinePlayers().map { it.name}
             }
-            execute<Player>{ sender, _, argument ->
+            execute<ProxyCommandSender>{ sender, _, argument ->
                 val target = getPlayerExact(argument) ?: return@execute
-                for (levelSystem in FaithlLevelAPI.getLevelDataMap().values){
+                for (levelSystem in Level.levels){
                     val playerData: ExpDataManager = FaithlLevelAPI.getPlayerData(target,levelSystem)
-                    sender.sendLang("Command-Status-Info",levelSystem.name,target.name,playerData.getDisplay(),playerData.exp,playerData.getMaxExp())
+                    sender.sendLang("Command-Status-Info",
+                        levelSystem.name!!,target.name,playerData.getDisplay(),playerData.exp,playerData.getMaxExp())
                 }
             }
         }
@@ -54,16 +59,16 @@ object CommandHandler {
             sender.sendLang("Command-Take-Error")
         }
         dynamic {
-            suggestion<Player> { _, _ ->
-                FaithlLevelAPI.getLevelDataMap().map {it.key}
+            suggestion<ProxyCommandSender> { _, _ ->
+                Level.levels.map { it.key!! }
             }
             dynamic {
-                suggestion<Player>(uncheck = true) { _ , _ ->
+                suggestion<ProxyCommandSender>(uncheck = true) { _ , _ ->
                     onlinePlayers().map { it.name }
                 }
-                execute<Player>{ sender, context, argument ->
+                execute<ProxyPlayer>{ sender, context, argument ->
                     val value = Coerce.toInteger(argument)
-                    val playerData: ExpDataManager = FaithlLevelAPI.getPlayerData(sender,FaithlLevelAPI.getLevelData(context.argument(-1))?:return@execute)
+                    val playerData: ExpDataManager = FaithlLevelAPI.getPlayerData(sender.cast(),FaithlLevelAPI.getLevelData(context.argument(-1))?:return@execute)
                     playerData.takeExp(value)
                 }
                 dynamic {
@@ -81,7 +86,8 @@ object CommandHandler {
                             FaithlLevelAPI.getLevelData(context.argument(-2))!!
                         )
                         playerData.takeExp(value)
-                        sender.sendLang("Command-Take-Info",playerData.levelData.name,target.name,value,playerData.exp,playerData.getMaxExp())
+                        sender.sendLang("Command-Take-Info",
+                            playerData.levelData.name!!,target.name,value,playerData.exp,playerData.getMaxExp())
                     }
                 }
             }
@@ -94,20 +100,20 @@ object CommandHandler {
             sender.sendLang("Command-Set-Error")
         }
         dynamic {
-            suggestion<Player> { _, _ ->
-                FaithlLevelAPI.getLevelDataMap().map {it.key}
+            suggestion<ProxyCommandSender> { _, _ ->
+                Level.levels.map { it.key!! }
             }
             dynamic {
-                suggestion<Player>(uncheck = true) { _ , _ ->
+                suggestion<ProxyCommandSender>(uncheck = true) { _ , _ ->
                     onlinePlayers().map { it.name }
                 }
-                execute<Player>{ sender, context, argument ->
+                execute<ProxyPlayer>{ sender, context, argument ->
                     val value = Coerce.toInteger(argument)
-                    val playerData: ExpDataManager = FaithlLevelAPI.getPlayerData(sender,FaithlLevelAPI.getLevelData(context.argument(-1))?:return@execute)
+                    val playerData: ExpDataManager = FaithlLevelAPI.getPlayerData(sender.cast(),FaithlLevelAPI.getLevelData(context.argument(-1))?:return@execute)
                     playerData.level = value
                     playerData.exp = 0
                     playerData.updateOriginExp()
-                    sender.sendLang("Command-Set-Info",playerData.levelData.name,sender.name,value)
+                    sender.sendLang("Command-Set-Info", playerData.levelData.name!!,sender.name,value)
                 }
                 dynamic {
                     restrict<ProxyCommandSender> { _, _, argument ->
@@ -123,7 +129,7 @@ object CommandHandler {
                         val playerData: ExpDataManager = FaithlLevelAPI.getPlayerData(target,FaithlLevelAPI.getLevelData(context.argument(-2))?:return@execute)
                         playerData.level = value
                         playerData.exp = 0
-                        sender.sendLang("Command-Set-Info",playerData.levelData.name,target.name,value)
+                        sender.sendLang("Command-Set-Info", playerData.levelData.name!!,target.name,value)
                         playerData.updateOriginExp()
                     }
                 }
@@ -138,17 +144,17 @@ object CommandHandler {
         }
         //level
         dynamic {
-            suggestion<Player> { _, _ ->
-                FaithlLevelAPI.getLevelDataMap().map {it.key}
+            suggestion<ProxyCommandSender> { _, _ ->
+                Level.levels.map { it.key!! }
             }
             //player || value
             dynamic {
-                suggestion<Player>(uncheck = true) { _, _ ->
+                suggestion<ProxyCommandSender>(uncheck = true) { _, _ ->
                     onlinePlayers().map { it.name }
                 }
-                execute<Player> { sender, context, argument ->
+                execute<ProxyPlayer> { sender, context, argument ->
                     val value = Coerce.toInteger(argument)
-                    val playerData: ExpDataManager = FaithlLevelAPI.getPlayerData(sender,
+                    val playerData: ExpDataManager = FaithlLevelAPI.getPlayerData(sender.cast(),
                         FaithlLevelAPI.getLevelData(context.argument(-1))?:return@execute
                     )
                     playerData.addExp(value)
@@ -167,7 +173,8 @@ object CommandHandler {
                         val value = Coerce.toInteger(argument)
                         val playerData: ExpDataManager = FaithlLevelAPI.getPlayerData(target,FaithlLevelAPI.getLevelData(context.argument(-2))?:return@execute)
                         playerData.addExp(value)
-                        sender.sendLang("Command-Add-Info",playerData.levelData.name, target.name, value, playerData.exp, playerData.getMaxExp())
+                        sender.sendLang("Command-Add-Info",
+                            playerData.levelData.name!!, target.name, value, playerData.exp, playerData.getMaxExp())
                     }
                 }
             }
@@ -177,13 +184,11 @@ object CommandHandler {
     @CommandBody
     val reload = subCommand {
         execute<ProxyCommandSender> { sender, _, _ ->
-            FaithlLevel.setting.reload()
-            FaithlLevel.conf.reload()
-            FaithlLevel.command.reload()
-            FaithlLevelAPI.getLevelDataMap().clear()
-            FaithlLevel.init()
-            LevelDataManager.init()
             Language.reload()
+            FaithlLevel.setting.reload()
+            Level.levels.clear()
+            FaithlLevel.init()
+            Loader.loadLevels(sender.cast())
             sender.sendLang("Plugin-Reloaded", pluginVersion,KotlinVersion.CURRENT.toString())
         }
     }

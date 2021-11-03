@@ -2,11 +2,8 @@ package com.faithl.bukkit.faithllevel.internal.level.data
 
 import com.faithl.bukkit.faithllevel.FaithlLevel
 import com.faithl.bukkit.faithllevel.api.event.LevelUpEvent
-import com.faithl.bukkit.faithllevel.internal.level.LevelData
-import com.faithl.bukkit.faithllevel.util.getFExp
-import com.faithl.bukkit.faithllevel.util.getFLevel
-import com.faithl.bukkit.faithllevel.util.setFExp
-import com.faithl.bukkit.faithllevel.util.setFLevel
+import com.faithl.bukkit.faithllevel.internal.level.Level
+import com.faithl.bukkit.faithllevel.util.*
 import org.bukkit.Sound
 import org.bukkit.entity.Player
 import taboolib.common.platform.function.adaptPlayer
@@ -18,7 +15,7 @@ import taboolib.platform.util.asLangText
 import taboolib.platform.util.asLangTextList
 import taboolib.platform.util.sendLang
 
-class ExpDataManager(private val player: Player, val levelData: LevelData) {
+class ExpDataManager(val player: Player, val levelData: Level) {
     var level = 0
     var exp = 0
     init {
@@ -28,7 +25,7 @@ class ExpDataManager(private val player: Player, val levelData: LevelData) {
 
     fun updateOriginExp() {
         val mainLevel = FaithlLevel.setting.getString("Options.Main-Level")
-        if (FaithlLevel.setting.getBoolean("Options.Main-Level-To-Origin") && levelData.name == mainLevel) {
+        if (FaithlLevel.setting.getBoolean("Options.Main-Level-To-Origin") && levelData.key == mainLevel) {
             player.level = level
             if (this.getMaxExp() != 0) {
                 player.exp = exp / getMaxExp().toFloat()
@@ -42,7 +39,7 @@ class ExpDataManager(private val player: Player, val levelData: LevelData) {
     fun addExp(addExpAmount: Int) {
         var addExp = addExpAmount
         if (getMaxLevel() <= level) {
-            player.sendLang("Player-Level-Max",levelData.name)
+            player.send(levelData.messages?.getStringList("Player-Level-Max") ?:player.asLangTextList("Player-Level-Max").toMutableList(), this)
             return
         }
         val change = addExp
@@ -53,31 +50,28 @@ class ExpDataManager(private val player: Player, val levelData: LevelData) {
             }
             // 升级
             if (exp + addExp >= getMaxExp()) {
-                addExp = exp + addExp - getMaxExp()
-                exp = 0
                 level += 1
-                levelUp = true
+                if (hasPermission()){
+                    addExp = exp + addExp - getMaxExp()
+                    exp = 0
+                    levelUp = true
+                }else{
+                    addExp = 0
+                    player.send(levelData.messages?.getStringList("No-Permissions") ?:player.asLangTextList("No-Permissions").toMutableList(), this)
+                    level -= 1
+                }
             } else {
                 exp += addExp
                 break
             }
         }
         updateOriginExp()
-        sendActionBar(change)
-        if (!levelUp) {
-            player.playSound(player.location, Sound.ENTITY_EXPERIENCE_ORB_PICKUP, change / 50f, change / 20f)
-        } else {
+        if (levelUp) {
+            player.send(levelData.messages?.getStringList("Player-Level-Up")?:player.asLangTextList("Player-Level-Up").toMutableList(),this,change)
             LevelUpEvent(player, this,levelData).call()
-            val title = player.asLangTextList("Player-Level-Up",levelData.name,getDisplay(), getMaxExp()).colored()
-            player.sendTitle(title[0], title[1], 5, 20, 5)
-            player.playSound(player.location, Sound.ENTITY_PLAYER_LEVELUP, change / 20f, change / 20f)
+        }else{
+            player.send(levelData.messages?.getStringList("Player-Exp-Change")?:player.asLangTextList("Player-Exp-Change").toMutableList(),this,change)
         }
-    }
-
-    private fun sendActionBar(change:Int){
-        val message = TypeActionBar()
-        message.text = player.asLangText("Player-Exp-Change",levelData.name,getDisplay(), exp, getMaxExp(), "&b$change")
-        message.send(adaptPlayer(player))
     }
 
     fun hasExp(hasExpAmount: Int): Boolean{
@@ -116,12 +110,12 @@ class ExpDataManager(private val player: Player, val levelData: LevelData) {
                 break
             }
         }
-        sendActionBar(change)
+        player.send(levelData.messages?.getStringList("Player-Exp-Change")?:player.asLangTextList("Player-Exp-Change").toMutableList(),this,change)
         updateOriginExp()
     }
 
     fun getMaxExp(): Int {
-        val expList: List<String> = levelData.expGrow
+        val expList: List<String> = levelData.expGrow!!
         if (this.getMaxLevel() <= level) {
             return 0
         }
@@ -135,11 +129,6 @@ class ExpDataManager(private val player: Player, val levelData: LevelData) {
                 level++
                 maxExp = Coerce.toInteger(str.replace("[^0-9]".toRegex(), ""))
             }
-            if (str.contains(" ") && str.split(" ").toTypedArray().size > 1) {
-                if (!player.hasPermission(str.split(" ").toTypedArray()[1])) {
-                    break
-                }
-            }
             if (this.level <= level) {
                 break
             }
@@ -147,8 +136,31 @@ class ExpDataManager(private val player: Player, val levelData: LevelData) {
         return maxExp
     }
 
+    fun hasPermission(): Boolean{
+        val permissionList = levelData.permission ?: return true
+        if (this.getMaxLevel() <= level) {
+            return true
+        }
+        var level = -1
+        var permission = "default"
+        for(str in permissionList){
+            if (str.contains(":")&& str.split(":").toTypedArray().size > 1){
+                level = Coerce.toInteger(str.split(":").toTypedArray()[0].replace("[^0-9]".toRegex(), ""))
+                permission = str.split(":").toTypedArray()[1]
+            }
+            if (this.level <= level) {
+                break
+            }
+        }
+        if (permission == "default")
+            return true
+        if (player.hasPermission(permission))
+            return true
+        return false
+    }
+
     private fun getMaxLevel(): Int {
-        val expList: List<String> = levelData.expGrow
+        val expList: List<String> = levelData.expGrow!!
         var maxLevel = -1
         for (str in expList) {
             if (str.contains(":") && str.split(":").toTypedArray().size > 1) {
@@ -156,20 +168,13 @@ class ExpDataManager(private val player: Player, val levelData: LevelData) {
             } else {
                 maxLevel++
             }
-            if (str.contains(" ") && str.split(" ").toTypedArray().size > 1) {
-                if (!player.hasPermission(str.split(" ").toTypedArray()[1])) {
-                    break
-                }
-            }
         }
         return maxLevel
     }
 
     fun getDisplay(): String {
-        val displayList = levelData.levelDisplay
-        if (displayList.contains("null"))
-            return this.level.toString()
-        if (this.getMaxLevel() <= level) {
+        val displayList = levelData.levelDisplay ?: return this.level.toString()
+        if (this.getMaxLevel() < level) {
             return "null"
         }
         var level = -1

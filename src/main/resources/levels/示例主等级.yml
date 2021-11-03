@@ -1,0 +1,71 @@
+#等级系统标签
+MainLevel:
+  #等级系统名
+  Name: "主等级"
+  #多少级到多少级，每级需要的经验
+  #这里是0-5级每级需要10经验 5-10级每级需要50经验 以此类推
+  #等级上限为最后一项的等级
+  #若需要使用权限请在后面写空格+权限,玩家没有该权限无法升级
+  Exp-Grow:
+    - "5:10"
+    - "10:50"
+    - "100:100"
+  Permissions:
+    #填写default为不需权限
+    - "5:default"
+    - "10:default"
+    - "100:faithl.access"
+  #经验瓶增长经验
+  Exp-Bottle:
+    #开关
+    Enable: true
+    #经验倍率
+    Time: 1
+  #等级展示，请使用{0}表示当前等级
+  Level-Display:
+    - "10:&f{0}☆"
+    - "20:&a{0}☆"
+    - "30:&b{0}☆"
+  Commands:
+    #------------所有占位符------------#
+    # {0} - 玩家名
+    # {1} - 当前等级
+    # {2} - 玩家所在世界
+    #------------所有事件------------#
+    #Level-Up-Event 玩家升级事件
+    #Death-Event 玩家死亡事件(可用于死亡等级惩罚)
+    #Exp-Change-Event 玩家经验变化事件
+
+    #每级执行
+    Every-Level:
+      Level-Up-Event:
+        - ""
+      Death-Event:
+        - ""
+    #0-5级执行
+    0-5:
+      #事件名
+      Level-Up-Event:
+        # 例如玩家Zha_Yun达到1(0-5级均会触发)级 则执行/fl take Zha_Yun 100
+        - "fl take {0} 100"
+      Death-Event:
+        - "fl take {0} 100"
+  Messages:
+    #若不填写Messages 则会自动调用语言文件中的对应项
+    #------------所有占位符------------#
+    # {0} - 等级系统名
+    # {1} - 等级
+    # {2} - 当前经验
+    # {3} - 当前升级所需经验
+    # {4} - 经验变化量
+    Player-Level-Max:
+      - '[Chat]&r[&c{0}&r] &r你已经满级了!'
+    Player-Exp-Change:
+      - '[ActionBar]&r[&b{0}&r] &rLv.{1}&8 - &r[&b{2}&8/&3{3}&r] &r[{4}&r]'
+      - '[Sound]ExpChange'
+    Player-Level-Up:
+      - '[ActionBar]&r[&b{0}&r] &rLv.{1}&8 - &r[&b{2}&8/&3{3}&r] &r[{4}&r]'
+      - '[Title]&r[&b{0}&r] &r你升级了!||&rLv.&b{1}&r &8 - &r升级所需:&b{2}'
+      - '[Sound]LevelUp'
+    No-Permissions:
+      - '[Chat]&r[&b{0}&r] &c你没有权限来升到{1}'

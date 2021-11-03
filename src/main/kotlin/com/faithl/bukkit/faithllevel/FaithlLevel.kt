@@ -1,6 +1,7 @@
 package com.faithl.bukkit.faithllevel
 
 import com.alibaba.fastjson.JSONObject
+import com.faithl.bukkit.faithllevel.internal.conf.Loader
 import com.faithl.bukkit.faithllevel.util.JsonUtil
 import org.bukkit.entity.Player
 import taboolib.common.env.RuntimeDependency
@@ -25,12 +26,6 @@ object FaithlLevel:Plugin() {
     @Config("settings.yml", migrate = true,autoReload = true)
     lateinit var setting: SecuredFile
 
-    @Config("levels.yml", migrate = false,autoReload = true)
-    lateinit var conf: SecuredFile
-
-    @Config("commands.yml", migrate = false,autoReload = true)
-    lateinit var command: SecuredFile
-
     val plugin by lazy { BukkitPlugin.getInstance() }
     var isOutDate = false
 
@@ -41,6 +36,7 @@ object FaithlLevel:Plugin() {
     override fun onEnable() {
         init()
         checkUpdate()
+        Loader.loadLevels()
         console().sendLang("Plugin-Enabled", pluginVersion,KotlinVersion.CURRENT.toString())
         for (player in onlinePlayers())
             player.setupDataContainer()

@@ -1,31 +1,29 @@
 package com.faithl.bukkit.faithllevel.internal.conf
 
 import com.faithl.bukkit.faithllevel.FaithlLevel
-import com.faithl.bukkit.faithllevel.internal.level.LevelData
+import com.faithl.bukkit.faithllevel.internal.level.Level
 
 object CommandLoader {
-    fun getCommand(value:Int,event:String,levelData: LevelData):MutableList<String>{
+    fun getCommand(value:Int, event:String, level: Level):MutableList<String>?{
         val result:MutableList<String> = mutableListOf()
-        if (FaithlLevel.command.getConfigurationSection(levelData.key)==null)
-            return mutableListOf("null")
-        val keys = FaithlLevel.command.getConfigurationSection(levelData.key).getKeys(false) ?: return mutableListOf("null")
+        val keys = level.commands?.getKeys(false) ?: return null
         for (key in keys){
             if (key.contains("Every-Level")){
-                result += FaithlLevel.command.getStringList("${levelData.key}.${key}.${event}") ?: mutableListOf("null")
+                result += level.commands.getStringList("${key}.${event}") ?: mutableListOf()
                 continue
             }
             if (key.contains("-")){
                 val min = key.split("-").toTypedArray()[0].toInt()
                 val max = key.split("-").toTypedArray()[1].toInt()
                 if (value in min..max){
-                    result += FaithlLevel.command.getStringList("${levelData.key}.${min}-${max}.${event}") ?: mutableListOf("null")
-                    return result
+                    result += level.commands.getStringList("${min}-${max}.${event}") ?: mutableListOf()
+                    continue
                 }
             }else if (value == key.toInt()){
-                result += FaithlLevel.command.getStringList("${levelData.key}.${key}.${event}") ?: mutableListOf("null")
-                return result
+                result += level.commands.getStringList("${key}.${event}") ?: mutableListOf()
+                continue
             }
         }
-        return mutableListOf("null")
+        return result
     }
 }
