@@ -36,6 +36,8 @@ object Loader {
         }
         val serializingTime = System.currentTimeMillis()
         tasks.forEach {
+            if(it.extension=="db")
+                return
             val keys = YamlConfiguration.loadConfiguration(it).getConfigurationSection("").getKeys(false)
             for (key in keys){
                 if (FaithlLevelAPI.getLevelData(key) == null)

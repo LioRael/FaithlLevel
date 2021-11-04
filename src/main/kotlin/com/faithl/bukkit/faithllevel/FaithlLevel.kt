@@ -59,7 +59,7 @@ object FaithlLevel:Plugin() {
             setupPlayerDatabase(host,port,user, password, database,table)
             console().sendLang("Plugin-Database-Enabled", "MySQL")
         } else {
-            setupPlayerDatabase(newFile(getDataFolder(), "smeltdata.db"))
+            setupPlayerDatabase(newFile(getDataFolder(), "levelData.db"))
             console().sendLang("Plugin-Database-Enabled", "SQLite")
         }
         if (onlinePlayers().isNotEmpty()){

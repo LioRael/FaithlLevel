@@ -27,7 +27,6 @@ taboolib {
             name("MythicMobs").optional(true)
         }
     }
-
 }
 
 repositories {
