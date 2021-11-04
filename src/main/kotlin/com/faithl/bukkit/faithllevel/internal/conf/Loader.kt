@@ -30,14 +30,12 @@ object Loader {
         }
         val tasks = mutableListOf<File>().also { tasks ->
             files.forEach { file ->
-                if (!tasks.any { it.nameWithoutExtension == file.nameWithoutExtension })
+                if (!tasks.any { it.nameWithoutExtension == file.nameWithoutExtension } && file.extension=="yml")
                     tasks.add(file)
             }
         }
         val serializingTime = System.currentTimeMillis()
         tasks.forEach {
-            if(it.extension=="db")
-                return
             val keys = YamlConfiguration.loadConfiguration(it).getConfigurationSection("").getKeys(false)
             for (key in keys){
                 if (FaithlLevelAPI.getLevelData(key) == null)
