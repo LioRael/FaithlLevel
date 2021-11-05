@@ -3,7 +3,6 @@ package com.faithl.bukkit.faithllevel.internal.command.impl
 import com.faithl.bukkit.faithllevel.api.FaithlLevelAPI
 import com.faithl.bukkit.faithllevel.internal.level.Level
 import com.faithl.bukkit.faithllevel.internal.level.data.ExpDataManager
-import com.faithl.bukkit.faithllevel.util.getBoot
 import org.bukkit.Bukkit
 import taboolib.common.platform.ProxyCommandSender
 import taboolib.common.platform.ProxyPlayer
@@ -17,7 +16,7 @@ object CommandStatus {
             for (levelSystem in Level.levels){
                 val playerData: ExpDataManager = FaithlLevelAPI.getPlayerData(sender.cast(),levelSystem)
                 sender.sendLang("Command-Status-Info",
-                    levelSystem.name!!,sender.name,playerData.getDisplay(),playerData.exp,playerData.getMaxExp(),playerData.getTotalBoot())
+                    levelSystem.name!!,sender.name,playerData.getDisplay(),playerData.exp,playerData.getMaxExp(),playerData.getTotalBooster())
             }
         }
         dynamic {
@@ -29,7 +28,7 @@ object CommandStatus {
                 for (levelSystem in Level.levels){
                     val playerData: ExpDataManager = FaithlLevelAPI.getPlayerData(target,levelSystem)
                     sender.sendLang("Command-Status-Info",
-                        levelSystem.name!!,target.name,playerData.getDisplay(),playerData.exp,playerData.getMaxExp(),playerData.getTotalBoot())
+                        levelSystem.name!!,target.name,playerData.getDisplay(),playerData.exp,playerData.getMaxExp(),playerData.getTotalBooster())
                 }
             }
         }

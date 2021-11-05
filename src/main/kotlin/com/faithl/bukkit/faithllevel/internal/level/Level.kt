@@ -17,7 +17,7 @@ class Level(private val configurationSection:ConfigurationSection) {
     val messages: ConfigurationSection? = configurationSection.getConfigurationSection("Messages")
     val permission: MutableList<String>? = configurationSection.getStringList("Permissions")
     val ap: ConfigurationSection? = configurationSection.getConfigurationSection("AttributePlus")
-    val permissionBoot: MutableList<String>? = configurationSection.getStringList("Exp-Permission-Boot")
+    val permissionBooster: MutableList<String>? = configurationSection.getStringList("Exp-Permission-Booster")
     init {
         levels.add(this)
         requireNotNull(key) {

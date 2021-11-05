@@ -11,7 +11,7 @@ MainLevel:
     - "10:50"
     - "100:100"
   #权限经验加成，若玩家含有该权限则获得加成，单位%
-  Exp-Permission-Boot:
+  Exp-Permission-Booster:
     - "5:faithl.access:100"
   Permissions:
     #填写default为不需权限

@@ -34,16 +34,16 @@ class ExpDataManager(val player: Player, val levelData: Level) {
     }
 
     fun getTotalAddExp(addExpAmount: Int): Int {
-        return addExpAmount.times(1 + getTotalBoot()).roundToInt()
+        return addExpAmount.times(1 + getTotalBooster()).roundToInt()
     }
 
-    fun getTotalBoot(): Double {
+    fun getTotalBooster(): Double {
         var boot = 0.0
         if (FaithlLevel.ap && levelData.ap?.getString("Exp-Boot-Attribute")!=null){
             boot += AttributeAPI.getAttrData(player).getRandomValue(levelData.ap.getString("Exp-Boot-Attribute")).toDouble()/100
         }
-        boot += getPermissionBoot()
-        boot += player.getBoot(levelData)
+        boot += getPermissionBooster()
+        boot += player.getBooster(levelData)
         return boot
     }
 
@@ -202,8 +202,8 @@ class ExpDataManager(val player: Player, val levelData: Level) {
         return display.replaceWithOrder(this.level).colored()
     }
 
-    private fun getPermissionBoot(): Double {
-        val permissionBootList = levelData.permissionBoot ?: return 0.0
+    private fun getPermissionBooster(): Double {
+        val permissionBootList = levelData.permissionBooster ?: return 0.0
         if (this.getMaxLevel() < level) {
             return 0.0
         }

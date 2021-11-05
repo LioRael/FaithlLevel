@@ -2,9 +2,7 @@ package com.faithl.bukkit.faithllevel.internal.command.impl
 
 import com.faithl.bukkit.faithllevel.api.FaithlLevelAPI
 import com.faithl.bukkit.faithllevel.internal.level.Level
-import com.faithl.bukkit.faithllevel.internal.level.data.ExpDataManager
-import com.faithl.bukkit.faithllevel.util.getBoot
-import com.faithl.bukkit.faithllevel.util.setBoot
+import com.faithl.bukkit.faithllevel.util.setBooster
 import org.bukkit.Bukkit
 import taboolib.common.platform.ProxyCommandSender
 import taboolib.common.platform.ProxyPlayer
@@ -13,7 +11,7 @@ import taboolib.common.platform.function.onlinePlayers
 import taboolib.common5.Coerce
 import taboolib.module.lang.sendLang
 
-object CommandBoot {
+object CommandBooster {
     val command = subCommand {
         execute<ProxyCommandSender>{ sender, _, _ ->
             sender.sendLang("Command-Boot-Error")
@@ -32,7 +30,7 @@ object CommandBoot {
                     val level = FaithlLevelAPI.getLevelData(context.argument(-1)) ?: return@execute
                     val value = Coerce.toDouble(argument)/100
                     val player = Bukkit.getPlayerExact(sender.name) ?: return@execute
-                    player.setBoot(level,value)
+                    player.setBooster(level,value)
                     sender.sendLang("Command-Boot-Info", level.name!!,sender.name,"${argument}%")
                 }
                 //value
@@ -48,7 +46,7 @@ object CommandBoot {
                         val target = Bukkit.getPlayerExact(context.argument(-1)) ?: return@execute
                         val level = FaithlLevelAPI.getLevelData(context.argument(-2)) ?: return@execute
                         val value = Coerce.toDouble(argument)/100
-                        target.setBoot(level,value)
+                        target.setBooster(level,value)
                         sender.sendLang("Command-Boot-Info", level.name!!,target.name,"${argument}%")
                     }
                 }

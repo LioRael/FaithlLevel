@@ -1,37 +1,21 @@
 package com.faithl.bukkit.faithllevel.internal.command
 
 import com.faithl.bukkit.faithllevel.FaithlLevel
-import com.faithl.bukkit.faithllevel.api.FaithlLevelAPI
 import com.faithl.bukkit.faithllevel.internal.command.impl.*
-import com.faithl.bukkit.faithllevel.internal.conf.Loader
-import com.faithl.bukkit.faithllevel.internal.level.Level
-import com.faithl.bukkit.faithllevel.internal.level.data.ExpDataManager
-import org.bukkit.Bukkit
-import org.bukkit.Bukkit.getPlayerExact
 import org.bukkit.command.CommandSender
-import org.bukkit.entity.Player
-import taboolib.common.platform.ProxyCommandSender
-import taboolib.common.platform.ProxyPlayer
 import taboolib.common.platform.command.CommandBody
 import taboolib.common.platform.command.CommandHeader
 import taboolib.common.platform.command.mainCommand
 import taboolib.common.platform.command.subCommand
 import taboolib.common.platform.function.adaptCommandSender
-import taboolib.common.platform.function.adaptPlayer
-import taboolib.common.platform.function.onlinePlayers
-import taboolib.common.platform.function.pluginVersion
-import taboolib.common5.Coerce
 import taboolib.module.chat.TellrawJson
-import taboolib.module.lang.Language
-import taboolib.module.lang.sendLang
 import taboolib.platform.util.asLangText
-import taboolib.platform.util.sendLang
 
 
 @CommandHeader(name = "faithllevel", aliases = ["fl","flevel","level"], permission = "FaithlLevel.access")
 object CommandHandler {
     @CommandBody
-    val boot = CommandBoot.command
+    val booster = CommandBooster.command
 
     @CommandBody
     val status = CommandStatus.command
@@ -103,7 +87,7 @@ object CommandHandler {
         displayArg("set", sender.asLangText("Command-Set-Description"))
         displayArg("take", sender.asLangText("Command-Take-Description"))
         if (FaithlLevel.ap)
-            displayArg("boot", sender.asLangText("Command-Boot-Description"))
+            displayArg("booster", sender.asLangText("Command-Booster-Description"))
         displayArg("status", sender.asLangText("Command-Status-Description"))
         displayArg("reload", sender.asLangText("Command-Reload-Description"))
         proxySender.sendMessage("")
