@@ -10,6 +10,7 @@ MainLevel:
     - "5:10"
     - "10:50"
     - "100:100"
+  #权限经验加成，若玩家含有该权限则获得加成，单位%
   Exp-Permission-Boot:
     - "5:faithl.access:100"
   Permissions:

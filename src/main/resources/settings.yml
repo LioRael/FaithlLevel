@@ -7,7 +7,6 @@ Options:
   Main-Level-To-Origin: true
   #主等级系统 请与Levels中的标签一致
   Main-Level: MainLevel
-  AP-Lore: 装备等级
   #数据库配置
   Database:
     #MySQL,SQLite
