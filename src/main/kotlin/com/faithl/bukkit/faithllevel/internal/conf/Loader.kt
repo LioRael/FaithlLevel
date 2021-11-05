@@ -17,6 +17,7 @@ object Loader {
         if (!folder.exists()) {
             arrayOf(
                 "示例主等级.yml",
+                "AP装备等级.yml",
                 "其它示例等级.yml",
             ).forEach { releaseResourceFile("levels/$it", true) }
         }

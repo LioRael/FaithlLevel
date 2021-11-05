@@ -1,0 +1,11 @@
+AttributePlus:
+  Name: "武器等级"
+  Exp-Grow:
+    - "5:10"
+    - "10:50"
+    - "100:100"
+  AttributePlus:
+    Lore: "武器等级"
+    Not-Enough: "&8[&3FaithlLevel&8][&cERROR&8] &r你的 &b{0} &r不够来使用这个装备。"
+    Exp-Boot-Attribute: "武器经验加成"
+    Exp-Boot-Placeholder: "exp_boot" #全小写

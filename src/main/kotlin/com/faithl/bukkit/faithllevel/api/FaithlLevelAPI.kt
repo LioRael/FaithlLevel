@@ -12,6 +12,17 @@ object FaithlLevelAPI {
         return ExpDataManager(player, level)
     }
 
+    fun getPlayerData(player: Player, key:String): ExpDataManager {
+        System.gc()
+        return ExpDataManager(player, this.getLevelDataByApLore(key)!!)
+    }
+
+    fun getLevelDataByApLore(apLore: String): Level? {
+        return Level.levels.find {
+            it.ap?.getString("Lore") == apLore
+        }
+    }
+
     fun getLevelData(key:String): Level? {
         return Level.levels.find {
             it.key == key

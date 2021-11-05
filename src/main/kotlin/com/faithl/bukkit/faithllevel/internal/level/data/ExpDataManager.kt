@@ -4,16 +4,13 @@ import com.faithl.bukkit.faithllevel.FaithlLevel
 import com.faithl.bukkit.faithllevel.api.event.LevelUpEvent
 import com.faithl.bukkit.faithllevel.internal.level.Level
 import com.faithl.bukkit.faithllevel.util.*
-import org.bukkit.Sound
 import org.bukkit.entity.Player
-import taboolib.common.platform.function.adaptPlayer
+import org.serverct.ersha.api.AttributeAPI
 import taboolib.common.util.replaceWithOrder
 import taboolib.common5.Coerce
 import taboolib.module.chat.colored
-import taboolib.module.lang.TypeActionBar
-import taboolib.platform.util.asLangText
 import taboolib.platform.util.asLangTextList
-import taboolib.platform.util.sendLang
+import kotlin.math.roundToInt
 
 class ExpDataManager(val player: Player, val levelData: Level) {
     var level = 0
@@ -36,8 +33,22 @@ class ExpDataManager(val player: Player, val levelData: Level) {
         save()
     }
 
+    fun getTotalAddExp(addExpAmount: Int): Int {
+        return addExpAmount.times(1 + getTotalBoot()).roundToInt()
+    }
+
+    fun getTotalBoot(): Double {
+        var boot = 0.0
+        if (FaithlLevel.ap && levelData.ap?.getString("Exp-Boot-Attribute")!=null){
+            boot += AttributeAPI.getAttrData(player).getRandomValue(levelData.ap.getString("Exp-Boot-Attribute")).toDouble()/100
+        }
+        boot += getPermissionBoot()
+        boot += player.getBoot(levelData)
+        return boot
+    }
+
     fun addExp(addExpAmount: Int) {
-        var addExp = addExpAmount
+        var addExp = getTotalAddExp(addExpAmount)
         if (getMaxLevel() <= level) {
             player.send(levelData.messages?.getStringList("Player-Level-Max") ?:player.asLangTextList("Player-Level-Max").toMutableList(), this)
             return
@@ -189,6 +200,31 @@ class ExpDataManager(val player: Player, val levelData: Level) {
             }
         }
         return display.replaceWithOrder(this.level).colored()
+    }
+
+    private fun getPermissionBoot(): Double {
+        val permissionBootList = levelData.permissionBoot ?: return 0.0
+        if (this.getMaxLevel() < level) {
+            return 0.0
+        }
+        var level = -1
+        var boot = 0.0
+        var permission = "default"
+        for(str in permissionBootList){
+            if (str.contains(":")&& str.split(":").toTypedArray().size > 1){
+                level = Coerce.toInteger(str.split(":").toTypedArray()[0].replace("[^0-9]".toRegex(), ""))
+                permission = str.split(":").toTypedArray()[1]
+                boot = (str.split(":").toTypedArray()[2].toDoubleOrNull() ?: 0.0)/ 100
+            }
+            if (this.level <= level) {
+                break
+            }
+        }
+        if (permission == "default")
+            return boot
+        if (player.hasPermission(permission))
+            return boot
+        return 0.0
     }
 
     /**

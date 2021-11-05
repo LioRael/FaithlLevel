@@ -3,6 +3,7 @@ package com.faithl.bukkit.faithllevel
 import com.alibaba.fastjson.JSONObject
 import com.faithl.bukkit.faithllevel.internal.conf.Loader
 import com.faithl.bukkit.faithllevel.util.JsonUtil
+import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import taboolib.common.env.RuntimeDependency
 import taboolib.common.io.newFile
@@ -19,8 +20,7 @@ import taboolib.module.metrics.Metrics
 import taboolib.platform.BukkitPlugin
 import taboolib.platform.util.sendLang
 
-
-@RuntimeDependency(value = "com.alibaba:fastjson:1.2.76")
+@RuntimeDependency(value = "com.alibaba:fastjson:1.2.78")
 object FaithlLevel:Plugin() {
 
     @Config("settings.yml", migrate = true,autoReload = true)
@@ -28,6 +28,7 @@ object FaithlLevel:Plugin() {
 
     val plugin by lazy { BukkitPlugin.getInstance() }
     var isOutDate = false
+    var ap = false
 
     override fun onLoad() {
         Metrics(13122, pluginVersion, runningPlatform)
@@ -67,8 +68,18 @@ object FaithlLevel:Plugin() {
                 player.setupDataContainer()
             }
         }
+        if (Bukkit.getPluginManager().isPluginEnabled("AttributePlus")) {
+            ap = true
+            console().sendLang("Plugin-Hooked","AttributePlus")
+        }
     }
 
+
+    /**
+     * Check update
+     *
+     * @param sender
+     */
     fun checkUpdate(sender: Player? = null){
         if(!setting.getBoolean("Options.Check-Update"))
             return

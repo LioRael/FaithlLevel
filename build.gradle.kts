@@ -21,6 +21,9 @@ taboolib {
         contributors {
             name("Leosouthey")
         }
+        links{
+            name("homepage").url("https://forum.faithl.com")
+        }
         dependencies {
             name("PlaceholderAPI").optional(true)
             name("AttributePlus").optional(true)
@@ -36,18 +39,13 @@ repositories {
 dependencies {
     implementation("ink.ptms.core:v11701:11701:mapped")
     implementation("ink.ptms.core:v11701:11701:universal")
-    compileOnly("com.alibaba:fastjson:1.2.76")
+    compileOnly("com.alibaba:fastjson:1.2.78")
     compileOnly("org.jetbrains.kotlin:kotlin-stdlib:1.5.31")
     compileOnly(fileTree("libs"))
 }
 
 tasks.withType<JavaCompile> {
     options.encoding = "UTF-8"
-}
-
-tasks.withType<Jar> {
-//    destinationDir = file("F:/Server/spigot 1.17/plugins")
-//    destinationDir = file("E:/FaithL/Server/Test1.12.2/plugins")
 }
 
 configure<JavaPluginConvention> {

@@ -1,5 +1,8 @@
 package com.faithl.bukkit.faithllevel.internal.level
 
+import com.faithl.bukkit.faithllevel.FaithlLevel
+import com.faithl.bukkit.faithllevel.internal.hook.attribute.Attribute
+import org.serverct.ersha.AttributePlus
 import taboolib.common.platform.function.console
 import taboolib.library.configuration.ConfigurationSection
 import taboolib.module.lang.sendLang
@@ -13,6 +16,8 @@ class Level(private val configurationSection:ConfigurationSection) {
     val commands: ConfigurationSection? = configurationSection.getConfigurationSection("Commands")
     val messages: ConfigurationSection? = configurationSection.getConfigurationSection("Messages")
     val permission: MutableList<String>? = configurationSection.getStringList("Permissions")
+    val ap: ConfigurationSection? = configurationSection.getConfigurationSection("AttributePlus")
+    val permissionBoot: MutableList<String>? = configurationSection.getStringList("Exp-Permission-Boot")
     init {
         levels.add(this)
         requireNotNull(key) {
@@ -23,6 +28,10 @@ class Level(private val configurationSection:ConfigurationSection) {
         requireNotNull(expGrow) {
             levels.remove(this)
             console().sendLang("Level-Loader-Failed", key,"The Exp-Grow is null")
+        }
+        if (levels.contains(this) && FaithlLevel.ap && ap!=null){
+            AttributePlus.attributeManager.increaseKey(ap.getString("Lore"))
+            Attribute(ap.getString("Exp-Boot-Attribute"),ap.getString("Exp-Boot-Placeholder"))
         }
     }
 

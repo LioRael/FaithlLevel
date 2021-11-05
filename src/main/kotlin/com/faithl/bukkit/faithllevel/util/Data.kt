@@ -7,6 +7,12 @@ import taboolib.expansion.getDataContainer
 import taboolib.expansion.releaseDataContainer
 import taboolib.expansion.setupDataContainer
 
+fun Player.getBoot(level:Level):Double {
+    releaseDataContainer()
+    setupDataContainer()
+    return getDataContainer()["${level.key}_boot"]?.toDoubleOrNull() ?: return 0.0
+}
+
 fun Player.getFExp(level:Level): Int {
     releaseDataContainer()
     setupDataContainer()
@@ -19,14 +25,20 @@ fun Player.getFLevel(level:Level): Int {
     return Coerce.toInteger(getDataContainer()["${level.key}_level"])
 }
 
+fun Player.setBoot(level:Level,value:Double) {
+    releaseDataContainer()
+    setupDataContainer()
+    getDataContainer()["${level.key}_boot"]=value
+}
+
 fun Player.setFExp(level:Level, value:Int){
     releaseDataContainer()
     setupDataContainer()
-    getDataContainer()["${level.key}_exp"]=Coerce.toInteger(value)
+    getDataContainer()["${level.key}_exp"]=value
 }
 
 fun Player.setFLevel(level:Level, value:Int){
     releaseDataContainer()
     setupDataContainer()
-    getDataContainer()["${level.key}_level"]=Coerce.toInteger(value)
+    getDataContainer()["${level.key}_level"]=value
 }
