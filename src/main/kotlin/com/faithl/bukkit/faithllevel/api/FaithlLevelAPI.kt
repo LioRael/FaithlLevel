@@ -13,7 +13,6 @@ object FaithlLevelAPI {
     }
 
     fun getPlayerData(player: Player, key:String): ExpDataManager {
-        System.gc()
         return ExpDataManager(player, this.getLevelDataByApLore(key)!!)
     }
 

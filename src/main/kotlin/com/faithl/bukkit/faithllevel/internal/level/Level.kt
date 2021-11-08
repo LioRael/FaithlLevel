@@ -31,7 +31,7 @@ class Level(private val configurationSection:ConfigurationSection) {
         }
         if (levels.contains(this) && FaithlLevel.ap && ap!=null){
             AttributePlus.attributeManager.increaseKey(ap.getString("Lore"))
-            Attribute(ap.getString("Exp-Boot-Attribute"),ap.getString("Exp-Boot-Placeholder"))
+            Attribute(ap.getString("Exp-Booster-Attribute"),ap.getString("Exp-Booster-Placeholder"))
         }
     }
 

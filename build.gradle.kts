@@ -9,7 +9,6 @@ taboolib {
     install("common-5")
     install("platform-bukkit")
     install("module-lang")
-    install("module-ui")
     install("module-chat")
     install("module-configuration")
     install("module-metrics")
