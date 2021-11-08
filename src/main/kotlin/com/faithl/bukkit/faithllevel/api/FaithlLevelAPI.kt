@@ -8,7 +8,6 @@ import taboolib.common.platform.Awake
 @Awake
 object FaithlLevelAPI {
     fun getPlayerData(player: Player, level:Level): ExpDataManager {
-        System.gc()
         return ExpDataManager(player, level)
     }
 
