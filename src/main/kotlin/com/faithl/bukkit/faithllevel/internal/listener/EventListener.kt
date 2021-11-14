@@ -12,12 +12,17 @@ import com.faithl.bukkit.faithllevel.internal.level.Level
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import org.bukkit.event.entity.PlayerDeathEvent
+import org.bukkit.event.inventory.InventoryMoveItemEvent
+import org.bukkit.event.inventory.InventoryType
 import org.bukkit.event.player.PlayerExpChangeEvent
 import org.bukkit.event.player.PlayerJoinEvent
 import taboolib.common.platform.event.SubscribeEvent
 import taboolib.common.util.replaceWithOrder
+import taboolib.platform.util.checkItem
+import taboolib.platform.util.hasItem
 
 object EventListener {
+
     @SubscribeEvent
     fun e(e: PlayerJoinEvent){
         if (FaithlLevel.isOutDate && e.player.isOp)

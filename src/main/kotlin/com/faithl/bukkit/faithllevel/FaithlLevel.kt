@@ -10,9 +10,6 @@ import taboolib.common.io.newFile
 import taboolib.common.platform.Plugin
 import taboolib.common.platform.function.*
 import taboolib.common.util.Version
-import taboolib.expansion.releaseDataContainer
-import taboolib.expansion.setupDataContainer
-import taboolib.expansion.setupPlayerDatabase
 import taboolib.module.configuration.Config
 import taboolib.module.configuration.SecuredFile
 import taboolib.module.lang.sendLang
@@ -39,35 +36,9 @@ object FaithlLevel:Plugin() {
         checkUpdate()
         Loader.loadLevels()
         console().sendLang("Plugin-Enabled", pluginVersion,KotlinVersion.CURRENT.toString())
-        for (player in onlinePlayers())
-            player.setupDataContainer()
-    }
-
-    override fun onDisable() {
-        for (player in onlinePlayers())
-            player.releaseDataContainer()
     }
 
     fun init(){
-        val type = setting.getString("Options.Database.Type")!!
-        val host = setting.getString("Options.Database.Host")!!
-        val database = setting.getString("Options.Database.Database")!!
-        val user = setting.getString("Options.Database.User")!!
-        val password = setting.getString("Options.Database.Password")!!
-        val port = setting.getInt("Options.Database.Port")
-        val table = "${pluginId.lowercase()}_data"
-        if (type.contains("MySQL",true)) {
-            setupPlayerDatabase(host,port,user, password, database,table)
-            console().sendLang("Plugin-Database-Enabled", "MySQL")
-        } else {
-            setupPlayerDatabase(newFile(getDataFolder(), "levelData.db"))
-            console().sendLang("Plugin-Database-Enabled", "SQLite")
-        }
-        if (onlinePlayers().isNotEmpty()){
-            for (player in onlinePlayers()){
-                player.setupDataContainer()
-            }
-        }
         if (Bukkit.getPluginManager().isPluginEnabled("AttributePlus")) {
             ap = true
             console().sendLang("Plugin-Hooked","AttributePlus")

@@ -1,4 +1,4 @@
-package com.faithl.bukkit.faithllevel.internal.hook.attribute.condition
+package com.faithl.bukkit.faithllevel.internal.compat.attribute.condition
 
 import com.faithl.bukkit.faithllevel.api.FaithlLevelAPI
 import com.faithl.bukkit.faithllevel.internal.level.Level

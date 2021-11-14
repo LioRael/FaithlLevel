@@ -1,4 +1,4 @@
-package com.faithl.bukkit.faithllevel.internal.hook.attribute.condition
+package com.faithl.bukkit.faithllevel.internal.compat.attribute.condition
 
 import org.bukkit.entity.LivingEntity
 import org.serverct.ersha.api.component.DescriptionRead

@@ -10,13 +10,13 @@ Options:
   #数据库配置
   Database:
     #MySQL,SQLite
-    Type: SQLite
+    type: SQLite
     #若为SQLite不用配置下列项目
-    Host: localhost
-    Port: 3306
-    User: root
-    Password: root
-    Database: minecraft
+    host: localhost
+    port: 3306
+    user: root
+    password: root
+    database: minecraft
 Loader:
   #你可以在这里加入自定义等级文件夹
   Level-Files:

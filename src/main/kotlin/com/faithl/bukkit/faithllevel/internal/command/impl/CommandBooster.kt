@@ -1,8 +1,8 @@
 package com.faithl.bukkit.faithllevel.internal.command.impl
 
 import com.faithl.bukkit.faithllevel.api.FaithlLevelAPI
+import com.faithl.bukkit.faithllevel.internal.data.Database
 import com.faithl.bukkit.faithllevel.internal.level.Level
-import com.faithl.bukkit.faithllevel.util.setBooster
 import org.bukkit.Bukkit
 import taboolib.common.platform.ProxyCommandSender
 import taboolib.common.platform.ProxyPlayer
@@ -30,7 +30,7 @@ object CommandBooster {
                     val level = FaithlLevelAPI.getLevelData(context.argument(-1)) ?: return@execute
                     val value = Coerce.toDouble(argument)/100
                     val player = Bukkit.getPlayerExact(sender.name) ?: return@execute
-                    player.setBooster(level,value)
+                    Database.INSTANCE.setBooster(player,level,value)
                     sender.sendLang("Command-Boot-Info", level.name!!,sender.name,"${argument}%")
                 }
                 //value
@@ -46,7 +46,7 @@ object CommandBooster {
                         val target = Bukkit.getPlayerExact(context.argument(-1)) ?: return@execute
                         val level = FaithlLevelAPI.getLevelData(context.argument(-2)) ?: return@execute
                         val value = Coerce.toDouble(argument)/100
-                        target.setBooster(level,value)
+                        Database.INSTANCE.setBooster(target,level,value)
                         sender.sendLang("Command-Boot-Info", level.name!!,target.name,"${argument}%")
                     }
                 }

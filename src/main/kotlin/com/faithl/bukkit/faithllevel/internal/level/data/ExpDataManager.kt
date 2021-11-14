@@ -2,6 +2,7 @@ package com.faithl.bukkit.faithllevel.internal.level.data
 
 import com.faithl.bukkit.faithllevel.FaithlLevel
 import com.faithl.bukkit.faithllevel.api.event.LevelUpEvent
+import com.faithl.bukkit.faithllevel.internal.data.Database
 import com.faithl.bukkit.faithllevel.internal.level.Level
 import com.faithl.bukkit.faithllevel.util.*
 import org.bukkit.entity.Player
@@ -16,8 +17,8 @@ class ExpDataManager(val player: Player, val levelData: Level) {
     var level = 0
     var exp = 0
     init {
-        level = player.getFLevel(levelData).toInt()
-        exp = player.getFExp(levelData).toInt()
+        level = Database.INSTANCE.getLevel(player,levelData)
+        exp = Database.INSTANCE.getExp(player,levelData)
     }
 
     fun updateOriginExp() {
@@ -43,7 +44,7 @@ class ExpDataManager(val player: Player, val levelData: Level) {
             boot += AttributeAPI.getAttrData(player).getRandomValue(levelData.ap.getString("Exp-Boot-Attribute")).toDouble()/100
         }
         boot += getPermissionBooster()
-        boot += player.getBooster(levelData)
+        boot += Database.INSTANCE.getBooster(player,levelData)
         return boot
     }
 
@@ -233,8 +234,8 @@ class ExpDataManager(val player: Player, val levelData: Level) {
      * @return playerData 返回自己
      */
     fun save(): ExpDataManager{
-        player.setFExp(levelData,exp)
-        player.setFLevel(levelData,level)
+        Database.INSTANCE.setExp(player,levelData,exp)
+        Database.INSTANCE.setLevel(player,levelData,level)
         return this
     }
 }

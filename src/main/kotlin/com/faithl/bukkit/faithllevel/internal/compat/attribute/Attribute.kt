@@ -1,8 +1,6 @@
-package com.faithl.bukkit.faithllevel.internal.hook.attribute
+package com.faithl.bukkit.faithllevel.internal.compat.attribute
 
-import org.bukkit.entity.LivingEntity
 import org.serverct.ersha.AttributePlus
-import org.serverct.ersha.api.annotations.AutoRegister
 import org.serverct.ersha.api.component.SubAttribute
 import org.serverct.ersha.attribute.enums.AttributeType
 

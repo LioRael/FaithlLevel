@@ -1,7 +1,7 @@
 package com.faithl.bukkit.faithllevel.internal.level
 
 import com.faithl.bukkit.faithllevel.FaithlLevel
-import com.faithl.bukkit.faithllevel.internal.hook.attribute.Attribute
+import com.faithl.bukkit.faithllevel.internal.compat.attribute.Attribute
 import org.serverct.ersha.AttributePlus
 import taboolib.common.platform.function.console
 import taboolib.library.configuration.ConfigurationSection

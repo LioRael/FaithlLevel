@@ -45,8 +45,7 @@ object CommandAdd {
                         }
                         val target = Bukkit.getPlayerExact(context.argument(-1)) ?: return@execute
                         val value = Coerce.toInteger(argument)
-                        val playerData: ExpDataManager = FaithlLevelAPI.getPlayerData(target,
-                            FaithlLevelAPI.getLevelData(context.argument(-2))?:return@execute)
+                        val playerData = FaithlLevelAPI.getPlayerData(target, FaithlLevelAPI.getLevelData(context.argument(-2))?:return@execute)
                         playerData.addExp(value)
                         sender.sendLang("Command-Add-Info",
                             playerData.levelData.name!!, target.name, playerData.getTotalAddExp(value), playerData.exp, playerData.getMaxExp())

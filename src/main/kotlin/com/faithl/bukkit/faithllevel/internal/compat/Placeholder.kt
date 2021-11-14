@@ -1,4 +1,4 @@
-package com.faithl.bukkit.faithllevel.internal.hook
+package com.faithl.bukkit.faithllevel.internal.compat
 
 import com.faithl.bukkit.faithllevel.FaithlLevel
 import com.faithl.bukkit.faithllevel.api.FaithlLevelAPI
