@@ -1,0 +1,12 @@
+bottle:
+  type: 'exp_bottle'
+  obtain:
+    1: '200'
+    100: ''
+
+exp_medicine:
+  type: 'name'
+  name: '经验丹'
+  obtain:
+    1: '200'
+    100: ''

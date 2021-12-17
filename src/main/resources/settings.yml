@@ -1,24 +1,16 @@
+
+
+#         Powered by TabooLib 6.0         #
+
+
 Options:
-  #更新提醒
-  Check-Update: true
-  #关闭原版经验变化
-  Disable-Origin-ExpChange: true
-  #原版等级同步(关闭将不会同步到原版等级，且原版等级时刻为0)
-  Main-Level-To-Origin: true
-  #主等级系统 请与Levels中的标签一致
-  Main-Level: MainLevel
-  #数据库配置
-  Database:
-    #MySQL,SQLite
+  check-update: true
+  data:
     type: SQLite
-    #若为SQLite不用配置下列项目
-    host: localhost
-    port: 3306
-    user: root
-    password: root
-    database: minecraft
-Loader:
-  #你可以在这里加入自定义等级文件夹
-  Level-Files:
-  #如- 'plugins/CustomLevelFolder'
-    - ''
+    source:
+      MYSQL:
+        host: localhost
+        port: 3306
+        user: root
+        password: root
+        database: minecraft

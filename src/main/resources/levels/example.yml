@@ -1,0 +1,48 @@
+Name: '生存等级'
+Basis:
+  permission:
+    use:
+        - 'faithl.use'
+    level_up:
+      - '1 null'
+      - '10 faithl.vip'
+    exp_up:
+      - 'null 100'
+      - 'faithl.vip 200'
+      - 'faithl.mvp 300'
+  event:
+    player_level_up:
+      command:
+        1: ''
+        1-10: ''
+      script:
+        e:
+          - 'survival_level_up'
+        1:
+          - 'level_1'
+    player_exp_up:
+  data:
+    level:
+      formula:
+        enable: true
+        script: 'level_grow'
+      grow:
+        - '1 10'
+        - '5 50'
+        - '10 100'
+        - '100 10000'
+      limit:
+        - '1 5'
+        - '10 3'
+        - '20 1'
+    exp:
+      limit:
+        - '1 10'
+        - '5 50'
+        - '10 100'
+        - '100 10000'
+
+Trait:
+  display: 'trait: general'
+  booster: 'trait: survival'
+  attribute: 'trait: survival'

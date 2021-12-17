@@ -1,0 +1,9 @@
+general:
+  level:
+    10: '&f{level}☆'
+    20: '&a{level}☆'
+    30: '&b(level}☆'
+  exp:
+    30: '&f{exp}'
+    60: '&a{exp}'
+    100: '&b{exp}'

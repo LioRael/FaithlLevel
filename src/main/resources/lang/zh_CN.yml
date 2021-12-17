@@ -1,38 +1,7 @@
-Plugin-Enabled: '&8[&3FaithlLevel&8][&bINFO&8] &r插件已成功加载。 当前插件版本是 &b{0}&r, Kotlin版本是 &b{1}&r。'
-Plugin-Database-Enabled: '&8[&3FaithlLevel&8][&bINFO&8] &r数据库已成功加载。 当前数据库为 &b{0}。'
-Plugin-Reloaded: '&8[&3FaithlLevel&8][&bINFO&8] &r插件已成功重载。 当前插件版本是 &b{0}&r, Kotlin版本是 &b{1}&r。'
-Plugin-Update: '&8[&3FaithlLevel&8][&bINFO&8] &r发现新版本, 当前版本 &b{0}&r, 最新版本 &b{1}&r, 插件地址 &b{2}&r。'
-Plugin-Hooked: '&8[&3FaithlLevel&8][&bINFO&8] &r成功与插件 &b{0} &r挂钩。'
 
-Command-Help-Type: '命令'
-Command-Help-Args: '参数'
-Command-Reload-Description: '重载插件'
-Command-Add-Description: '给予玩家经验'
-Command-Add-Error: '&8[&3FaithlLevel&8][&cERROR&8] &r错误的用法, 请使用&b/faithllevel add [Level] [玩家] [经验]&r。'
-Command-Add-Info: '&8[&3FaithlLevel&8][&b{0}&8] &r增长 &b{1}&r 玩家 &b{2} &r经验 &r[&b{3}&8/&3{4}&r]'
-Command-Take-Description: '减少玩家经验'
-Command-Take-Error: '&8[&3FaithlLevel&8][&cERROR&8] &r错误的用法, 请使用&b/faithllevel take [Level] [玩家] [经验]&r。'
-Command-Take-Info: '&8[&3FaithlLevel&8][&b{0}&8] &r减少 &b{1}&r 玩家 &b{2} &r经验 &r[&b{3}&8/&3{4}&r]'
-Command-Set-Description: '设置玩家等级'
-Command-Set-Error: '&8[&3FaithlLevel&8][&cERROR&8] &r错误的用法, 请使用&b/faithllevel set [Level] [玩家] [等级]&r。'
-Command-Set-Info: '&8[&3FaithlLevel&8][&b{0}&8] &r设置 &b{1}&r 玩家等级为: &b{2}&r 级。'
-Command-Status-Description: '查看玩家信息'
-Command-Status-Info: '&8[&3FaithlLevel&8][&b{0}&8] &r玩家 &b{1} &r当前信息: &b{2}&8 - &r[&b{3}&8/&3{4}&r], 经验加成: &b{5}&r。'
-Command-Booster-Description: '玩家经验加成设置'
-Command-Booster-Info: '&8[&3FaithlLevel&8][&b{0}&8] &r玩家 &b{1} &r的经验加成已设置为 &b{2}&r。'
-Command-Booster-Error: '&8[&3FaithlLevel&8][&cERROR&8] &r错误的用法, 请使用&b/faithllevel boot [Level] [玩家] [数值]&r。'
 
-Level-Loader-Loaded: '&8[&3FaithlLevel&8][&bINFO&8] &b{0} &r个等级已加载 &8({1} ms)'
-Level-Loader-Failed: '&8[&3FaithlLevel&8][&cERROR&8] &b{0} &r等级加载失败, 原因:{1}'
+#         Powered by TabooLib 6.0         #
 
-Player-Level-Max:
-  - '[Chat][&c{0}&8] &r你已经满级了!'
-Player-Exp-Change:
-  - '[ActionBar][&b{0}&8] &rLv.{1}&8 - &r[&b{2}&8/&3{3}&r] &r[{4}&r]'
-  - '[Sound]ExpChange'
-Player-Level-Up:
-  - '[ActionBar][&b{0}&8] &rLv.{1}&8 - &r[&b{2}&8/&3{3}&r] &r[{4}&r]'
-  - '[Title][&b{0}&8] &r你升级了!||&rLv.&b{1}&r &8 - &r升级所需:&b{3}'
-  - '[Sound]LevelUp'
-No-Permissions:
-  - '[Chat]&r[&b{0}&r] &c你没有权限来升到{1}'
+
+Plugin-Enabled: '&7[&bFaithlLevel&7] &r插件已加载,当前版本:&b{0}&r,Kotlin版本:&b{1}&r.'
+Plugin-Disabled: '&7[&bFaithlLevel&7] &r插件已卸载,感谢你的使用.'
