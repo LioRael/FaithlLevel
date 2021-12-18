@@ -13,7 +13,7 @@ internal object Permission {
         if (e.type == LevelChangeEvent.ChangeType.TAKE){
             return
         }
-        val list = Level.getLevelFunc(e.level).permission?.getStringList("player_level_up") ?: mutableListOf()
+        val list = Level.getLevelFunc(e.level).permission?.getStringList("player_level_up") ?: return
         val permission = Level.getPlayerData(e.level,e.player).getLevelValue(e.newLevel,list)
         if (permission != null){
             if (permission == "null"){
@@ -30,7 +30,7 @@ internal object Permission {
         if (e.type == ExpChangeEvent.ChangeType.TAKE){
             return
         }
-        val list = Level.getLevelFunc(e.level).permission?.getStringList("player_exp_up") ?: mutableListOf()
+        val list = Level.getLevelFunc(e.level).permission?.getStringList("player_exp_up") ?: return
         val permission = Level.getPlayerData(e.level,e.player).getLevelValue(FaithlLevelAPI.getPlayerData(e.level,e.player).playerLevel,list)
         if (permission != null){
             if (permission == "null"){

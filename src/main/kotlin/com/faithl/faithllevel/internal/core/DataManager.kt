@@ -47,17 +47,15 @@ data class DataManager(val level: Level,val player: Player){
                 }
                 addExp = playerExp + addExp - getMaxExp()
                 playerExp = 0
-                return true
             } else {
                 playerExp += addExp
                 return true
             }
         }
-        return false
+        return true
     }
 
     fun addLevel(level:Int):Boolean{
-        var addLevel = level
         if (playerLevel >= getMaxLevel()) {
             Level.getLevelFunc(this.level).event?.getConfigurationSection("player_level_max_warning.message")?.sendMessage(player)
             return false

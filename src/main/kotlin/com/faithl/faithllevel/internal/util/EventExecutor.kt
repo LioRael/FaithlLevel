@@ -1,6 +1,7 @@
 package com.faithl.faithllevel.internal.util
 
 import com.faithl.faithllevel.FaithlLevel
+import com.faithl.faithllevel.FaithlLevel.placeHolderApi
 import com.faithl.faithllevel.api.FaithlLevelAPI
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
@@ -57,7 +58,11 @@ private fun doCommand(player: Player, level: Int, conf: ConfigurationSection?){
     val commands = FuncLoader.getFunc(level, conf,"command")
     if (commands != null && commands.isNotEmpty()){
         for (command in commands){
-            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command.replacePlaceholder(player))
+            if (placeHolderApi){
+                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command.replacePlaceholder(player))
+            } else {
+                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command)
+            }
         }
     }
 }
