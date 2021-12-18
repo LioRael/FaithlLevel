@@ -15,7 +15,7 @@ taboolib {
     install("module-metrics")
     install("module-database")
     classifier = null
-    version = "6.0.6-24"
+    version = "6.0.6-26"
     description {
         contributors {
             name("Leosouthey")
