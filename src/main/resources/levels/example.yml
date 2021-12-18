@@ -1,12 +1,10 @@
 Name: '生存等级'
 Basis:
   permission:
-    use:
-        - 'faithl.use'
-    level_up:
+    player_level_up:
       - '1 null'
       - '10 faithl.vip'
-    exp_up:
+    player_exp_up:
       - 'null 100'
       - 'faithl.vip 200'
       - 'faithl.mvp 300'
@@ -21,11 +19,11 @@ Basis:
         1:
           - 'level_1'
     player_exp_up:
+    player_level_max_warning:
+    player_level_max:
   data:
     level:
-      formula:
-        enable: true
-        script: 'level_grow'
+      formula: true
       grow:
         - '1 10'
         - '5 50'

@@ -5,12 +5,15 @@
 
 Options:
   check-update: true
-  data:
-    type: SQLite
-    source:
-      MYSQL:
-        host: localhost
-        port: 3306
-        user: root
-        password: root
-        database: minecraft
+  main-level:
+    level: 生存等级
+    replace-original-level: true
+Storage:
+  type: SQLite
+  source:
+    MYSQL:
+      host: localhost
+      port: 3306
+      user: root
+      password: root
+      database: minecraft
