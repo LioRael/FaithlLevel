@@ -15,8 +15,9 @@ taboolib {
     install("module-metrics")
     install("module-database")
     classifier = null
-    version = "6.0.6-26"
+    version = "6.0.7-6"
     description {
+        desc("新时代等级插件")
         contributors {
             name("Leosouthey")
         }
@@ -32,14 +33,15 @@ taboolib {
 }
 
 repositories {
+    maven { url = uri("https://repo.tabooproject.org/storages/public/releases/") }
     mavenCentral()
 }
 
 dependencies {
-    implementation("ink.ptms.core:v11800:11800:api")
-    implementation("ink.ptms.core:v11800:11800:mapped")
-    implementation("ink.ptms.core:v11800:11800:universal")
-    compileOnly("com.alibaba:fastjson:1.2.78")
+    compileOnly("ink.ptms.core:v11800:11800:api")
+    compileOnly("ink.ptms.core:v11800:11800:mapped")
+    compileOnly("ink.ptms.core:v11800:11800:universal")
+    compileOnly("com.alibaba:fastjson:1.2.79")
     compileOnly("org.jetbrains.kotlin:kotlin-stdlib:1.6.10")
     compileOnly(fileTree("libs"))
 }

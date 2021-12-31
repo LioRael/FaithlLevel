@@ -3,18 +3,17 @@ package com.faithl.faithllevel
 import com.faithl.faithllevel.api.FaithlLevelAPI
 import org.bukkit.Bukkit
 import taboolib.common.platform.Plugin
-import taboolib.common.platform.Schedule
 import taboolib.common.platform.function.*
 import taboolib.module.configuration.Config
 import taboolib.module.configuration.Configuration
 import taboolib.module.lang.sendLang
 import taboolib.module.metrics.Metrics
-import java.io.File
 
 object FaithlLevel:Plugin() {
 
     @Config("settings.yml", migrate = true,autoReload = true)
     lateinit var setting: Configuration
+        private set
 
     var placeHolderApi = false
 
@@ -24,17 +23,17 @@ object FaithlLevel:Plugin() {
 
     override fun onEnable() {
         reload()
-        pluginHooker()
+        pluginHooker("AttributePlus")
+        pluginHooker("PlaceholderAPI")
         console().sendLang("Plugin-Enabled", pluginVersion,KotlinVersion.CURRENT.toString())
     }
 
-    fun pluginHooker(){
-        if (Bukkit.getPluginManager().isPluginEnabled("AttributePlus")) {
-            console().sendLang("Plugin-Hooked","AttributePlus")
+    private fun pluginHooker(plugin: String): Boolean{
+        if (Bukkit.getPluginManager().isPluginEnabled(plugin)) {
+            console().sendLang("Plugin-Hooked",plugin)
+            return true
         }
-        if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
-            console().sendLang("Plugin-Hooked","PlaceholderAPI")
-        }
+        return false
     }
 
     fun reload() {
