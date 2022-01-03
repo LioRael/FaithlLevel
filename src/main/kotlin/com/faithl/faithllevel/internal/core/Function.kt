@@ -4,7 +4,7 @@ package com.faithl.faithllevel.internal.core
  * @author Leosouthey
  * @time 2021/12/18-18:15
  **/
-class Function(val level: Level){
+class Function(val level: Level) {
 
     val data = level.basis?.getConfigurationSection("data")
     val permission = level.basis?.getConfigurationSection("permission")

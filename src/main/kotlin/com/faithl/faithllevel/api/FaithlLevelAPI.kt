@@ -12,27 +12,97 @@ import java.io.File
 @Suppress("UNCHECKED_CAST")
 object FaithlLevelAPI {
 
+    /**
+     * 已注册的等级系统Map
+     */
     val registeredLevels = HashMap<String, Level>()
 
+    /**
+     * 已注册的脚本Map
+     */
     val registeredScript = HashMap<String, List<String>>()
 
-    val mainLevel = HashMap<String, Level>()
+    /**
+     * 主等级系统
+     */
+//    val mainLevel =
 
+    /**
+     * 文件夹
+     */
     val folderLevel = File(getDataFolder(), "levels")
     val folderScript = File(getDataFolder(), "scripts")
     val folderTrait = File(getDataFolder(), "traits")
 
+    /**
+     * 注册一个等级系统
+     *
+     * @param name 名称
+     * @param level 等级系统
+     */
+    fun registerLevel(name: String, level: Level) {
+        registeredLevels[name] = level
+    }
+
+    /**
+     * 注册一个脚本
+     *
+     * @param name 名称
+     * @param list 脚本
+     */
+    fun registerScript(name: String, list: List<String>) {
+        registeredScript[name] = list
+    }
+
+    /**
+     * 注销一个等级系统
+     *
+     * @param name 名称
+     */
+    fun unRegisterLevel(name: String) {
+        registeredLevels.remove(name)
+    }
+
+    /**
+     * 注销一个脚本
+     *
+     * @param name 名称
+     */
+    fun unRegisterScript(name: String) {
+        registeredScript.remove(name)
+    }
+
+    /**
+     * 通过名称获取等级系统
+     *
+     * @param name 名称
+     * @return 等级系统
+     */
     fun getLevel(name: String): Level {
         return registeredLevels[name]!!
     }
 
-    fun getPlayerData(name: String,player: Player): DataManager {
+    /**
+     * 获取玩家数据管理器
+     *
+     * @param name 名称
+     * @param player 玩家
+     * @return 数据管理器
+     */
+    fun getPlayerData(name: String, player: Player): DataManager {
         val level = getLevel(name)
-        return Level.getPlayerData(level,player)
+        return Level.getPlayerData(level, player)
     }
 
-    fun getPlayerData(level: Level,player: Player): DataManager {
-        return Level.getPlayerData(level,player)
+    /**
+     * 获取玩家数据管理器
+     *
+     * @param level 等级系统
+     * @param player 玩家
+     * @return 数据管理器
+     */
+    fun getPlayerData(level: Level, player: Player): DataManager {
+        return Level.getPlayerData(level, player)
     }
 
     /**
@@ -64,7 +134,7 @@ object FaithlLevelAPI {
             val task = Runnable {
                 val conf = Configuration.loadFromFile(file)
                 try {
-                    registeredLevels[conf.getString("Name").toString()] = Level(conf)
+                    registerLevel(conf.getString("Name")!!, Level(conf))
                 } catch (t: Throwable) {
                     t.printStackTrace()
                 }
@@ -86,11 +156,9 @@ object FaithlLevelAPI {
         } else if (file.name.endsWith(".yml")) {
             val conf = Configuration.loadFromFile(file)
             conf.getKeys(false).forEach { key ->
-                registeredScript[key] = conf[key]?.asList() ?: mutableListOf()
+                registerScript(key, conf[key]?.asList() ?: mutableListOf())
             }
         }
     }
-
-
 
 }

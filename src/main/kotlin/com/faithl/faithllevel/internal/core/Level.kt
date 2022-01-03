@@ -28,17 +28,17 @@ data class Level(val conf: Configuration) {
     val basis = conf.getConfigurationSection("Basis")
     val trait = conf.getConfigurationSection("Trait")
 
-    companion object{
-        val playerData = mutableMapOf<Level,MutableList<DataManager>>()
+    companion object {
+        val playerData = mutableMapOf<Level, MutableList<DataManager>>()
         val levelFunc = mutableListOf<Function>()
 
-        fun getPlayerData(level:Level, player: Player):DataManager{
+        fun getPlayerData(level: Level, player: Player): DataManager {
             return playerData[level]?.find {
                 it.player == player
-            } ?: DataManager(level,player)
+            } ?: DataManager(level, player)
         }
 
-        fun getLevelFunc(level:Level):Function{
+        fun getLevelFunc(level: Level): Function {
             return levelFunc.find {
                 it.level == level
             } ?: Function(level)

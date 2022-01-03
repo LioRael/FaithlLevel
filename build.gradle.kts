@@ -1,6 +1,6 @@
 plugins {
     java
-    id("io.izzel.taboolib") version "1.32"
+    id("io.izzel.taboolib") version "1.34"
     id("org.jetbrains.kotlin.jvm") version "1.6.10"
 }
 
@@ -15,9 +15,8 @@ taboolib {
     install("module-metrics")
     install("module-database")
     classifier = null
-    version = "6.0.7-6"
+    version = "6.0.7-14"
     description {
-        desc("新时代等级插件")
         contributors {
             name("Leosouthey")
         }
@@ -33,7 +32,7 @@ taboolib {
 }
 
 repositories {
-    maven { url = uri("https://repo.tabooproject.org/storages/public/releases/") }
+    maven { url = uri("https://repo.tabooproject.org/repository/releases/") }
     mavenCentral()
 }
 

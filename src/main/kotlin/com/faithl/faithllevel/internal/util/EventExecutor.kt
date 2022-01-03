@@ -14,36 +14,36 @@ import taboolib.module.kether.KetherShell
 import taboolib.platform.compat.replacePlaceholder
 import taboolib.platform.util.sendLang
 
-fun ConfigurationSection.run(player: Player, level:Int){
+fun ConfigurationSection.run(player: Player, level: Int) {
     val command = getConfigurationSection("command")
-    if (command != null){
-        doCommand(player,level,command)
+    if (command != null) {
+        doCommand(player, level, command)
     }
     val script = getConfigurationSection("script")
-    if (script != null){
-        doScript(player,level,script)
+    if (script != null) {
+        doScript(player, level, script)
     }
     getConfigurationSection("message")?.sendMessage(player)
 }
 
-fun ConfigurationSection.sendMessage(player: Player){
+fun ConfigurationSection.sendMessage(player: Player) {
     get("actionbar")?.asList()?.colored()?.forEach {
         var value = it
-        if (FaithlLevel.placeHolderApi){
+        if (FaithlLevel.placeHolderApi) {
             value = value.replacePlaceholder(player)
         }
         adaptPlayer(player).sendActionBar(value)
     }
     get("text")?.asList()?.colored()?.forEach {
         var value = it
-        if (FaithlLevel.placeHolderApi){
+        if (FaithlLevel.placeHolderApi) {
             value = value.replacePlaceholder(player)
         }
         player.sendMessage(value)
     }
     get("lang")?.asList()?.colored()?.forEach {
-        if (it.contains(" ")){
-            player.sendLang(it,it.split(" "))
+        if (it.contains(" ")) {
+            player.sendLang(it, it.split(" "))
         }
     }
     get("sound")?.asList()?.colored()?.forEach {
@@ -54,11 +54,11 @@ fun ConfigurationSection.sendMessage(player: Player){
     }
 }
 
-private fun doCommand(player: Player, level: Int, conf: ConfigurationSection?){
-    val commands = FuncLoader.getFunc(level, conf,"command")
-    if (commands != null && commands.isNotEmpty()){
-        for (command in commands){
-            if (placeHolderApi){
+private fun doCommand(player: Player, level: Int, conf: ConfigurationSection?) {
+    val commands = FuncLoader.getFunc(level, conf, "command")
+    if (commands != null && commands.isNotEmpty()) {
+        for (command in commands) {
+            if (placeHolderApi) {
                 Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command.replacePlaceholder(player))
             } else {
                 Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command)
@@ -67,11 +67,11 @@ private fun doCommand(player: Player, level: Int, conf: ConfigurationSection?){
     }
 }
 
-private fun doScript(player: Player, level: Int, conf: ConfigurationSection?){
-    val scripts = FuncLoader.getFunc(level, conf,"script")
-    if (scripts != null && scripts.isNotEmpty()){
-        for (script in scripts){
-            KetherShell.eval(FaithlLevelAPI.registeredScript[script]!!,sender = adaptPlayer(player))
+private fun doScript(player: Player, level: Int, conf: ConfigurationSection?) {
+    val scripts = FuncLoader.getFunc(level, conf, "script")
+    if (scripts != null && scripts.isNotEmpty()) {
+        for (script in scripts) {
+            KetherShell.eval(FaithlLevelAPI.registeredScript[script]!!, sender = adaptPlayer(player))
         }
     }
 }
