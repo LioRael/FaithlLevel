@@ -1,0 +1,19 @@
+#         Powered by TabooLib 6.0         #
+
+
+name: '模板等级'
+theme: 'basic'
+data:
+  theme: 'example_data'
+
+trait:
+  display:
+    theme: 'example_display'
+  booster:
+    theme: 'example_booster'
+  attribute:
+    theme: 'example_attribute'
+  permission:
+    theme: 'example_attribute'
+  event:
+    theme: 'example_event'

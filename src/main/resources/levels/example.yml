@@ -3,8 +3,31 @@
 #         Powered by TabooLib 6.0         #
 
 
-Name: '生存等级'
-Basis:
+name: '生存等级'
+theme: 'basic'
+data:
+  level:
+    formula: true
+    grow:
+      - '1 10'
+      - '5 50'
+      - '10 100'
+      - '100 10000'
+    limit:
+      - '1 5'
+      - '10 3'
+      - '20 1'
+  exp:
+    limit:
+      - '1 10'
+      - '5 50'
+      - '10 100'
+      - '100 10000'
+
+trait:
+  display: 'general'
+  booster: 'survival'
+  attribute: 'survival'
   permission:
     player_level_up:
       - '1 null'
@@ -26,26 +49,3 @@ Basis:
     player_exp_up:
     player_level_max_warning:
     player_level_max:
-  data:
-    level:
-      formula: true
-      grow:
-        - '1 10'
-        - '5 50'
-        - '10 100'
-        - '100 10000'
-      limit:
-        - '1 5'
-        - '10 3'
-        - '20 1'
-    exp:
-      limit:
-        - '1 10'
-        - '5 50'
-        - '10 100'
-        - '100 10000'
-
-Trait:
-  display: 'trait: general'
-  booster: 'trait: survival'
-  attribute: 'trait: survival'

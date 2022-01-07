@@ -3,6 +3,5 @@
 #         Powered by TabooLib 6.0         #
 
 
-Plugin-Enabled: '&7[&bFaithlLevel&7] &r插件已加载,当前版本:&b{0}&r,Kotlin版本:&b{1}&r.'
-Plugin-Disabled: '&7[&bFaithlLevel&7] &r插件已卸载,感谢你的使用.'
-Plugin-Hooked: '&7[&bFaithlLevel&7] &r成功兼容插件 &b{0} &r.'
+plugin-enabled: '&7[&bFaithlLevel&7] &r插件已加载,当前版本: &b{0} &r.'
+plugin-disabled: '&7[&bFaithlLevel&7] &r插件已卸载,感谢你的使用.'

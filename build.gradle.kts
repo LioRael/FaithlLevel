@@ -14,8 +14,9 @@ taboolib {
     install("module-configuration")
     install("module-metrics")
     install("module-database")
+    install("expansion-javascript")
     classifier = null
-    version = "6.0.7-14"
+    version = "6.0.7-16"
     description {
         contributors {
             name("Leosouthey")
@@ -27,6 +28,7 @@ taboolib {
             name("PlaceholderAPI").optional(true)
             name("AttributePlus").optional(true)
             name("MythicMobs").optional(true)
+            name("Zaphkiel").optional(true)
         }
     }
 }

@@ -2,17 +2,27 @@ package com.faithl.faithllevel.internal.util
 
 import java.util.*
 
+/**
+ * 公式工具
+ */
 object Count {
+
     /**
      * 利用ascall码判断是否为数字
      *
      * @param x
-     * @return
+     * @return 是否为数字
      */
     fun isNum(x: Char): Boolean {
         return x.code in 48..57
     }
 
+    /**
+     * 计算字符串
+     *
+     * @param str 字符串
+     * @return 结果
+     */
     fun count(str: String): Int? {
         val num = Stack<Int>()
         val stringBuilder = StringBuilder()
@@ -48,4 +58,5 @@ object Count {
         }
         return num.pop()
     }
+
 }

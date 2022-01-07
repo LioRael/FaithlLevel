@@ -15,25 +15,17 @@ object FaithlLevel:Plugin() {
     lateinit var setting: Configuration
         private set
 
-    var placeHolderApi = false
-
     override fun onLoad() {
         Metrics(13122, pluginVersion, runningPlatform)
     }
 
     override fun onEnable() {
         reload()
-        pluginHooker("AttributePlus")
-        pluginHooker("PlaceholderAPI")
-        console().sendLang("Plugin-Enabled", pluginVersion,KotlinVersion.CURRENT.toString())
+        console().sendLang("plugin-enabled", pluginVersion,KotlinVersion.CURRENT.toString())
     }
 
-    private fun pluginHooker(plugin: String): Boolean{
-        if (Bukkit.getPluginManager().isPluginEnabled(plugin)) {
-            console().sendLang("Plugin-Hooked",plugin)
-            return true
-        }
-        return false
+    override fun onDisable() {
+        console().sendLang("plugin-disabled")
     }
 
     fun reload() {

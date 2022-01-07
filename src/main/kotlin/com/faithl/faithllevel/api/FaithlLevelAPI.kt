@@ -1,8 +1,9 @@
 package com.faithl.faithllevel.api
 
-import com.faithl.faithllevel.internal.core.DataManager
-import com.faithl.faithllevel.internal.core.Level
+import com.faithl.faithllevel.internal.core.impl.data.BasicDataManager
+import com.faithl.faithllevel.internal.core.impl.BasicLevel
 import org.bukkit.entity.Player
+import taboolib.common.io.newFile
 import taboolib.common.platform.function.getDataFolder
 import taboolib.common.util.asList
 import taboolib.common5.FileWatcher
@@ -15,7 +16,7 @@ object FaithlLevelAPI {
     /**
      * 已注册的等级系统Map
      */
-    val registeredLevels = HashMap<String, Level>()
+    val registeredLevels = HashMap<String, BasicLevel>()
 
     /**
      * 已注册的脚本Map
@@ -30,18 +31,18 @@ object FaithlLevelAPI {
     /**
      * 文件夹
      */
-    val folderLevel = File(getDataFolder(), "levels")
-    val folderScript = File(getDataFolder(), "scripts")
-    val folderTrait = File(getDataFolder(), "traits")
+    val folderLevel = newFile(getDataFolder(), "levels", folder = true)
+    val folderScript = newFile(getDataFolder(), "scripts", folder = true)
+    val folderTrait = newFile(getDataFolder(), "themes", folder = true)
 
     /**
      * 注册一个等级系统
      *
      * @param name 名称
-     * @param level 等级系统
+     * @param basicLevel 等级系统
      */
-    fun registerLevel(name: String, level: Level) {
-        registeredLevels[name] = level
+    fun registerLevel(name: String, basicLevel: BasicLevel) {
+        registeredLevels[name] = basicLevel
     }
 
     /**
@@ -78,7 +79,7 @@ object FaithlLevelAPI {
      * @param name 名称
      * @return 等级系统
      */
-    fun getLevel(name: String): Level {
+    fun getLevel(name: String): BasicLevel {
         return registeredLevels[name]!!
     }
 
@@ -89,20 +90,20 @@ object FaithlLevelAPI {
      * @param player 玩家
      * @return 数据管理器
      */
-    fun getPlayerData(name: String, player: Player): DataManager {
+    fun getPlayerData(name: String, player: Player): BasicDataManager {
         val level = getLevel(name)
-        return Level.getPlayerData(level, player)
+        return BasicLevel.getPlayerData(level, player)
     }
 
     /**
      * 获取玩家数据管理器
      *
-     * @param level 等级系统
+     * @param basicLevel 等级系统
      * @param player 玩家
      * @return 数据管理器
      */
-    fun getPlayerData(level: Level, player: Player): DataManager {
-        return Level.getPlayerData(level, player)
+    fun getPlayerData(basicLevel: BasicLevel, player: Player): BasicDataManager {
+        return BasicLevel.getPlayerData(basicLevel, player)
     }
 
     /**
@@ -134,7 +135,7 @@ object FaithlLevelAPI {
             val task = Runnable {
                 val conf = Configuration.loadFromFile(file)
                 try {
-                    registerLevel(conf.getString("Name")!!, Level(conf))
+                    registerLevel(conf.getString("Name")!!, BasicLevel(conf))
                 } catch (t: Throwable) {
                     t.printStackTrace()
                 }

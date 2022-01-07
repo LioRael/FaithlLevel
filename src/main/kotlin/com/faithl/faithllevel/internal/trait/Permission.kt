@@ -1,20 +1,21 @@
 package com.faithl.faithllevel.internal.trait
 
 import com.faithl.faithllevel.api.FaithlLevelAPI
-import com.faithl.faithllevel.api.event.ExpChangeEvent
-import com.faithl.faithllevel.api.event.LevelChangeEvent
-import com.faithl.faithllevel.internal.core.Level
+import com.faithl.faithllevel.api.event.ChangeType
+import com.faithl.faithllevel.api.event.ExpUpdateEvent
+import com.faithl.faithllevel.api.event.LevelUpdateEvent
+import com.faithl.faithllevel.internal.core.impl.BasicLevel
 import taboolib.common.platform.event.SubscribeEvent
 
 internal object Permission {
 
     @SubscribeEvent
-    fun e(e: LevelChangeEvent) {
-        if (e.type == LevelChangeEvent.ChangeType.TAKE) {
+    fun e(e: LevelUpdateEvent) {
+        if (e.type == ChangeType.TAKE) {
             return
         }
-        val list = Level.getLevelFunc(e.level).permission?.getStringList("player_level_up") ?: return
-        val permission = Level.getPlayerData(e.level, e.player).getLevelValue(e.newLevel, list)
+        val list = BasicLevel.getLevelFunc(e.basicLevel).permission?.getStringList("player_level_up") ?: return
+        val permission = BasicLevel.getPlayerData(e.basicLevel, e.player).getLevelValue(e.newLevel, list)
         if (permission != null) {
             if (permission == "null") {
                 return
@@ -26,13 +27,13 @@ internal object Permission {
     }
 
     @SubscribeEvent
-    fun e(e: ExpChangeEvent) {
-        if (e.type == ExpChangeEvent.ChangeType.TAKE) {
+    fun e(e: ExpUpdateEvent) {
+        if (e.type == ChangeType.TAKE) {
             return
         }
-        val list = Level.getLevelFunc(e.level).permission?.getStringList("player_exp_up") ?: return
-        val permission = Level.getPlayerData(e.level, e.player)
-            .getLevelValue(FaithlLevelAPI.getPlayerData(e.level, e.player).playerLevel, list)
+        val list = BasicLevel.getLevelFunc(e.basicLevel).permission?.getStringList("player_exp_up") ?: return
+        val permission = BasicLevel.getPlayerData(e.basicLevel, e.player)
+            .getLevelValue(FaithlLevelAPI.getPlayerData(e.basicLevel, e.player).playerLevel, list)
         if (permission != null) {
             if (permission == "null") {
                 return

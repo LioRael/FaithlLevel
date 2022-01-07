@@ -1,7 +1,5 @@
 package com.faithl.faithllevel.internal.util
 
-import com.faithl.faithllevel.FaithlLevel
-import com.faithl.faithllevel.FaithlLevel.placeHolderApi
 import com.faithl.faithllevel.api.FaithlLevelAPI
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
@@ -13,6 +11,9 @@ import taboolib.module.chat.colored
 import taboolib.module.kether.KetherShell
 import taboolib.platform.compat.replacePlaceholder
 import taboolib.platform.util.sendLang
+
+val PlaceholderAPI: Boolean
+    get() = Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")
 
 fun ConfigurationSection.run(player: Player, level: Int) {
     val command = getConfigurationSection("command")
@@ -29,14 +30,14 @@ fun ConfigurationSection.run(player: Player, level: Int) {
 fun ConfigurationSection.sendMessage(player: Player) {
     get("actionbar")?.asList()?.colored()?.forEach {
         var value = it
-        if (FaithlLevel.placeHolderApi) {
+        if (PlaceholderAPI) {
             value = value.replacePlaceholder(player)
         }
         adaptPlayer(player).sendActionBar(value)
     }
     get("text")?.asList()?.colored()?.forEach {
         var value = it
-        if (FaithlLevel.placeHolderApi) {
+        if (PlaceholderAPI) {
             value = value.replacePlaceholder(player)
         }
         player.sendMessage(value)
@@ -58,7 +59,7 @@ private fun doCommand(player: Player, level: Int, conf: ConfigurationSection?) {
     val commands = FuncLoader.getFunc(level, conf, "command")
     if (commands != null && commands.isNotEmpty()) {
         for (command in commands) {
-            if (placeHolderApi) {
+            if (PlaceholderAPI) {
                 Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command.replacePlaceholder(player))
             } else {
                 Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command)
