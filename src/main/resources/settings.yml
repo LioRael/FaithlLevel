@@ -3,12 +3,12 @@
 #         Powered by TabooLib 6.0         #
 
 
-Options:
+options:
   check-update: true
   main-level:
     level: 生存等级
     replace-original-level: true
-Storage:
+storage:
   type: SQLite
   source:
     MYSQL:
