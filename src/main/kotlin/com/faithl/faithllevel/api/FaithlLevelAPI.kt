@@ -1,7 +1,9 @@
 package com.faithl.faithllevel.api
 
-import com.faithl.faithllevel.internal.core.impl.data.BasicDataManager
+import com.faithl.faithllevel.internal.core.Level
 import com.faithl.faithllevel.internal.core.impl.BasicLevel
+import com.faithl.faithllevel.internal.core.impl.PureLevel
+import com.faithl.faithllevel.internal.core.impl.TempLevel
 import org.bukkit.entity.Player
 import taboolib.common.io.newFile
 import taboolib.common.platform.function.getDataFolder
@@ -16,7 +18,7 @@ object FaithlLevelAPI {
     /**
      * 已注册的等级系统Map
      */
-    val registeredLevels = HashMap<String, BasicLevel>()
+    val registeredLevels = HashMap<String, Level>()
 
     /**
      * 已注册的脚本Map
@@ -41,8 +43,8 @@ object FaithlLevelAPI {
      * @param name 名称
      * @param basicLevel 等级系统
      */
-    fun registerLevel(name: String, basicLevel: BasicLevel) {
-        registeredLevels[name] = basicLevel
+    fun registerLevel(name: String, level: Level) {
+        registeredLevels[name] = level
     }
 
     /**
@@ -79,31 +81,8 @@ object FaithlLevelAPI {
      * @param name 名称
      * @return 等级系统
      */
-    fun getLevel(name: String): BasicLevel {
+    fun getLevel(name: String): Level {
         return registeredLevels[name]!!
-    }
-
-    /**
-     * 获取玩家数据管理器
-     *
-     * @param name 名称
-     * @param player 玩家
-     * @return 数据管理器
-     */
-    fun getPlayerData(name: String, player: Player): BasicDataManager {
-        val level = getLevel(name)
-        return BasicLevel.getPlayerData(level, player)
-    }
-
-    /**
-     * 获取玩家数据管理器
-     *
-     * @param basicLevel 等级系统
-     * @param player 玩家
-     * @return 数据管理器
-     */
-    fun getPlayerData(basicLevel: BasicLevel, player: Player): BasicDataManager {
-        return BasicLevel.getPlayerData(basicLevel, player)
     }
 
     /**
@@ -135,7 +114,12 @@ object FaithlLevelAPI {
             val task = Runnable {
                 val conf = Configuration.loadFromFile(file)
                 try {
-                    registerLevel(conf.getString("Name")!!, BasicLevel(conf))
+                    val type = conf.getString("type") ?: "basic"
+                    when(type.lowercase()){
+                        "basic" -> registerLevel(conf.getString("name")!!, BasicLevel(conf))
+                        "pure" -> registerLevel(conf.getString("name")!!, PureLevel())
+                        "temp" -> registerLevel(conf.getString("name")!!, TempLevel())
+                    }
                 } catch (t: Throwable) {
                     t.printStackTrace()
                 }

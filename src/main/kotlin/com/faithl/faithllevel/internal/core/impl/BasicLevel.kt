@@ -1,9 +1,7 @@
 package com.faithl.faithllevel.internal.core.impl
 
-import com.faithl.faithllevel.internal.core.Function
 import com.faithl.faithllevel.internal.core.Level
-import com.faithl.faithllevel.internal.core.impl.data.BasicDataManager
-import org.bukkit.entity.Player
+import org.bukkit.entity.LivingEntity
 import taboolib.module.configuration.Configuration
 
 /**
@@ -17,27 +15,30 @@ import taboolib.module.configuration.Configuration
  **/
 data class BasicLevel(val conf: Configuration) : Level() {
 
-    val name = conf.getString("Name")!!
-    val basis = conf.getConfigurationSection("Basis")
+    val name = conf.getString("name")!!
     val trait = conf.getConfigurationSection("Trait")
 
-    companion object {
+    val levelData = mutableMapOf<LivingEntity, Int>()
+    val expData = mutableMapOf<LivingEntity, Int>()
 
-        val playerData = mutableMapOf<BasicLevel, MutableList<BasicDataManager>>()
-        val levelFunc = mutableListOf<Function>()
+    override fun addExp(livingEntity: LivingEntity, value: Int): Boolean {
+        expData[livingEntity]!!.plus(value)
+        return true
+    }
 
-        fun getPlayerData(basicLevel: BasicLevel, player: Player): BasicDataManager {
-            return playerData[basicLevel]?.find {
-                it.player == player
-            } ?: BasicDataManager(basicLevel, player)
-        }
+    override fun addLevel(livingEntity: LivingEntity, value: Int): Boolean {
+        levelData[livingEntity]!!.plus(value)
+        return true
+    }
 
-        fun getLevelFunc(basicLevel: BasicLevel): Function {
-            return levelFunc.find {
-                it.basicLevel == basicLevel
-            } ?: Function(basicLevel)
-        }
+    override fun takeExp(livingEntity: LivingEntity, value: Int): Boolean {
+        expData[livingEntity]!!.minus(value)
+        return true
+    }
 
+    override fun takeLevel(livingEntity: LivingEntity, value: Int): Boolean {
+        levelData[livingEntity]!!.minus(value)
+        return true
     }
 
 }

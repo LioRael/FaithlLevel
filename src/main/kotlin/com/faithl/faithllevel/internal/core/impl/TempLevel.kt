@@ -5,9 +5,9 @@ import org.bukkit.entity.LivingEntity
 
 /**
  * @author Leosouthey
- * @since 2022/1/8-0:44
+ * @since 2022/1/8-20:42
  **/
-class PureLevel : Level() {
+class TempLevel : Level() {
 
     val levelData = mutableMapOf<LivingEntity, Int>()
     val expData = mutableMapOf<LivingEntity, Int>()

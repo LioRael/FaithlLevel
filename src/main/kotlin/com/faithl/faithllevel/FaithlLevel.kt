@@ -8,12 +8,15 @@ import taboolib.module.configuration.Config
 import taboolib.module.configuration.Configuration
 import taboolib.module.lang.sendLang
 import taboolib.module.metrics.Metrics
+import taboolib.platform.BukkitPlugin
 
-object FaithlLevel:Plugin() {
+object FaithlLevel : Plugin() {
 
-    @Config("settings.yml", migrate = true,autoReload = true)
+    @Config("settings.yml", migrate = true, autoReload = true)
     lateinit var setting: Configuration
         private set
+
+    val plugin by lazy { BukkitPlugin.getInstance() }
 
     override fun onLoad() {
         Metrics(13122, pluginVersion, runningPlatform)
@@ -21,7 +24,7 @@ object FaithlLevel:Plugin() {
 
     override fun onEnable() {
         reload()
-        console().sendLang("plugin-enabled", pluginVersion,KotlinVersion.CURRENT.toString())
+        console().sendLang("plugin-enabled", pluginVersion, KotlinVersion.CURRENT.toString())
     }
 
     override fun onDisable() {
@@ -34,9 +37,6 @@ object FaithlLevel:Plugin() {
         }
         if (!FaithlLevelAPI.folderScript.exists()) {
             releaseResourceFile("scripts/example.yml")
-        }
-        if (!FaithlLevelAPI.folderTrait.exists()) {
-            releaseResourceFile("scripts/")
         }
         FaithlLevelAPI.reloadLevel()
         FaithlLevelAPI.reloadScript()

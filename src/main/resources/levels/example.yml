@@ -4,7 +4,7 @@
 
 
 name: '生存等级'
-theme: 'basic'
+type: 'basic'
 data:
   level:
     formula: true
@@ -24,8 +24,8 @@ data:
       - '10 100'
       - '100 10000'
 
-trait:
-  display: 'general'
+
+display: 'general'
   booster: 'survival'
   attribute: 'survival'
   permission:
@@ -46,6 +46,10 @@ trait:
           - 'survival_level_up'
         1:
           - 'level_1'
+      message:
+        1:
+          - 'lang_title'
+          - 'lang_actionbar'
     player_exp_up:
     player_level_max_warning:
     player_level_max:
