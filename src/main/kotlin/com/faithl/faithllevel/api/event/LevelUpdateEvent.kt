@@ -1,7 +1,7 @@
 package com.faithl.faithllevel.api.event
 
-import com.faithl.faithllevel.internal.core.impl.BasicLevel
-import org.bukkit.entity.Player
+import com.faithl.faithllevel.internal.core.Level
+import org.bukkit.entity.LivingEntity
 import taboolib.platform.type.BukkitProxyEvent
 
 /**
@@ -9,16 +9,18 @@ import taboolib.platform.type.BukkitProxyEvent
  * @since 2021/12/18-19:02
  **/
 data class LevelUpdateEvent(
-    val basicLevel: BasicLevel,
-    val player: Player,
-    val oldLevel: Int,
-    val newLevel: Int,
+    val level: Level,
+    val livingEntity: LivingEntity,
+    var oldLevel: Int,
+    var newLevel: Int,
 ) : BukkitProxyEvent() {
 
     val type: ChangeType
         get() {
             return if (newLevel - oldLevel > 0) {
                 ChangeType.ADD
+            } else if (newLevel == oldLevel) {
+                ChangeType.NONE
             } else {
                 ChangeType.TAKE
             }

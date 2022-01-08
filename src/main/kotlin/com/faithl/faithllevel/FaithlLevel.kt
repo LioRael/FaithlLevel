@@ -1,7 +1,8 @@
 package com.faithl.faithllevel
 
 import com.faithl.faithllevel.api.FaithlLevelAPI
-import org.bukkit.Bukkit
+import taboolib.common.LifeCycle
+import taboolib.common.platform.Awake
 import taboolib.common.platform.Plugin
 import taboolib.common.platform.function.*
 import taboolib.module.configuration.Config
@@ -23,7 +24,6 @@ object FaithlLevel : Plugin() {
     }
 
     override fun onEnable() {
-        reload()
         console().sendLang("plugin-enabled", pluginVersion, KotlinVersion.CURRENT.toString())
     }
 
@@ -31,6 +31,7 @@ object FaithlLevel : Plugin() {
         console().sendLang("plugin-disabled")
     }
 
+    @Awake(LifeCycle.LOAD)
     fun reload() {
         if (!FaithlLevelAPI.folderLevel.exists()) {
             releaseResourceFile("levels/example.yml")

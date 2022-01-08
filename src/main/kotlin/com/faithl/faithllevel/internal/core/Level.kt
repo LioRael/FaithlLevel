@@ -8,6 +8,10 @@ import org.bukkit.entity.LivingEntity
  **/
 abstract class Level {
 
+    abstract fun getLevel(livingEntity: LivingEntity): Int
+    abstract fun getExp(livingEntity: LivingEntity): Int
+    abstract fun setLevel(livingEntity: LivingEntity, value: Int): Boolean
+    abstract fun setExp(livingEntity: LivingEntity, value: Int): Boolean
     abstract fun addExp(livingEntity: LivingEntity, value: Int): Boolean
     abstract fun addLevel(livingEntity: LivingEntity, value: Int): Boolean
     abstract fun takeExp(livingEntity: LivingEntity, value: Int): Boolean

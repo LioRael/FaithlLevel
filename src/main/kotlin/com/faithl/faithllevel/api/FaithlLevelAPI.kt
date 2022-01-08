@@ -2,10 +2,8 @@ package com.faithl.faithllevel.api
 
 import com.faithl.faithllevel.internal.core.Level
 import com.faithl.faithllevel.internal.core.impl.BasicLevel
-import com.faithl.faithllevel.internal.core.impl.PureLevel
 import com.faithl.faithllevel.internal.core.impl.TempLevel
-import org.bukkit.entity.Player
-import taboolib.common.io.newFile
+import com.faithl.faithllevel.internal.core.impl.PureLevel
 import taboolib.common.platform.function.getDataFolder
 import taboolib.common.util.asList
 import taboolib.common5.FileWatcher
@@ -33,9 +31,8 @@ object FaithlLevelAPI {
     /**
      * 文件夹
      */
-    val folderLevel = newFile(getDataFolder(), "levels", folder = true)
-    val folderScript = newFile(getDataFolder(), "scripts", folder = true)
-    val folderTrait = newFile(getDataFolder(), "themes", folder = true)
+    val folderLevel = File(getDataFolder(), "levels")
+    val folderScript = File(getDataFolder(), "scripts")
 
     /**
      * 注册一个等级系统
@@ -115,7 +112,7 @@ object FaithlLevelAPI {
                 val conf = Configuration.loadFromFile(file)
                 try {
                     val type = conf.getString("type") ?: "basic"
-                    when(type.lowercase()){
+                    when (type.lowercase()) {
                         "basic" -> registerLevel(conf.getString("name")!!, BasicLevel(conf))
                         "pure" -> registerLevel(conf.getString("name")!!, PureLevel())
                         "temp" -> registerLevel(conf.getString("name")!!, TempLevel())

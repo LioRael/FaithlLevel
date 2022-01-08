@@ -1,6 +1,7 @@
 package com.faithl.faithllevel.internal.command
 
 import com.faithl.faithllevel.FaithlLevel
+import com.faithl.faithllevel.internal.command.impl.CommandLevel
 import com.faithl.faithllevel.internal.command.impl.CommandReload
 import org.bukkit.command.CommandSender
 import taboolib.common.platform.command.CommandBody
@@ -13,11 +14,13 @@ import taboolib.platform.util.asLangText
 
 @CommandHeader(name = "faithllevel", aliases = ["flevel", "fl"])
 object CommandHandler {
+
+    @CommandBody(permission = "faithllevel.level")
+    val level = CommandLevel.command
     
     @CommandBody(permission = "faithllevel.reload")
     val reload = CommandReload.command
 
-    @CommandBody(permission = "faithlLevel.access")
     val main = mainCommand {
         execute<CommandSender> { sender, _, argument ->
             if (argument.isEmpty()) {
@@ -27,7 +30,6 @@ object CommandHandler {
         }
     }
 
-    @CommandBody(permission = "FaithlLevel.access")
     val help = subCommand {
         execute<CommandSender> { sender, _, _ ->
             generateMainHelper(sender)
