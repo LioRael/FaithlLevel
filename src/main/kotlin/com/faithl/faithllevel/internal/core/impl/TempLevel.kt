@@ -10,7 +10,7 @@ import taboolib.library.configuration.ConfigurationSection
 
 /**
  * 临时等级，数据不会被保存到数据库
- * 服务器重启数据将会清除
+ * 将会在服务器关闭时销毁数据
  *
  * @author Leosouthey
  * @since 2022/1/8-0:44

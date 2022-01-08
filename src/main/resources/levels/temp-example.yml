@@ -1,0 +1,16 @@
+
+
+#         Powered by TabooLib 6.0         #
+
+
+name: '临时等级'
+#
+# temp为临时等级,只含有等级/经验增减功能
+# 该模式不会储存数据,将会在服务器关闭时销毁数据
+# 若你没有别的需求,请尽量选择该模式
+#
+type: 'temp'
+data:
+  level:
+    formula: true
+    fixed: '200 * {level}'

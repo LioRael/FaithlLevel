@@ -1,9 +1,16 @@
 
 
+
+
 #         Powered by TabooLib 6.0         #
 
 
 name: '生存等级'
+#
+# basic为基础等级,含有插件的大部分功能
+# 该模式将会储存数据
+# 该模式是最为广泛使用的模式
+#
 type: 'basic'
 data:
   level:
@@ -20,19 +27,22 @@ data:
     condtion:
       - permission: 'null'
         limit:
-          0: 5
-          10: 3
-          30: 1
+          day:
+            0: 5
+            10: 3
+            30: 1
       - permission: 'faithl.vip'
         limit:
-          0: 8
-          10: 5
-          30: 3
+          week:
+            0: 8
+            10: 5
+            30: 3
       - permission: 'faithl.mvp'
         limit:
-          0: 10
-          10: 8
-          30: 5
+          month:
+            0: 10
+            10: 8
+            30: 5
   exp:
     display:
       0: '&f{exp}'
@@ -41,19 +51,22 @@ data:
     condition:
       - permission: 'null'
         limit:
-          0: 500
-          10: 300
-          30: 100
+          day:
+            0: 500
+            10: 300
+            30: 100
       - permission: 'faithl.vip'
         limit:
-          0: 800
-          10: 500
-          30: 300
+          week:
+            0: 800
+            10: 500
+            30: 300
       - permission: 'faithl.mvp'
         limit:
-          0: 1000
-          10: 800
-          30: 500
+          month:
+            0: 1000
+            10: 800
+            30: 500
 attribute:
   data:
     0: '物理伤害: {level}'
@@ -77,17 +90,17 @@ event:
   player-level-update:
     add:
       command:
-        1: [ ]
-        1-10: [ ]
+        1: []
+        1-10: []
       script:
         kether:
-          e: [ ]
-          1: [ ]
+          e: []
+          1: []
         javascript:
-          e: [ ]
-          1: [ ]
+          e: []
+          1: []
       message:
-        1: [ 'lang-level-up' ]
+        1: ['lang-level-up']
     take: []
     set: []
   player-exp-update:

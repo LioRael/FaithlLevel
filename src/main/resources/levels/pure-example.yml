@@ -1,0 +1,16 @@
+
+
+#         Powered by TabooLib 6.0         #
+
+
+name: '成就等级'
+#
+# pure为纯净等级,只含有等级/经验增减功能
+# 该模式将会储存数据
+# 若你没有别的需求,请尽量选择该模式
+#
+type: 'pure'
+data:
+  level:
+    formula: true
+    fixed: '200 * {level}'
