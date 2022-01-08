@@ -10,6 +10,9 @@ import taboolib.common5.Coerce
 import taboolib.library.configuration.ConfigurationSection
 
 /**
+ * 缓存等级，数据不会被保存到数据库
+ * 服务器重启数据将会清楚
+ *
  * @author Leosouthey
  * @since 2022/1/8-0:44
  **/
@@ -90,7 +93,6 @@ open class TempLevel() : Level() {
                         value - Coerce.toInteger(LevelHandler.getValue(getLevel(livingEntity) - 1, expIncrease!!))
                     )
                 } else {
-                    println(getExp(livingEntity) + value)
                     expData[livingEntity] = getExp(livingEntity) + value
                     return true
                 }
@@ -116,12 +118,7 @@ open class TempLevel() : Level() {
                     }
                     return task(
                         livingEntity,
-                        value - getExp(livingEntity) + Coerce.toInteger(
-                            LevelHandler.getValue(
-                                getLevel(livingEntity) + 1,
-                                expIncrease!!
-                            )
-                        )
+                        value - Coerce.toInteger(LevelHandler.getValue(value,expIncrease!!))
                     )
                 } else {
                     expData[livingEntity] = getExp(livingEntity) - value
