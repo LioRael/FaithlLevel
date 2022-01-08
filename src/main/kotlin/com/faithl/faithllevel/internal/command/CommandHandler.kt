@@ -22,7 +22,7 @@ object CommandHandler {
 
     @CommandBody(permission = "faithllevel.exp")
     val exp = CommandExp.command
-    
+
     @CommandBody(permission = "faithllevel.reload")
     val reload = CommandReload.command
 
@@ -72,5 +72,5 @@ object CommandHandler {
         displayArg("reload", sender.asLangText("command-reload-description"))
         proxySender.sendMessage("")
     }
-    
+
 }

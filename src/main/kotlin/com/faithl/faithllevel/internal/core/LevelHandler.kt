@@ -30,9 +30,9 @@ object LevelHandler {
         return null
     }
 
-    fun isLevelUp(level: TempLevel, livingEntity: LivingEntity, value: Int): Boolean {
-        val expNeeded = Coerce.toInteger(LevelHandler.getValue(level.getLevel(livingEntity), level.expIncrease!!))
-        val exp = level.getExp(livingEntity)
+    fun isLevelUp(level: TempLevel, String: String, value: Int): Boolean {
+        val expNeeded = Coerce.toInteger(LevelHandler.getValue(level.getLevel(String), level.expIncrease!!))
+        val exp = level.getExp(String)
         return exp + value >= expNeeded
     }
 

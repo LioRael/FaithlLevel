@@ -33,7 +33,7 @@ object CommandExp {
                         val data = FaithlLevelAPI.getLevel(level)
                         when (type){
                             "none" -> {
-                                sender.sendMessage(data.getExp(target).toString())
+                                sender.sendMessage(data.getExp(target.uniqueId.toString()).toString())
                             }
                         }
                     }
@@ -49,24 +49,24 @@ object CommandExp {
                             when (type){
                                 "add" -> {
                                     val value = Coerce.toInteger(argument)
-                                    data.addExp(target, value)
-                                    sender.sendMessage(data.getLevel(target).toString())
-                                    sender.sendMessage(data.getExp(target).toString())
+                                    data.addExp(target.uniqueId.toString(), value)
+                                    sender.sendMessage(data.getLevel(target.uniqueId.toString()).toString())
+                                    sender.sendMessage(data.getExp(target.uniqueId.toString()).toString())
                                 }
                                 "take" -> {
                                     val value = Coerce.toInteger(argument)
-                                    data.takeExp(target, value)
-                                    sender.sendMessage(data.getLevel(target).toString())
-                                    sender.sendMessage(data.getExp(target).toString())
+                                    data.takeExp(target.uniqueId.toString(), value)
+                                    sender.sendMessage(data.getLevel(target.uniqueId.toString()).toString())
+                                    sender.sendMessage(data.getExp(target.uniqueId.toString()).toString())
                                 }
                                 "set" -> {
                                     val value = Coerce.toInteger(argument)
-                                    data.setExp(target, value)
-                                    sender.sendMessage(data.getLevel(target).toString())
-                                    sender.sendMessage(data.getExp(target).toString())
+                                    data.setExp(target.uniqueId.toString(), value)
+                                    sender.sendMessage(data.getLevel(target.uniqueId.toString()).toString())
+                                    sender.sendMessage(data.getExp(target.uniqueId.toString()).toString())
                                 }
                                 "none" -> {
-                                    sender.sendMessage(data.getLevel(target).toString())
+                                    sender.sendMessage(data.getLevel(target.uniqueId.toString()).toString())
                                 }
                             }
                         }

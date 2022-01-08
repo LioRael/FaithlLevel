@@ -1,7 +1,6 @@
 package com.faithl.faithllevel.api.event
 
 import com.faithl.faithllevel.internal.core.Level
-import org.bukkit.entity.LivingEntity
 import taboolib.platform.type.BukkitProxyEvent
 
 /**
@@ -10,7 +9,7 @@ import taboolib.platform.type.BukkitProxyEvent
  **/
 data class ExpUpdateEvent(
     val level: Level,
-    val livingEntity: LivingEntity,
+    val target: String,
     val changeType: ChangeType,
     var value: Int
 ) : BukkitProxyEvent()

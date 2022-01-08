@@ -14,7 +14,7 @@ import java.io.File
 object FaithlLevelAPI {
 
     /**
-     * 已注册的等级系统Map
+     * 已注册的等级Map
      */
     val registeredLevels = HashMap<String, Level>()
 
@@ -24,7 +24,7 @@ object FaithlLevelAPI {
     val registeredScript = HashMap<String, List<String>>()
 
     /**
-     * 主等级系统
+     * 主等级
      */
 //    val mainLevel =
 
@@ -35,7 +35,7 @@ object FaithlLevelAPI {
     val folderScript = File(getDataFolder(), "scripts")
 
     /**
-     * 注册一个等级系统
+     * 注册一个等级
      *
      * @param name 名称
      * @param basicLevel 等级系统
@@ -55,7 +55,7 @@ object FaithlLevelAPI {
     }
 
     /**
-     * 注销一个等级系统
+     * 注销一个等级
      *
      * @param name 名称
      */
@@ -73,10 +73,10 @@ object FaithlLevelAPI {
     }
 
     /**
-     * 通过名称获取等级系统
+     * 通过名称获取等级
      *
      * @param name 名称
-     * @return 等级系统
+     * @return 等级
      */
     fun getLevel(name: String): Level {
         return registeredLevels[name]!!

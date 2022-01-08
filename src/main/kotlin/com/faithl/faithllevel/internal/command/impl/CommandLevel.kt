@@ -31,7 +31,7 @@ object CommandLevel {
                         val data = FaithlLevelAPI.getLevel(level)
                         when (type){
                             "none" -> {
-                                sender.sendMessage(data.getLevel(target).toString())
+                                sender.sendMessage(data.getLevel(target.uniqueId.toString()).toString())
                             }
                         }
                     }
@@ -47,24 +47,24 @@ object CommandLevel {
                             when (type){
                                 "add" -> {
                                     val value = Coerce.toInteger(argument)
-                                    data.addLevel(target, value)
-                                    sender.sendMessage(data.getLevel(target).toString())
-                                    sender.sendMessage(data.getExp(target).toString())
+                                    data.addLevel(target.uniqueId.toString(), value)
+                                    sender.sendMessage(data.getLevel(target.uniqueId.toString()).toString())
+                                    sender.sendMessage(data.getExp(target.uniqueId.toString()).toString())
                                 }
                                 "take" -> {
                                     val value = Coerce.toInteger(argument)
-                                    data.takeLevel(target, value)
-                                    sender.sendMessage(data.getLevel(target).toString())
-                                    sender.sendMessage(data.getExp(target).toString())
+                                    data.takeLevel(target.uniqueId.toString(), value)
+                                    sender.sendMessage(data.getLevel(target.uniqueId.toString()).toString())
+                                    sender.sendMessage(data.getExp(target.uniqueId.toString()).toString())
                                 }
                                 "set" -> {
                                     val value = Coerce.toInteger(argument)
-                                    data.setLevel(target, value)
-                                    sender.sendMessage(data.getLevel(target).toString())
-                                    sender.sendMessage(data.getExp(target).toString())
+                                    data.setLevel(target.uniqueId.toString(), value)
+                                    sender.sendMessage(data.getLevel(target.uniqueId.toString()).toString())
+                                    sender.sendMessage(data.getExp(target.uniqueId.toString()).toString())
                                 }
                                 "none" -> {
-                                    sender.sendMessage(data.getLevel(target).toString())
+                                    sender.sendMessage(data.getLevel(target.uniqueId.toString()).toString())
                                 }
                             }
                         }
