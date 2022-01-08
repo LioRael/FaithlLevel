@@ -14,12 +14,12 @@ import java.io.File
 object FaithlLevelAPI {
 
     /**
-     * 已注册的等级Map
+     * 已注册的等级
      */
     val registeredLevels = HashMap<String, Level>()
 
     /**
-     * 已注册的脚本Map
+     * 已注册的脚本
      */
     val registeredScript = HashMap<String, List<String>>()
 
@@ -38,7 +38,7 @@ object FaithlLevelAPI {
      * 注册一个等级
      *
      * @param name 名称
-     * @param basicLevel 等级系统
+     * @param level 等级
      */
     fun registerLevel(name: String, level: Level) {
         registeredLevels[name] = level

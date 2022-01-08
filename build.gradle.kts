@@ -9,6 +9,8 @@ taboolib {
     install("common")
     install("common-5")
     install("platform-bukkit")
+    install("platform-nukkit")
+    install("platform-bungee")
     install("module-lang")
     install("module-chat")
     install("module-kether")

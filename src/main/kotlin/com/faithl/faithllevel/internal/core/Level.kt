@@ -1,7 +1,5 @@
 package com.faithl.faithllevel.internal.core
 
-import org.bukkit.entity.LivingEntity
-
 /**
  * 等级抽象类
  *

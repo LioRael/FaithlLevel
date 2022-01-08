@@ -2,7 +2,10 @@ package com.faithl.faithllevel
 
 import com.faithl.faithllevel.api.FaithlLevelAPI
 import taboolib.common.LifeCycle
+import taboolib.common.TabooLibCommon.getRunningPlatform
 import taboolib.common.platform.Awake
+import taboolib.common.platform.Platform
+import taboolib.common.platform.Platform.*
 import taboolib.common.platform.Plugin
 import taboolib.common.platform.function.*
 import taboolib.module.configuration.Config
@@ -10,6 +13,7 @@ import taboolib.module.configuration.Configuration
 import taboolib.module.lang.sendLang
 import taboolib.module.metrics.Metrics
 import taboolib.platform.BukkitPlugin
+import taboolib.platform.NukkitPlugin
 
 object FaithlLevel : Plugin() {
 

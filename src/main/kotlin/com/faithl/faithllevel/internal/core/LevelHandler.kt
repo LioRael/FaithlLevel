@@ -1,7 +1,7 @@
 package com.faithl.faithllevel.internal.core
 
 import com.faithl.faithllevel.internal.core.impl.TempLevel
-import org.bukkit.entity.LivingEntity
+import taboolib.common.util.asList
 import taboolib.common5.Coerce
 import taboolib.library.configuration.ConfigurationSection
 
@@ -13,6 +13,29 @@ import taboolib.library.configuration.ConfigurationSection
  **/
 object LevelHandler {
 
+    fun getValueList(value: Int, conf: ConfigurationSection?, func: String): MutableList<String>? {
+        val result: MutableList<String> = mutableListOf()
+        val keys = conf?.getConfigurationSection(func)?.getKeys(false) ?: return null
+        for (key in keys) {
+            if (key.contains("e") || key.contains("every_level")) {
+                result += conf[key]?.asList() ?: mutableListOf()
+                continue
+            }
+            if (key.contains("-")) {
+                val min = key.split("-").toTypedArray()[0].toInt()
+                val max = key.split("-").toTypedArray()[1].toInt()
+                if (value in min..max) {
+                    result += conf["${min}-${max}"]?.asList() ?: mutableListOf()
+                    continue
+                }
+            } else if (value == key.toInt()) {
+                result += conf[key]?.asList() ?: mutableListOf()
+                continue
+            }
+        }
+        return result
+    }
+
     fun getValue(level: Int, data: Any): Any? {
         if (data is Int) {
             return data
@@ -20,7 +43,7 @@ object LevelHandler {
         if (data is ConfigurationSection) {
             var keyTemp = 0
             for (key in data.getKeys(false)) {
-                if (level in keyTemp..Coerce.toInteger(key)) {
+                if (level in keyTemp until Coerce.toInteger(key)) {
                     return data[key]
                 }
                 keyTemp = Coerce.toInteger(key)

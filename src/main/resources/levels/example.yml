@@ -8,45 +8,112 @@ type: 'basic'
 data:
   level:
     formula: true
-    grow:
+    increase:
       0: '100'
       10: '200'
       30: '300'
-    limit:
-      - '1 5'
-      - '10 3'
-      - '20 1'
+    display:
+      0: '&f⟦{level}⟧'
+      10: '&2⟦{level}⟧'
+      30: '&a⟦{level}⟧'
+    booster:
+    condtion:
+      - permission: 'null'
+        limit:
+          0: 5
+          10: 3
+          30: 1
+      - permission: 'faithl.vip'
+        limit:
+          0: 8
+          10: 5
+          30: 3
+      - permission: 'faithl.mvp'
+        limit:
+          0: 10
+          10: 8
+          30: 5
   exp:
-    limit:
-      - '1 10'
-      - '5 50'
-      - '10 100'
-      - '100 10000'
-display: 'general'
-booster: 'survival'
-attribute: 'survival'
-permission:
-  player_level_up:
-    - '1 null'
-    - '10 faithl.vip'
-  player_exp_up:
-    - 'null 100'
-    - 'faithl.vip 200'
-    - 'faithl.mvp 300'
+    display:
+      0: '&f{exp}'
+      10: '&a{exp}'
+      30: '&b{exp}'
+    condition:
+      - permission: 'null'
+        limit:
+          0: 500
+          10: 300
+          30: 100
+      - permission: 'faithl.vip'
+        limit:
+          0: 800
+          10: 500
+          30: 300
+      - permission: 'faithl.mvp'
+        limit:
+          0: 1000
+          10: 800
+          30: 500
+attribute:
+  data:
+    0: '物理伤害: {level}'
+    10:
+      - '物理伤害: {level}'
+      - '燃烧几率: 1'
+    30:
+      - '物理伤害: {level}'
+      - '燃烧几率: 1'
+  attribute-plus:
+    lore: '生存等级'
+    message: 'lang_attribute_limit'
+    booster:
+      exp:
+        name: '生存经验加成'
+        placeholder: 'survival_exp_booster'
+      level:
+        name: '生存等级加成'
+        placeholder: 'survival_level_booster'
 event:
-  player_level_up:
-    command:
-      1: ''
-      1-10: ''
-    script:
-      e:
-        - 'survival_level_up'
-      1:
-        - 'level_1'
-    message:
-      1:
-        - 'lang_title'
-        - 'lang_actionbar'
-  player_exp_up:
-  player_level_max_warning:
-  player_level_max:
+  player-level-update:
+    add:
+      command:
+        1: [ ]
+        1-10: [ ]
+      script:
+        kether:
+          e: [ ]
+          1: [ ]
+        javascript:
+          e: [ ]
+          1: [ ]
+      message:
+        1: [ 'lang-level-up' ]
+    take: []
+    set: []
+  player-exp-update:
+  player-level-max:
+  player-level-max-warning:
+items:
+  bottle:
+    type: 'exp_bottle'
+    obtain:
+      1: '200'
+      100: ''
+  level-medicine:
+    primary:
+      type: 'name'
+      name: '初级等级丹'
+      obtain:
+        0: '3'
+        10: '2'
+        30: '1'
+      builder:
+  exp-medicine:
+    primary:
+      type: 'name'
+      name: '初级经验丹'
+      obtain:
+        0: '300'
+        10: '200'
+        30: '100'
+      builder:

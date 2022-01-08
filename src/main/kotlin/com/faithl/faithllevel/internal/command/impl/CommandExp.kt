@@ -2,9 +2,9 @@ package com.faithl.faithllevel.internal.command.impl
 
 import com.faithl.faithllevel.api.FaithlLevelAPI
 import com.faithl.faithllevel.api.event.ChangeType
-import org.bukkit.Bukkit
 import taboolib.common.platform.ProxyCommandSender
 import taboolib.common.platform.command.subCommand
+import taboolib.common.platform.function.getProxyPlayer
 import taboolib.common.platform.function.onlinePlayers
 import taboolib.common5.Coerce
 
@@ -29,7 +29,7 @@ object CommandExp {
                     execute<ProxyCommandSender> { sender, context, argument ->
                         val level = context.argument(-2)
                         val type = context.argument(-1)
-                        val target = Bukkit.getPlayerExact(argument) ?: return@execute
+                        val target = getProxyPlayer(argument) ?: return@execute
                         val data = FaithlLevelAPI.getLevel(level)
                         when (type){
                             "none" -> {
@@ -44,7 +44,7 @@ object CommandExp {
                         execute<ProxyCommandSender> { sender, context, argument ->
                             val level = context.argument(-3)
                             val type = context.argument(-2)
-                            val target = Bukkit.getPlayerExact(context.argument(-1)) ?: return@execute
+                            val target = getProxyPlayer(context.argument(-1)) ?: return@execute
                             val data = FaithlLevelAPI.getLevel(level)
                             when (type){
                                 "add" -> {
