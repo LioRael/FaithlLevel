@@ -5,6 +5,7 @@ import com.faithl.faithllevel.internal.command.impl.CommandExp
 import com.faithl.faithllevel.internal.command.impl.CommandLevel
 import com.faithl.faithllevel.internal.command.impl.CommandReload
 import org.bukkit.command.CommandSender
+import taboolib.common.platform.ProxyCommandSender
 import taboolib.common.platform.command.CommandBody
 import taboolib.common.platform.command.CommandHeader
 import taboolib.common.platform.command.mainCommand
@@ -25,15 +26,14 @@ object CommandHandler {
     @CommandBody(permission = "faithllevel.reload")
     val reload = CommandReload.command
 
+    @CommandBody
     val main = mainCommand {
-        execute<CommandSender> { sender, _, argument ->
-            if (argument.isEmpty()) {
-                generateMainHelper(sender)
-                return@execute
-            }
+        execute<CommandSender> { sender, _, _ ->
+            generateMainHelper(sender)
         }
     }
 
+    @CommandBody
     val help = subCommand {
         execute<CommandSender> { sender, _, _ ->
             generateMainHelper(sender)
@@ -67,6 +67,8 @@ object CommandHandler {
                 .sendTo(proxySender)
             proxySender.sendMessage("      §7$desc")
         }
+        displayArg("level", sender.asLangText("command-level-description"))
+        displayArg("exp", sender.asLangText("command-exp-description"))
         displayArg("reload", sender.asLangText("command-reload-description"))
         proxySender.sendMessage("")
     }

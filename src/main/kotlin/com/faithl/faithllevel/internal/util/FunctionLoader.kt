@@ -3,7 +3,7 @@ package com.faithl.faithllevel.internal.util
 import taboolib.common.util.asList
 import taboolib.library.configuration.ConfigurationSection
 
-object FuncLoader {
+object FunctionLoader {
 
     fun getFunc(value: Int, conf: ConfigurationSection?, func: String): MutableList<String>? {
         val result: MutableList<String> = mutableListOf()

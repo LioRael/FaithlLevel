@@ -3,6 +3,8 @@ package com.faithl.faithllevel.internal.core
 import org.bukkit.entity.LivingEntity
 
 /**
+ * 等级抽象类
+ *
  * @author Leosouthey
  * @since 2022/1/8-0:45
  **/

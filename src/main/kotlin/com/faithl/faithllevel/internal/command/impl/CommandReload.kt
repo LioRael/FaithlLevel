@@ -7,6 +7,11 @@ import taboolib.module.lang.sendLang
 
 object CommandReload {
 
+    /**
+     * 重载指令
+     *
+     * Usage: /faithllevel reload
+     */
     val command = subCommand {
         execute<ProxyCommandSender> { sender, _, _ ->
             FaithlLevelAPI.reloadLevel()

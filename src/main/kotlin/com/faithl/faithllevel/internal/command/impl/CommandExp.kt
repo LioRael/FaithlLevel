@@ -14,6 +14,11 @@ import taboolib.common5.Coerce
  **/
 object CommandExp {
 
+    /**
+     * 玩家经验处理指令
+     *
+     * Usage: /faithllevel exp {level} {ADD/TAKE/SET/NONE} {player} {value}
+     */
     val command = subCommand {
         dynamic("exp") {
             suggestion<ProxyCommandSender> { _, _ -> FaithlLevelAPI.registeredLevels.keys.map { it } }

@@ -6,6 +6,8 @@ import taboolib.common5.Coerce
 import taboolib.library.configuration.ConfigurationSection
 
 /**
+ * 等级处理工具
+ *
  * @author Leosouthey
  * @since 2022/1/8-22:57
  **/

@@ -13,9 +13,9 @@ import taboolib.module.lang.sendLang
 object CommandLevel {
 
     /**
-     * Command
+     * 玩家等级处理指令
      *
-     * Usage: /faithllevel {level} {ADD/TAKE} {player} {value}
+     * Usage: /faithllevel level {level} {ADD/TAKE/SET/NONE} {player} {value}
      */
     val command = subCommand {
         dynamic("level") {

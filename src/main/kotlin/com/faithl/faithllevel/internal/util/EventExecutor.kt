@@ -56,7 +56,7 @@ fun ConfigurationSection.sendMessage(player: Player) {
 }
 
 private fun doCommand(player: Player, level: Int, conf: ConfigurationSection?) {
-    val commands = FuncLoader.getFunc(level, conf, "command")
+    val commands = FunctionLoader.getFunc(level, conf, "command")
     if (commands != null && commands.isNotEmpty()) {
         for (command in commands) {
             if (PlaceholderAPI) {
@@ -69,7 +69,7 @@ private fun doCommand(player: Player, level: Int, conf: ConfigurationSection?) {
 }
 
 private fun doScript(player: Player, level: Int, conf: ConfigurationSection?) {
-    val scripts = FuncLoader.getFunc(level, conf, "script")
+    val scripts = FunctionLoader.getFunc(level, conf, "script")
     if (scripts != null && scripts.isNotEmpty()) {
         for (script in scripts) {
             KetherShell.eval(FaithlLevelAPI.registeredScript[script]!!, sender = adaptPlayer(player))
