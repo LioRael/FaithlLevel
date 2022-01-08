@@ -49,7 +49,7 @@ open class TempLevel() : Level() {
     }
 
     override fun setExp(livingEntity: LivingEntity, value: Int): Boolean {
-        val event = ExpUpdateEvent(this, livingEntity, ChangeType.SET,value)
+        val event = ExpUpdateEvent(this, livingEntity, ChangeType.SET, value)
         if (event.call()
         ) {
             fun task(livingEntity: LivingEntity, value: Int): Boolean {
@@ -59,14 +59,14 @@ open class TempLevel() : Level() {
                     }
                     return task(
                         livingEntity,
-                        value - Coerce.toInteger(LevelHandler.getValue(getLevel(livingEntity), expIncrease!!))
+                        value - Coerce.toInteger(LevelHandler.getValue(getLevel(livingEntity) - 1, expIncrease!!))
                     )
                 } else {
-                    expData[livingEntity] = event.value
+                    expData[livingEntity] = value
                     return true
                 }
             }
-            return task(livingEntity, value)
+            return task(livingEntity, event.value)
         }
         return false
     }
@@ -76,7 +76,7 @@ open class TempLevel() : Level() {
             this,
             livingEntity,
             ChangeType.ADD,
-            getExp(livingEntity).plus(value)
+            value
         )
         if (event.call()
         ) {
@@ -87,14 +87,15 @@ open class TempLevel() : Level() {
                     }
                     return task(
                         livingEntity,
-                        value - Coerce.toInteger(LevelHandler.getValue(getLevel(livingEntity), expIncrease!!))
+                        value - Coerce.toInteger(LevelHandler.getValue(getLevel(livingEntity) - 1, expIncrease!!))
                     )
                 } else {
-                    expData[livingEntity] = event.value
+                    println(getExp(livingEntity) + value)
+                    expData[livingEntity] = getExp(livingEntity) + value
                     return true
                 }
             }
-            return task(livingEntity, value)
+            return task(livingEntity, event.value)
         }
         return false
     }
@@ -104,25 +105,30 @@ open class TempLevel() : Level() {
             this,
             livingEntity,
             ChangeType.TAKE,
-            getExp(livingEntity) - value
+            value
         )
         if (event.call()
         ) {
             fun task(livingEntity: LivingEntity, value: Int): Boolean {
-                if (event.value < 0) {
+                if (getExp(livingEntity) - value < 0) {
                     if (!takeLevel(livingEntity, 1)) {
                         return false
                     }
                     return task(
                         livingEntity,
-                        Coerce.toInteger(LevelHandler.getValue(getLevel(livingEntity), expIncrease!!)) + value
+                        value - getExp(livingEntity) + Coerce.toInteger(
+                            LevelHandler.getValue(
+                                getLevel(livingEntity) + 1,
+                                expIncrease!!
+                            )
+                        )
                     )
                 } else {
-                    expData[livingEntity] = event.value
+                    expData[livingEntity] = getExp(livingEntity) - value
                     return true
                 }
             }
-            return task(livingEntity, value)
+            return task(livingEntity, event.value)
         }
         return false
     }
@@ -139,7 +145,7 @@ open class TempLevel() : Level() {
     override fun takeLevel(livingEntity: LivingEntity, value: Int): Boolean {
         val event = LevelUpdateEvent(this, livingEntity, getLevel(livingEntity), getLevel(livingEntity).minus(value))
         if (event.call()) {
-            if (event.newLevel < 0){
+            if (event.newLevel < 0) {
                 return false
             }
             levelData[livingEntity] = event.newLevel

@@ -1,6 +1,7 @@
 package com.faithl.faithllevel.internal.command
 
 import com.faithl.faithllevel.FaithlLevel
+import com.faithl.faithllevel.internal.command.impl.CommandExp
 import com.faithl.faithllevel.internal.command.impl.CommandLevel
 import com.faithl.faithllevel.internal.command.impl.CommandReload
 import org.bukkit.command.CommandSender
@@ -17,6 +18,9 @@ object CommandHandler {
 
     @CommandBody(permission = "faithllevel.level")
     val level = CommandLevel.command
+
+    @CommandBody(permission = "faithllevel.exp")
+    val exp = CommandExp.command
     
     @CommandBody(permission = "faithllevel.reload")
     val reload = CommandReload.command

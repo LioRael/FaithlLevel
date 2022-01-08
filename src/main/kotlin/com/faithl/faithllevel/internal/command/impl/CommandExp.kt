@@ -4,21 +4,18 @@ import com.faithl.faithllevel.api.FaithlLevelAPI
 import com.faithl.faithllevel.api.event.ChangeType
 import org.bukkit.Bukkit
 import taboolib.common.platform.ProxyCommandSender
-import taboolib.common.platform.command.CommandContext
 import taboolib.common.platform.command.subCommand
 import taboolib.common.platform.function.onlinePlayers
 import taboolib.common5.Coerce
-import taboolib.module.lang.sendLang
 
-object CommandLevel {
+/**
+ * @author Leosouthey
+ * @since 2022/1/9-0:29
+ **/
+object CommandExp {
 
-    /**
-     * Command
-     *
-     * Usage: /faithllevel {level} {ADD/TAKE} {player} {value}
-     */
     val command = subCommand {
-        dynamic("level") {
+        dynamic("exp") {
             suggestion<ProxyCommandSender> { _, _ -> FaithlLevelAPI.registeredLevels.keys.map { it } }
             dynamic("type") {
                 suggestion<ProxyCommandSender> { _, _ -> ChangeType.values().map { it.name.lowercase() } }
@@ -31,7 +28,7 @@ object CommandLevel {
                         val data = FaithlLevelAPI.getLevel(level)
                         when (type){
                             "none" -> {
-                                sender.sendMessage(data.getLevel(target).toString())
+                                sender.sendMessage(data.getExp(target).toString())
                             }
                         }
                     }
@@ -47,19 +44,19 @@ object CommandLevel {
                             when (type){
                                 "add" -> {
                                     val value = Coerce.toInteger(argument)
-                                    data.addLevel(target, value)
+                                    data.addExp(target, value)
                                     sender.sendMessage(data.getLevel(target).toString())
                                     sender.sendMessage(data.getExp(target).toString())
                                 }
                                 "take" -> {
                                     val value = Coerce.toInteger(argument)
-                                    data.takeLevel(target, value)
+                                    data.takeExp(target, value)
                                     sender.sendMessage(data.getLevel(target).toString())
                                     sender.sendMessage(data.getExp(target).toString())
                                 }
                                 "set" -> {
                                     val value = Coerce.toInteger(argument)
-                                    data.setLevel(target, value)
+                                    data.setExp(target, value)
                                     sender.sendMessage(data.getLevel(target).toString())
                                     sender.sendMessage(data.getExp(target).toString())
                                 }
