@@ -13,7 +13,7 @@ storage:
   player-index: uuid
   prefix: faithllevel
   source:
-    sql:
+    mysql:
       host: localhost
       port: 3306
       user: root

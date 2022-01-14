@@ -20,7 +20,7 @@ import java.util.concurrent.ConcurrentHashMap
  **/
 class DatabaseSQL : Database() {
 
-    val host = FaithlLevel.setting.getHost("storage.source.sql")
+    val host = FaithlLevel.setting.getHost("storage.source.mysql")
     val dataSource = host.createDataSource()
 
     val tableTarget = Table("${name}_target", host) {

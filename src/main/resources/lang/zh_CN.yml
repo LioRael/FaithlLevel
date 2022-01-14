@@ -16,3 +16,10 @@ command-reload: '&7[&bFaithlLevel&7] &r插件已重载完成.'
 command-level-description: '等级管理 &8(faithllevel.level)'
 command-exp-description: '经验管理 &8(faithllevel.exp)'
 command-reload-description: '重载插件 &8(faithllevel.reload)'
+
+level-update:
+  add:
+  take:
+exp-update:
+  add:
+  take:

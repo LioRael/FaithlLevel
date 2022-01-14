@@ -1,11 +1,4 @@
-package com.faithl.faithllevel.internal.trait
-
-import com.faithl.faithllevel.api.event.ChangeType
-import com.faithl.faithllevel.api.event.ExpUpdateEvent
-import com.faithl.faithllevel.api.event.LevelUpdateEvent
-import com.faithl.faithllevel.internal.core.impl.BasicLevel
-import com.faithl.faithllevel.internal.util.run
-import taboolib.common.platform.event.SubscribeEvent
+package com.faithl.faithllevel.module.trait
 
 internal object Event {
 //
@@ -28,4 +21,5 @@ internal object Event {
 //                ?.run(e.player, BasicLevel.getPlayerData(e.basicLevel, e.player).playerLevel)
 //        }
 //    }
+
 }

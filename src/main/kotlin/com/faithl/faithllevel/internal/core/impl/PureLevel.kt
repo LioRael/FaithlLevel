@@ -39,6 +39,14 @@ open class PureLevel() : TempLevel() {
         expIncrease = value
     }
 
+    override fun getLevel(target: String): Int {
+        return levelData.getOrPut(target) { Database.INSTANCE.getLevel(target, FaithlLevelAPI.getName(this)) }
+    }
+
+    override fun getExp(target: String): Int {
+        return expData.getOrPut(target) { Database.INSTANCE.getExp(target, FaithlLevelAPI.getName(this)) }
+    }
+
     companion object {
 
         /**
