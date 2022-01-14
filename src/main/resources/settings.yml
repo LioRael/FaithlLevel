@@ -9,11 +9,13 @@ options:
     level: 生存等级
     replace-original-level: true
 storage:
-  type: SQLite
+  type: sqlite
+  player-index: uuid
   source:
-    MYSQL:
+    sql:
       host: localhost
       port: 3306
       user: root
       password: root
       database: minecraft
+      table: faithl_level

@@ -12,6 +12,11 @@ name: '生存等级'
 # 该模式是最为广泛使用的模式
 #
 type: 'basic'
+condition:
+  - permission: 'faithl.use'
+    level:
+      - key: '临时等级'
+        value: 60
 data:
   level:
     formula: true
@@ -25,8 +30,7 @@ data:
       30: '&a⟦{level}⟧'
     booster:
     condtion:
-      - permission: 'null'
-        limit:
+      - limit:
           day:
             0: 5
             10: 3
@@ -69,6 +73,7 @@ data:
             30: 500
 attribute:
   data:
+    plugin: ''
     0: '物理伤害: {level}'
     10:
       - '物理伤害: {level}'
@@ -78,14 +83,10 @@ attribute:
       - '燃烧几率: 1'
   attribute-plus:
     lore: '生存等级'
-    message: 'lang_attribute_limit'
+    message: 'lang-attribute-limit'
     booster:
-      exp:
-        name: '生存经验加成'
-        placeholder: 'survival_exp_booster'
-      level:
-        name: '生存等级加成'
-        placeholder: 'survival_level_booster'
+      name: '生存经验加成'
+      placeholder: 'survival_exp_booster'
 event:
   player-level-update:
     add:
@@ -109,24 +110,22 @@ event:
 items:
   bottle:
     type: 'exp_bottle'
-    obtain:
+    data:
       1: '200'
       100: ''
   level-medicine:
     primary:
       type: 'name'
       name: '初级等级丹'
-      obtain:
+      data:
         0: '3'
         10: '2'
         30: '1'
-      builder:
   exp-medicine:
     primary:
       type: 'name'
       name: '初级经验丹'
-      obtain:
+      data:
         0: '300'
         10: '200'
         30: '100'
-      builder:

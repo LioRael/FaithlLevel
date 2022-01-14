@@ -17,8 +17,8 @@ import taboolib.library.configuration.ConfigurationSection
  **/
 open class TempLevel() : Level() {
 
-    val levelData = mutableMapOf<String, Int>()
-    val expData = mutableMapOf<String, Int>()
+    var levelData = mutableMapOf<String, Int>()
+    var expData = mutableMapOf<String, Int>()
     var expIncrease: Any? = null
 
     init {
@@ -26,6 +26,10 @@ open class TempLevel() : Level() {
     }
 
     constructor(conf: ConfigurationSection) : this() {
+        expIncrease = conf
+    }
+
+    constructor(conf: org.bukkit.configuration.ConfigurationSection) : this() {
         expIncrease = conf
     }
 
@@ -117,7 +121,7 @@ open class TempLevel() : Level() {
                     }
                     return task(
                         target,
-                        value - Coerce.toInteger(LevelHandler.getValue(value,expIncrease!!))
+                        value - Coerce.toInteger(LevelHandler.getValue(value, expIncrease!!))
                     )
                 } else {
                     expData[target] = getExp(target) - value

@@ -12,67 +12,54 @@ import taboolib.module.kether.KetherShell
 import taboolib.platform.compat.replacePlaceholder
 import taboolib.platform.util.sendLang
 
-val PlaceholderAPI: Boolean
-    get() = Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")
-
-fun ConfigurationSection.run(player: Player, level: Int) {
-    val command = getConfigurationSection("command")
-    if (command != null) {
-        doCommand(player, level, command)
-    }
-    val script = getConfigurationSection("script")
-    if (script != null) {
-        doScript(player, level, script)
-    }
-    getConfigurationSection("message")?.sendMessage(player)
-}
-
-fun ConfigurationSection.sendMessage(player: Player) {
-    get("actionbar")?.asList()?.colored()?.forEach {
-        var value = it
-        if (PlaceholderAPI) {
-            value = value.replacePlaceholder(player)
-        }
-        adaptPlayer(player).sendActionBar(value)
-    }
-    get("text")?.asList()?.colored()?.forEach {
-        var value = it
-        if (PlaceholderAPI) {
-            value = value.replacePlaceholder(player)
-        }
-        player.sendMessage(value)
-    }
-    get("lang")?.asList()?.colored()?.forEach {
-        if (it.contains(" ")) {
-            player.sendLang(it, it.split(" "))
-        }
-    }
-    get("sound")?.asList()?.colored()?.forEach {
-        XSound.parse(it)?.forPlayer(player)?.play()
-    }
-    get("raw")?.asList()?.colored()?.forEach {
-        player.sendRawMessage(it)
-    }
-}
-
-private fun doCommand(player: Player, level: Int, conf: ConfigurationSection?) {
-    val commands = FunctionLoader.getFunc(level, conf, "command")
-    if (commands != null && commands.isNotEmpty()) {
-        for (command in commands) {
-            if (PlaceholderAPI) {
-                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command.replacePlaceholder(player))
-            } else {
-                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command)
-            }
-        }
-    }
-}
-
-private fun doScript(player: Player, level: Int, conf: ConfigurationSection?) {
-    val scripts = FunctionLoader.getFunc(level, conf, "script")
-    if (scripts != null && scripts.isNotEmpty()) {
-        for (script in scripts) {
-            KetherShell.eval(FaithlLevelAPI.registeredScript[script]!!, sender = adaptPlayer(player))
-        }
-    }
-}
+//fun ConfigurationSection.run(player: Player, level: Int) {
+//    val command = getConfigurationSection("command")
+//    if (command != null) {
+//        doCommand(player, level, command)
+//    }
+//    val script = getConfigurationSection("script")
+//    if (script != null) {
+//        doScript(player, level, script)
+//    }
+//    getConfigurationSection("message")?.sendMessage(player)
+//}
+//
+//fun ConfigurationSection.sendMessage(player: Player) {
+//    get("actionbar")?.asList()?.colored()?.forEach {
+//        var value = it.replacePlaceholder(player)
+//        adaptPlayer(player).sendActionBar(value)
+//    }
+//    get("text")?.asList()?.colored()?.forEach {
+//        var value = it.replacePlaceholder(player)
+//        player.sendMessage(value)
+//    }
+//    get("lang")?.asList()?.colored()?.forEach {
+//        if (it.contains(" ")) {
+//            player.sendLang(it, it.split(" "))
+//        }
+//    }
+//    get("sound")?.asList()?.colored()?.forEach {
+//        XSound.parse(it)?.forPlayer(player)?.play()
+//    }
+//    get("raw")?.asList()?.colored()?.forEach {
+//        player.sendRawMessage(it)
+//    }
+//}
+//
+//private fun doCommand(player: Player, level: Int, conf: ConfigurationSection?) {
+//    val commands = FunctionLoader.getFunc(level, conf, "command")
+//    if (commands != null && commands.isNotEmpty()) {
+//        for (command in commands) {
+//            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command.replacePlaceholder(player))
+//        }
+//    }
+//}
+//
+//private fun doScript(player: Player, level: Int, conf: ConfigurationSection?) {
+//    val scripts = FunctionLoader.getFunc(level, conf, "script")
+//    if (scripts != null && scripts.isNotEmpty()) {
+//        for (script in scripts) {
+//            KetherShell.eval(FaithlLevelAPI.registeredScript[script]!!, sender = adaptPlayer(player))
+//        }
+//    }
+//}

@@ -1,5 +1,6 @@
 package com.faithl.faithllevel.api
 
+import com.faithl.faithllevel.FaithlLevel
 import com.faithl.faithllevel.internal.core.Level
 import com.faithl.faithllevel.internal.core.impl.BasicLevel
 import com.faithl.faithllevel.internal.core.impl.TempLevel
@@ -26,7 +27,7 @@ object FaithlLevelAPI {
     /**
      * 主等级
      */
-//    val mainLevel =
+    val mainLevel: Level? = FaithlLevel.setting.getString("main-level")?.let { getLevel(it) }
 
     /**
      * 文件夹
@@ -83,6 +84,18 @@ object FaithlLevelAPI {
     }
 
     /**
+     * 获取等级的名称
+     *
+     * @param level 等级
+     * @return 等级名称
+     */
+    fun getName(level: Level): String {
+        return registeredLevels.keys.find {
+            registeredLevels[it] == level
+        }!!
+    }
+
+    /**
      * 重新加载等级文件
      * 这个操作会清空缓存
      */
@@ -113,9 +126,12 @@ object FaithlLevelAPI {
                 try {
                     val type = conf.getString("type") ?: "basic"
                     when (type.lowercase()) {
-                        "basic" -> registerLevel(conf.getString("name")!!, BasicLevel(conf))
-                        "pure" -> registerLevel(conf.getString("name")!!, PureLevel())
-                        "temp" -> registerLevel(conf.getString("name")!!, TempLevel())
+                        "basic" -> registerLevel(
+                            conf.getString("identify") ?: conf.getString("name")!!,
+                            BasicLevel(conf)
+                        )
+                        "pure" -> registerLevel(conf.getString("identify") ?: conf.getString("name")!!, PureLevel())
+                        "temp" -> registerLevel(conf.getString("identify") ?: conf.getString("name")!!, TempLevel())
                     }
                 } catch (t: Throwable) {
                     t.printStackTrace()

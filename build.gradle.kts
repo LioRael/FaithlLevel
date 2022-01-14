@@ -9,8 +9,6 @@ taboolib {
     install("common")
     install("common-5")
     install("platform-bukkit")
-    install("platform-nukkit")
-    install("platform-bungee")
     install("module-lang")
     install("module-chat")
     install("module-kether")
@@ -19,7 +17,7 @@ taboolib {
     install("module-database")
     install("expansion-javascript")
     classifier = null
-    version = "6.0.7-19"
+    version = "6.0.7-20"
     description {
         contributors {
             name("Leosouthey")

@@ -50,6 +50,16 @@ object LevelHandler {
             }
             return data["fixed"]
         }
+        if (data is org.bukkit.configuration.ConfigurationSection){
+            var keyTemp = 0
+            for (key in data.getKeys(false)) {
+                if (level in keyTemp until Coerce.toInteger(key)) {
+                    return data[key]
+                }
+                keyTemp = Coerce.toInteger(key)
+            }
+            return data["fixed"]
+        }
         return null
     }
 
