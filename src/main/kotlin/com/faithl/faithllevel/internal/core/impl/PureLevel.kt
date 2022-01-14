@@ -9,6 +9,8 @@ import com.faithl.faithllevel.internal.data.PlayerIndex
 import org.bukkit.entity.Player
 import org.bukkit.event.player.PlayerQuitEvent
 import taboolib.common.platform.event.SubscribeEvent
+import taboolib.common.platform.function.adaptPlayer
+import taboolib.common.platform.function.info
 import taboolib.common.platform.function.submit
 import taboolib.library.configuration.ConfigurationSection
 
@@ -43,9 +45,10 @@ open class PureLevel() : TempLevel() {
          * 保存数据
          *
          * @param target 目标
-         * @param name 等级
+         * @param level 纯净等级
          */
         fun save(target: String, level: PureLevel) {
+            info(1)
             submit(async = true) {
                 val name = FaithlLevelAPI.getName(level)
                 level.levelData[target]?.let { Database.INSTANCE.setLevel(target, name, it) }
@@ -71,7 +74,7 @@ open class PureLevel() : TempLevel() {
         fun e(e: PlayerQuitEvent) {
             FaithlLevelAPI.registeredLevels.values.forEach {
                 if (it is PureLevel) {
-                    it.levelData.remove(PlayerIndex.getTargetInformation(e.player))
+                    it.levelData.remove(PlayerIndex.getTargetInformation(adaptPlayer(e.player)))
                 }
             }
         }

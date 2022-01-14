@@ -11,6 +11,7 @@ options:
 storage:
   type: sqlite
   player-index: uuid
+  prefix: faithllevel
   source:
     sql:
       host: localhost
@@ -18,4 +19,3 @@ storage:
       user: root
       password: root
       database: minecraft
-      table: faithl_level

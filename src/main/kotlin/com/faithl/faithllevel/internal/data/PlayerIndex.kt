@@ -1,7 +1,7 @@
 package com.faithl.faithllevel.internal.data
 
 import com.faithl.faithllevel.FaithlLevel
-import org.bukkit.entity.Player
+import taboolib.common.platform.ProxyPlayer
 
 /**
  * @author Leosouthey
@@ -21,7 +21,7 @@ enum class PlayerIndex {
             }
         }
 
-        fun getTargetInformation(player: Player): String {
+        fun getTargetInformation(player: ProxyPlayer): String {
             return when (PlayerIndex.INSTANCE) {
                 NAME -> player.name
                 UUID -> player.uniqueId.toString()

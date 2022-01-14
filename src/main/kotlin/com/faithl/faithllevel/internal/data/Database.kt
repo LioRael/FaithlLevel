@@ -22,7 +22,7 @@ import taboolib.module.chat.colored
 abstract class Database {
 
     val name: String
-        get() = FaithlLevel.setting.getString("storage.source.sql.table", "faithl_level")!!
+        get() = FaithlLevel.setting.getString("storage.prefix", "faithllevel")!!
 
     abstract fun getLevel(target: String, level: String): Int
     abstract fun getExp(target: String, level: String): Int
