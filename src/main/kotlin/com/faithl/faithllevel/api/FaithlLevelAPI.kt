@@ -2,9 +2,9 @@ package com.faithl.faithllevel.api
 
 import com.faithl.faithllevel.FaithlLevel
 import com.faithl.faithllevel.internal.core.Level
-import com.faithl.faithllevel.internal.core.impl.BasicLevel
-import com.faithl.faithllevel.internal.core.impl.TempLevel
-import com.faithl.faithllevel.internal.core.impl.PureLevel
+import com.faithl.faithllevel.internal.core.impl.Basic
+import com.faithl.faithllevel.internal.core.impl.Temp
+import com.faithl.faithllevel.internal.core.impl.Pure
 import taboolib.common.platform.function.getDataFolder
 import taboolib.common.util.asList
 import taboolib.common5.FileWatcher
@@ -128,10 +128,10 @@ object FaithlLevelAPI {
                     when (type.lowercase()) {
                         "basic" -> registerLevel(
                             conf.getString("identify") ?: conf.getString("name")!!,
-                            BasicLevel(conf)
+                            Basic(conf)
                         )
-                        "pure" -> registerLevel(conf.getString("identify") ?: conf.getString("name")!!, PureLevel())
-                        "temp" -> registerLevel(conf.getString("identify") ?: conf.getString("name")!!, TempLevel())
+                        "pure" -> registerLevel(conf.getString("identify") ?: conf.getString("name")!!, Pure())
+                        "temp" -> registerLevel(conf.getString("identify") ?: conf.getString("name")!!, Temp())
                     }
                 } catch (t: Throwable) {
                     t.printStackTrace()

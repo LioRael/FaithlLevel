@@ -1,6 +1,6 @@
 package com.faithl.faithllevel.internal.core
 
-import com.faithl.faithllevel.internal.core.impl.TempLevel
+import com.faithl.faithllevel.internal.core.impl.Temp
 import taboolib.common.util.asList
 import taboolib.common5.Coerce
 import taboolib.library.configuration.ConfigurationSection
@@ -63,7 +63,7 @@ object LevelHandler {
         return null
     }
 
-    fun isLevelUp(level: TempLevel, String: String, value: Int): Boolean {
+    fun isLevelUp(level: Temp, String: String, value: Int): Boolean {
         val expNeeded = Coerce.toInteger(LevelHandler.getValue(level.getLevel(String), level.expIncrease!!))
         val exp = level.getExp(String)
         return exp + value >= expNeeded

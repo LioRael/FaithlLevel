@@ -35,6 +35,8 @@ object FaithlLevel : Plugin() {
     fun reload() {
         if (!FaithlLevelAPI.folderLevel.exists()) {
             releaseResourceFile("levels/example.yml")
+            releaseResourceFile("levels/pure-example.yml")
+            releaseResourceFile("levels/temp-example.yml")
         }
         if (!FaithlLevelAPI.folderScript.exists()) {
             releaseResourceFile("scripts/example.yml")

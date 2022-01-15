@@ -9,7 +9,7 @@ import taboolib.library.configuration.ConfigurationSection
  * @author Leosouthey
  * @since 2021/12/12-0:58
  **/
-open class BasicLevel() : PureLevel() {
+open class Basic() : Pure() {
 
     init {
         expIncrease = 100

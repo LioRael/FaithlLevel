@@ -15,7 +15,7 @@ import taboolib.library.configuration.ConfigurationSection
  * @author Leosouthey
  * @since 2022/1/8-0:44
  **/
-open class TempLevel() : Level() {
+open class Temp() : Level() {
 
     var levelData = mutableMapOf<String, Int>()
     var expData = mutableMapOf<String, Int>()

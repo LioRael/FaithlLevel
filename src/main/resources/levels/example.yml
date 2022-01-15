@@ -28,7 +28,6 @@ data:
       0: '&f⟦{level}⟧'
       10: '&2⟦{level}⟧'
       30: '&a⟦{level}⟧'
-    booster:
     condtion:
       - limit:
           day:
@@ -52,6 +51,7 @@ data:
       0: '&f{exp}'
       10: '&a{exp}'
       30: '&b{exp}'
+    booster: []
     condition:
       - permission: 'null'
         limit:
@@ -101,7 +101,8 @@ event:
           e: []
           1: []
       message:
-        1: ['lang-level-up']
+        lang: ['lang-level-up']
+        actionbar: ''
     take: []
     set: []
   player-exp-update:

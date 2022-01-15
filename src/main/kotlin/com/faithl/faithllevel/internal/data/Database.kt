@@ -1,18 +1,11 @@
 package com.faithl.faithllevel.internal.data
 
 import com.faithl.faithllevel.FaithlLevel
-import com.faithl.faithllevel.api.FaithlLevelAPI
-import com.faithl.faithllevel.api.event.ExpUpdateEvent
-import com.faithl.faithllevel.api.event.LevelUpdateEvent
-import com.faithl.faithllevel.internal.core.Level
-import com.faithl.faithllevel.internal.core.impl.PureLevel
 import com.faithl.faithllevel.internal.data.impl.DatabaseError
 import com.faithl.faithllevel.internal.data.impl.DatabaseSQL
 import com.faithl.faithllevel.internal.data.impl.DatabaseSQLite
-import org.bukkit.entity.Player
 import org.bukkit.event.player.PlayerLoginEvent
 import taboolib.common.platform.event.SubscribeEvent
-import taboolib.common.platform.function.submit
 import taboolib.module.chat.colored
 
 /**
