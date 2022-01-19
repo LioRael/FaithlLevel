@@ -1,7 +1,3 @@
-
-
-
-
 #         Powered by TabooLib 6.0         #
 
 
@@ -16,61 +12,55 @@ condition:
   - permission: 'faithl.use'
     level:
       - key: '临时等级'
+        mode: '>'
         value: 60
 data:
+  increase:
+    0: '100'
+    10: '200'
+    30: '300'
   level:
     formula: true
-    increase:
-      0: '100'
-      10: '200'
-      30: '300'
     display:
       0: '&f⟦{level}⟧'
       10: '&2⟦{level}⟧'
       30: '&a⟦{level}⟧'
-    condtion:
-      - limit:
-          day:
-            0: 5
-            10: 3
-            30: 1
+    limit:
+      - day:
+          0: 5
+          10: 3
+          30: 1
       - permission: 'faithl.vip'
-        limit:
-          week:
-            0: 8
-            10: 5
-            30: 3
+        week:
+          0: 8
+          10: 5
+          30: 3
       - permission: 'faithl.mvp'
-        limit:
-          month:
-            0: 10
-            10: 8
-            30: 5
+        month:
+          0: 10
+          10: 8
+          30: 5
   exp:
     display:
       0: '&f{exp}'
       10: '&a{exp}'
       30: '&b{exp}'
-    booster: []
-    condition:
-      - permission: 'null'
-        limit:
-          day:
+    booster: [ ]
+    limit:
+      - day:
             0: 500
             10: 300
             30: 100
       - permission: 'faithl.vip'
-        limit:
-          week:
-            0: 800
-            10: 500
-            30: 300
+        week:
+          0: 800
+          10: 500
+          30: 300
       - permission: 'faithl.mvp'
-        limit:
-          month:
-            0: 1000
-            10: 800
-            30: 500
+        month:
+          0: 1000
+          10: 800
+          30: 500
 attribute:
   data:
     plugin: ''
@@ -91,20 +81,20 @@ event:
   player-level-update:
     add:
       command:
-        1: []
-        1-10: []
+        1: [ ]
+        1-10: [ ]
       script:
         kether:
-          e: []
-          1: []
+          e: [ ]
+          1: [ ]
         javascript:
-          e: []
-          1: []
+          e: [ ]
+          1: [ ]
       message:
-        lang: ['lang-level-up']
+        lang: [ 'lang-level-up' ]
         actionbar: ''
-    take: []
-    set: []
+    take: [ ]
+    set: [ ]
   player-exp-update:
   player-level-max:
   player-level-max-warning:
