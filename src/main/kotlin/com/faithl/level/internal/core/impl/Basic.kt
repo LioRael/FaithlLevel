@@ -1,8 +1,6 @@
 package com.faithl.level.internal.core.impl
 
-import com.faithl.level.internal.command.CommandHandler.level
 import com.faithl.level.internal.core.LevelHandler
-import sun.jvm.hotspot.oops.CellTypeState.value
 import taboolib.common5.Coerce
 import taboolib.library.configuration.ConfigurationSection
 
