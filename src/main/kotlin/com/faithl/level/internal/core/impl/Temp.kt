@@ -65,7 +65,7 @@ open class Temp() : Level() {
                     }
                     return task(
                         target,
-                        value - LevelHandler.getNextExp(getLevel(target) - 1, expIncrease!!)
+                        value - LevelHandler.getNextExp(target, getLevel(target) - 1, expIncrease!!)
                     )
                 } else {
                     expData[target] = value
@@ -93,7 +93,7 @@ open class Temp() : Level() {
                     }
                     return task(
                         target,
-                        value - LevelHandler.getNextExp(getLevel(target) - 1, expIncrease!!)
+                        value - LevelHandler.getNextExp(target, getLevel(target) - 1, expIncrease!!)
                     )
                 } else {
                     expData[target] = getExp(target) + value
@@ -121,7 +121,7 @@ open class Temp() : Level() {
                     }
                     return task(
                         target,
-                        value - LevelHandler.getNextExp(value, expIncrease!!)
+                        value - LevelHandler.getNextExp(target, value, expIncrease!!)
                     )
                 } else {
                     expData[target] = getExp(target) - value

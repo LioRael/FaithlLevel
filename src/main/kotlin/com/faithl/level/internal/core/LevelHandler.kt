@@ -1,9 +1,13 @@
 package com.faithl.level.internal.core
 
+import com.faithl.level.internal.core.impl.Basic
 import com.faithl.level.internal.core.impl.Temp
+import com.faithl.level.internal.data.PlayerIndex
+import com.faithl.level.internal.util.count
 import taboolib.common.util.asList
 import taboolib.common5.Coerce
 import taboolib.library.configuration.ConfigurationSection
+import taboolib.platform.compat.replacePlaceholder
 
 /**
  * 等级处理工具
@@ -36,8 +40,23 @@ object LevelHandler {
         return result
     }
 
-    fun getNextExp(level: Int, data: Any): Int {
-        return Coerce.toInteger(getValue(level, data) ?: 0)
+    fun getNextExp(target: String, level: Int, expIncrease: Any, count: Boolean = false): Int {
+        val player = PlayerIndex.getPlayer(target)
+        return if (player != null) {
+            if (count) {
+                Coerce.toInteger(
+                    Coerce.toString(getValue(level, expIncrease) ?: "0").replacePlaceholder(player.cast()).count()
+                )
+            } else {
+                Coerce.toInteger(Coerce.toString(getValue(level, expIncrease) ?: "0").replacePlaceholder(player.cast()))
+            }
+        } else {
+            if (count) {
+                Coerce.toInteger(Coerce.toString(getValue(level, expIncrease) ?: "0").count())
+            } else {
+                Coerce.toInteger(Coerce.toString(getValue(level, expIncrease) ?: "0"))
+            }
+        }
     }
 
     fun getValue(level: Int, data: Any): Any? {
@@ -67,9 +86,9 @@ object LevelHandler {
         return null
     }
 
-    fun isLevelUp(level: Temp, String: String, value: Int): Boolean {
-        val expNeeded = Coerce.toInteger(LevelHandler.getNextExp(level.getLevel(String), level.expIncrease!!))
-        val exp = level.getExp(String)
+    fun isLevelUp(level: Temp, target: String, value: Int): Boolean {
+        val expNeeded = getNextExp(target, level.getLevel(target), level.expIncrease!!,level is Basic)
+        val exp = level.getExp(target)
         return exp + value >= expNeeded
     }
 

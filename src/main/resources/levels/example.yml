@@ -20,11 +20,10 @@ data:
     10: '200'
     30: '300'
   level:
-    formula: true
     display:
-      0: '&f⟦{level}⟧'
-      10: '&2⟦{level}⟧'
-      30: '&a⟦{level}⟧'
+      0: '&f{level}'
+      10: '&2{level}'
+      30: '&a{level}'
     limit:
       - day:
           0: 5
