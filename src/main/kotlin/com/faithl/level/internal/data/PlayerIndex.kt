@@ -23,14 +23,14 @@ enum class PlayerIndex {
         }
 
         fun getTargetInformation(player: ProxyPlayer): String {
-            return when (PlayerIndex.INSTANCE) {
+            return when (INSTANCE) {
                 NAME -> player.name
                 UUID -> player.uniqueId.toString()
             }
         }
 
         fun getPlayer(index: String): ProxyPlayer? {
-            return when (PlayerIndex.INSTANCE) {
+            return when (INSTANCE) {
                 NAME -> getProxyPlayer(index)
                 UUID -> getProxyPlayer(java.util.UUID.fromString(index))
             }

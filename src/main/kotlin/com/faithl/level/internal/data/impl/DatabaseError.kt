@@ -28,4 +28,20 @@ class DatabaseError(private val cause: Throwable) : Database() {
         throw IllegalAccessError("Database initialization failed: ${cause.localizedMessage}")
     }
 
+    override fun setObtainExp(target: String, level: String, type: String, obtain: Int) {
+        throw IllegalAccessError("Database initialization failed: ${cause.localizedMessage}")
+    }
+
+    override fun setObtainLevel(target: String, level: String, type: String, obtain: Int) {
+        throw IllegalAccessError("Database initialization failed: ${cause.localizedMessage}")
+    }
+
+    override fun getObtainExp(target: String, level: String, type: String): Int {
+        throw IllegalAccessError("Database initialization failed: ${cause.localizedMessage}")
+    }
+
+    override fun getObtainLevel(target: String, level: String, type: String): Int {
+        throw IllegalAccessError("Database initialization failed: ${cause.localizedMessage}")
+    }
+
 }

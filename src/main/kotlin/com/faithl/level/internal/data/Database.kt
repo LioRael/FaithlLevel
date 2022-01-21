@@ -22,10 +22,10 @@ abstract class Database {
     abstract fun setLevel(target: String, level: String, value: Int)
     abstract fun setExp(target: String, level: String, value: Int)
 
-    abstract fun setObtainExp(target: String, level: String, type: String, obtain: Int)
-    abstract fun setObtainLevel(target: String, level: String, type: String, obtain: Int)
     abstract fun getObtainExp(target: String, level: String, type: String): Int
     abstract fun getObtainLevel(target: String, level: String, type: String): Int
+    abstract fun setObtainExp(target: String, level: String, type: String, obtain: Int)
+    abstract fun setObtainLevel(target: String, level: String, type: String, obtain: Int)
 
     companion object {
 

@@ -16,60 +16,58 @@ condition:
         value: 60
 data:
   increase:
-    0: '100'
-    10: '200'
-    30: '300'
+    10: '100'
+    20: '200'
+    30: '(300 + 30) - 20'
+    100: ''
   level:
     display:
-      0: '&f{level}'
-      10: '&2{level}'
+      10: '&f{level}'
+      20: '&2{level}'
       30: '&a{level}'
     limit:
-      - day:
-          0: 5
-          10: 3
+      - priority: 3
+        day:
+          10: 5
+          20: 3
           30: 1
       - permission: 'faithl.vip'
+        priority: 2
         week:
-          0: 8
-          10: 5
+          10: 8
+          20: 5
           30: 3
       - permission: 'faithl.mvp'
+        priority: 1
         month:
-          0: 10
-          10: 8
+          10: 10
+          20: 8
           30: 5
   exp:
     display:
-      0: '&f{exp}'
-      10: '&a{exp}'
+      10: '&f{exp}'
+      20: '&a{exp}'
       30: '&b{exp}'
     booster: [ ]
     limit:
-      - day:
-            0: 500
-            10: 300
-            30: 100
-      - permission: 'faithl.vip'
-        week:
-          0: 800
+      - priority: 3
+        day:
           10: 500
+          20: 300
+          30: 100
+      - permission: 'faithl.vip'
+        priority: 2
+        week:
+          10: 800
+          20: 500
           30: 300
       - permission: 'faithl.mvp'
+        priority: 1
         month:
-          0: 1000
-          10: 800
+          10: 1000
+          20: 800
           30: 500
 attribute:
-  data:
-    plugin: ''
-    0: '物理伤害: {level}'
-    10:
-      - '物理伤害: {level}'
-      - '燃烧几率: 1'
-    30:
-      - '物理伤害: {level}'
-      - '燃烧几率: 1'
   attribute-plus:
     lore: '生存等级'
     message: 'lang-attribute-limit'
@@ -108,14 +106,14 @@ items:
       type: 'name'
       name: '初级等级丹'
       data:
-        0: '3'
-        10: '2'
+        10: '3'
+        20: '2'
         30: '1'
   exp-medicine:
     primary:
       type: 'name'
       name: '初级经验丹'
       data:
-        0: '300'
-        10: '200'
+        10: '300'
+        20: '200'
         30: '100'

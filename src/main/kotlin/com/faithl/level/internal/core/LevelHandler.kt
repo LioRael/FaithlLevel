@@ -3,7 +3,7 @@ package com.faithl.level.internal.core
 import com.faithl.level.internal.core.impl.Basic
 import com.faithl.level.internal.core.impl.Temp
 import com.faithl.level.internal.data.PlayerIndex
-import com.faithl.level.internal.util.count
+import eval
 import taboolib.common.util.asList
 import taboolib.common5.Coerce
 import taboolib.library.configuration.ConfigurationSection
@@ -40,54 +40,81 @@ object LevelHandler {
         return result
     }
 
-    fun getNextExp(target: String, level: Int, expIncrease: Any, count: Boolean = false): Int {
-        val player = PlayerIndex.getPlayer(target)
-        return if (player != null) {
-            if (count) {
-                Coerce.toInteger(
-                    Coerce.toString(getValue(level, expIncrease) ?: "0").replacePlaceholder(player.cast()).count()
-                )
-            } else {
-                Coerce.toInteger(Coerce.toString(getValue(level, expIncrease) ?: "0").replacePlaceholder(player.cast()))
-            }
-        } else {
-            if (count) {
-                Coerce.toInteger(Coerce.toString(getValue(level, expIncrease) ?: "0").count())
-            } else {
-                Coerce.toInteger(Coerce.toString(getValue(level, expIncrease) ?: "0"))
+    fun getNeedExp(target: String, level: Int, expIncrease: Any, eval: Boolean = false): Int? {
+        val result = getValue(level, expIncrease)
+        if (result.state == ValueResult.State.FAILURE) {
+            if (result.type == ValueResult.Type.LEVEL_MAX){
+
             }
         }
+        val value = Coerce.toString(result.value ?: "0")
+        if (value == "max") {
+            return null
+        }
+        try {
+            PlayerIndex.getPlayer(target)?.let {
+                return if (eval) {
+                    Coerce.toInteger(
+                        value.replacePlaceholder(it.cast()).eval()
+                    )
+                } else {
+                    Coerce.toInteger(value.replacePlaceholder(it.cast()))
+                }
+            }
+        } catch (e: Throwable) {
+            return if (eval) {
+                Coerce.toInteger((value ?: "0").eval())
+            } else {
+                Coerce.toInteger(value ?: "0")
+            }
+        }
+        return 0
     }
 
-    fun getValue(level: Int, data: Any): Any? {
+    fun getValue(level: Int, data: Any): ValueResult {
         if (data is Int || data is String) {
-            return data
+            return ValueResult(type = ValueResult.Type.FIXED, value = data)
         }
         if (data is ConfigurationSection) {
-            var keyTemp = 0
-            for (key in data.getKeys(false)) {
-                if (level in keyTemp until Coerce.toInteger(key)) {
-                    return data[key]
+            val sortedData = data.getKeys(false).sorted()
+            for (key in sortedData) {
+                if (level <= Coerce.toInteger(key)) {
+                    return ValueResult(type = ValueResult.Type.DYNAMIC, value = data[key])
                 }
-                keyTemp = Coerce.toInteger(key)
             }
-            return data["fixed"]
+            val fixed = data["fixed"]
+            if (fixed != null) {
+                return ValueResult(type = ValueResult.Type.FIXED, value = fixed)
+            }
+            if (level >= Coerce.toInteger(sortedData.last())) {
+                ValueResult(state = ValueResult.State.FAILURE, type = ValueResult.Type.LEVEL_MAX)
+            }
         }
         if (data is org.bukkit.configuration.ConfigurationSection) {
-            var keyTemp = 0
-            for (key in data.getKeys(false)) {
-                if (level in keyTemp until Coerce.toInteger(key)) {
-                    return data[key]
+            val sortedData = data.getKeys(false).sorted()
+            for (key in sortedData) {
+                if (level <= Coerce.toInteger(key)) {
+                    return ValueResult(type = ValueResult.Type.DYNAMIC, value = data[key])
                 }
-                keyTemp = Coerce.toInteger(key)
             }
-            return data["fixed"]
+            val fixed = data["fixed"]
+            if (fixed != null) {
+                return ValueResult(type = ValueResult.Type.FIXED, value = fixed)
+            }
+            if (level >= Coerce.toInteger(sortedData.last())) {
+                ValueResult(state = ValueResult.State.FAILURE, type = ValueResult.Type.LEVEL_MAX)
+            }
         }
-        return null
+        return ValueResult(state = ValueResult.State.FAILURE, type = ValueResult.Type.INVALID_TYPE)
     }
 
     fun isLevelUp(level: Temp, target: String, value: Int): Boolean {
-        val expNeeded = getNextExp(target, level.getLevel(target), level.expIncrease!!,level is Basic)
+        val expNeeded = getNeedExp(target, level.getLevel(target), level.expIncrease!!, level is Basic)
+        if (expNeeded == null) {
+            //max
+            level
+            return false
+        }
         val exp = level.getExp(target)
         return exp + value >= expNeeded
     }

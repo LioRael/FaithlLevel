@@ -1,6 +1,5 @@
 package com.faithl.level.internal.util
 
-
 //
 //private fun doCommand(player: Player, level: Int, conf: ConfigurationSection?) {
 //    val commands = FunctionLoader.getFunc(level, conf, "command")

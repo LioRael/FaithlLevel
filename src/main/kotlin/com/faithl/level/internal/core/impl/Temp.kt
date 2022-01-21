@@ -5,7 +5,6 @@ import com.faithl.level.api.event.ExpUpdateEvent
 import com.faithl.level.api.event.LevelUpdateEvent
 import com.faithl.level.internal.core.Level
 import com.faithl.level.internal.core.LevelHandler
-import taboolib.common5.Coerce
 import taboolib.library.configuration.ConfigurationSection
 
 /**
@@ -65,7 +64,7 @@ open class Temp() : Level() {
                     }
                     return task(
                         target,
-                        value - LevelHandler.getNextExp(target, getLevel(target) - 1, expIncrease!!)
+                        value - LevelHandler.getNeedExp(target, getLevel(target) - 1, expIncrease!!)!!
                     )
                 } else {
                     expData[target] = value
@@ -93,7 +92,7 @@ open class Temp() : Level() {
                     }
                     return task(
                         target,
-                        value - LevelHandler.getNextExp(target, getLevel(target) - 1, expIncrease!!)
+                        value - LevelHandler.getNeedExp(target, getLevel(target) - 1, expIncrease!!)!!
                     )
                 } else {
                     expData[target] = getExp(target) + value
@@ -121,7 +120,7 @@ open class Temp() : Level() {
                     }
                     return task(
                         target,
-                        value - LevelHandler.getNextExp(target, value, expIncrease!!)
+                        value - LevelHandler.getNeedExp(target, value, expIncrease!!)!!
                     )
                 } else {
                     expData[target] = getExp(target) - value

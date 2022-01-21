@@ -54,7 +54,6 @@ open class Pure() : Temp() {
          * @param level 纯净等级
          */
         fun save(target: String, level: Pure) {
-            info(1)
             submit(async = true) {
                 val name = FaithlLevelAPI.getName(level)
                 level.levelData[target]?.let { Database.INSTANCE.setLevel(target, name, it) }

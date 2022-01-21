@@ -45,7 +45,7 @@ object PlaceholderAPI : PlaceholderExpansion {
                 "exp" -> {
                     val data = (level as Temp).expIncrease
                     return Coerce.toString(
-                        LevelHandler.getNextExp(
+                        LevelHandler.getNeedExp(
                             target,
                             level.getLevel(target),
                             data!!,
@@ -103,7 +103,7 @@ object PlaceholderAPI : PlaceholderExpansion {
                         "exp" -> {
                             val data = (level as Temp).expIncrease
                             return Coerce.toString(
-                                LevelHandler.getNextExp(
+                                LevelHandler.getNeedExp(
                                     target,
                                     level.getLevel(target),
                                     data!!,

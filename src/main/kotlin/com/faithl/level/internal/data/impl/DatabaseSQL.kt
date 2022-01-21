@@ -95,29 +95,29 @@ class DatabaseSQL : Database() {
     }
 
     override fun getLevel(target: String, level: String): Int {
-        val target = getTargetId(target)
-        if (target == -1L) {
+        val targetId = getTargetId(target)
+        if (targetId == -1L) {
             return 0
         }
-        submit(async = true) { updateTargetTime(target) }
-        return getPlayerLevel(target, level)
+        submit(async = true) { updateTargetTime(targetId) }
+        return getPlayerLevel(targetId, level)
     }
 
     override fun getExp(target: String, level: String): Int {
-        val target = getTargetId(target)
-        if (target == -1L) {
+        val targetId = getTargetId(target)
+        if (targetId == -1L) {
             return 0
         }
-        submit(async = true) { updateTargetTime(target) }
-        return getPlayerExp(target, level)
+        submit(async = true) { updateTargetTime(targetId) }
+        return getPlayerExp(targetId, level)
     }
 
     override fun setLevel(target: String, level: String, value: Int) {
         val targetId = getTargetId(target)
         if (targetId == -1L) {
-            createTarget(target).thenApply { targetId ->
+            createTarget(target).thenApply {
                 tableLevel.insert(dataSource, "target", "level", "data_level", "data_exp") {
-                    value(targetId, level, value, 0)
+                    value(it, level, value, 0)
                 }
             }
         } else {
@@ -137,9 +137,9 @@ class DatabaseSQL : Database() {
     override fun setExp(target: String, level: String, value: Int) {
         val targetId = getTargetId(target)
         if (targetId == -1L) {
-            createTarget(target).thenApply { targetId ->
+            createTarget(target).thenApply {
                 tableLevel.insert(dataSource, "target", "level", "data_level", "data_exp") {
-                    value(targetId, level, 0, value)
+                    value(it, level, 0, value)
                 }
             }
         } else {
@@ -156,12 +156,28 @@ class DatabaseSQL : Database() {
         }
     }
 
+    override fun setObtainExp(target: String, level: String, type: String, obtain: Int) {
+        TODO("Not yet implemented")
+    }
+
+    override fun setObtainLevel(target: String, level: String, type: String, obtain: Int) {
+        TODO("Not yet implemented")
+    }
+
+    override fun getObtainExp(target: String, level: String, type: String): Int {
+        TODO("Not yet implemented")
+    }
+
+    override fun getObtainLevel(target: String, level: String, type: String): Int {
+        TODO("Not yet implemented")
+    }
+
     fun getPlayerLevel(targetId: Long, level: String): Int {
         return tableLevel.select(dataSource) {
             where("target" eq targetId and ("level" eq level))
             rows("data_level")
         }.firstOrNull {
-            getInt("level")
+            getInt("data_level")
         } ?: 0
     }
 
@@ -170,7 +186,7 @@ class DatabaseSQL : Database() {
             where("target" eq targetId and ("level" eq level))
             rows("data_exp")
         }.firstOrNull {
-            getInt("exp")
+            getInt("data_exp")
         } ?: 0
     }
 

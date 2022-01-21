@@ -69,12 +69,28 @@ class DatabaseSQLite : Database() {
         }
     }
 
+    override fun setObtainExp(target: String, level: String, type: String, obtain: Int) {
+        TODO("Not yet implemented")
+    }
+
+    override fun setObtainLevel(target: String, level: String, type: String, obtain: Int) {
+        TODO("Not yet implemented")
+    }
+
+    override fun getObtainExp(target: String, level: String, type: String): Int {
+        TODO("Not yet implemented")
+    }
+
+    override fun getObtainLevel(target: String, level: String, type: String): Int {
+        TODO("Not yet implemented")
+    }
+
     fun getPlayerLevel(target: String, level: String): Int {
         return tableLevel.select(dataSource) {
             where("target" eq target and ("level" eq level))
             rows("data_level")
         }.firstOrNull {
-            getInt("level")
+            getInt("data_level")
         } ?: 0
     }
 
@@ -83,7 +99,7 @@ class DatabaseSQLite : Database() {
             where("target" eq target and ("level" eq level))
             rows("data_exp")
         }.firstOrNull {
-            getInt("exp")
+            getInt("data_exp")
         } ?: 0
     }
 
