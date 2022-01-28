@@ -17,6 +17,8 @@ command-level-description: '等级管理 &8(faithllevel.level)'
 command-exp-description: '经验管理 &8(faithllevel.exp)'
 command-reload-description: '重载插件 &8(faithllevel.reload)'
 
+error-invalid-config-node: '&7[&bFaithlLevel&7] &r配置节点 &b{0} &r不存在.'
+
 level-update:
   add:
   take:

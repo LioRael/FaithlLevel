@@ -1,4 +1,4 @@
-import taboolib.common.platform.function.submit
+package com.faithl.level.internal.util
 
 /**
  * 判断表达式是不是只有一个数字

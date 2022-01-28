@@ -14,7 +14,7 @@ package com.faithl.level.internal.util
 //    val scripts = FunctionLoader.getFunc(level, conf, "script")
 //    if (scripts != null && scripts.isNotEmpty()) {
 //        for (script in scripts) {
-//            KetherShell.eval(FaithlLevelAPI.registeredScript[script]!!, sender = adaptPlayer(player))
+//            KetherShell.com.faithl.level.internal.util.eval(FaithlLevelAPI.registeredScript[script]!!, sender = adaptPlayer(player))
 //        }
 //    }
 //}

@@ -93,8 +93,23 @@ event:
     take: [ ]
     set: [ ]
   player-exp-update:
+    add:
+      command:
+        1: [ ]
+        1-10: [ ]
+      script:
+        kether:
+          e: [ ]
+          1: [ ]
+        javascript:
+          e: [ ]
+          1: [ ]
+      message:
+        lang: [ 'lang-exp-up' ]
+
+    take: [ ]
+    set: [ ]
   player-level-max:
-  player-level-max-warning:
 items:
   bottle:
     type: 'exp_bottle'

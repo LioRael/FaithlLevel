@@ -13,52 +13,28 @@ import taboolib.library.configuration.ConfigurationSection
  **/
 open class Basic() : Pure() {
 
-    var conf: Any? = null
-
     init {
-        expIncrease = 100
+        config = 100
+    }
+
+    constructor(conf: Int) : this() {
+        config = conf
     }
 
     constructor(conf: ConfigurationSection) : this() {
-        this.conf = conf
-        expIncrease = conf.getConfigurationSection("data.increase")
+        config = conf
     }
 
     constructor(conf: org.bukkit.configuration.ConfigurationSection) : this() {
-        this.conf = conf
-        expIncrease = conf.getConfigurationSection("data.increase")
-    }
-
-    constructor(value: Int) : this() {
-        expIncrease = value
+        config = conf
     }
 
     fun getDisplay(target: String, type: String, value: Int, level: Int = getLevel(target)): String? {
-        if (conf != null) {
-            when (conf) {
-                is ConfigurationSection -> {
-                    val cs = (conf as ConfigurationSection).getConfigurationSection("data.${type}.display")
-                    return if (cs != null) {
-                        Coerce.toString(LevelHandler.getValue(level, cs))
-                    } else {
-                        Coerce.toString(value)
-                    }
-                }
-                is org.bukkit.configuration.ConfigurationSection -> {
-                    val cs =
-                        (conf as org.bukkit.configuration.ConfigurationSection).getConfigurationSection("data.${type}.display")
-                    return if (cs != null) {
-                        Coerce.toString(LevelHandler.getValue(level, cs))
-                    } else {
-                        Coerce.toString(value)
-                    }
-                }
-                else -> {
-                    return null
-                }
-            }
-        } else {
-            return Coerce.toString(value)
+        return when (config) {
+            is Int -> value.toString()
+            is org.bukkit.configuration.ConfigurationSection,
+            is ConfigurationSection -> Coerce.toString(LevelHandler.getValue(level, config, "data.${type}.display"))
+            else -> Coerce.toString(value)
         }
     }
 

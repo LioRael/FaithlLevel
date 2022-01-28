@@ -43,12 +43,12 @@ object PlaceholderAPI : PlaceholderExpansion {
             "next" -> when (args.split("_")[2]) {
                 "level" -> return Coerce.toString(level.getLevel(target) + 1)
                 "exp" -> {
-                    val data = (level as Temp).expIncrease
+                    val data = (level as Temp).config
                     return Coerce.toString(
                         LevelHandler.getNeedExp(
                             target,
                             level.getLevel(target),
-                            data!!,
+                            data,
                             level is Basic
                         )
                     )
@@ -101,12 +101,12 @@ object PlaceholderAPI : PlaceholderExpansion {
                     "next" -> when (args.split("_")[3]) {
                         "level" -> return Coerce.toString(level.getLevel(target) + 1)
                         "exp" -> {
-                            val data = (level as Temp).expIncrease
+                            val data = (level as Temp).config
                             return Coerce.toString(
                                 LevelHandler.getNeedExp(
                                     target,
                                     level.getLevel(target),
-                                    data!!,
+                                    data,
                                     level is Basic
                                 )
                             )

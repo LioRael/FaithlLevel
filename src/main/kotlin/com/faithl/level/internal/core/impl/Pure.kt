@@ -3,6 +3,7 @@ package com.faithl.level.internal.core.impl
 import com.faithl.level.api.FaithlLevelAPI
 import com.faithl.level.api.event.ExpUpdateEvent
 import com.faithl.level.api.event.LevelUpdateEvent
+import com.faithl.level.internal.core.TargetIndex
 import com.faithl.level.internal.data.Database
 import com.faithl.level.internal.data.PlayerIndex
 import org.bukkit.event.player.PlayerQuitEvent
@@ -22,19 +23,19 @@ import taboolib.library.configuration.ConfigurationSection
 open class Pure() : Temp() {
 
     init {
-        expIncrease = 100
+        config = 100
+    }
+
+    constructor(conf: Int): this(){
+        config = conf
     }
 
     constructor(conf: ConfigurationSection) : this() {
-        expIncrease = conf
+        config = conf
     }
 
     constructor(conf: org.bukkit.configuration.ConfigurationSection) : this() {
-        expIncrease = conf
-    }
-
-    constructor(value: Int) : this() {
-        expIncrease = value
+        config = conf
     }
 
     override fun getLevel(target: String): Int {

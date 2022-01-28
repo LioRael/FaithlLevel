@@ -4,6 +4,7 @@ import com.faithl.level.FaithlLevel
 import com.faithl.level.internal.data.impl.DatabaseError
 import com.faithl.level.internal.data.impl.DatabaseSQL
 import com.faithl.level.internal.data.impl.DatabaseSQLite
+import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.player.PlayerLoginEvent
 import taboolib.common.platform.event.SubscribeEvent
 import taboolib.module.chat.colored

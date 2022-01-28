@@ -5,6 +5,7 @@ import com.faithl.level.api.event.ExpUpdateEvent
 import com.faithl.level.api.event.LevelUpdateEvent
 import com.faithl.level.internal.core.Level
 import com.faithl.level.internal.core.LevelHandler
+import com.faithl.level.internal.core.TargetIndex
 import taboolib.library.configuration.ConfigurationSection
 
 /**
@@ -18,22 +19,22 @@ open class Temp() : Level() {
 
     var levelData = mutableMapOf<String, Int>()
     var expData = mutableMapOf<String, Int>()
-    var expIncrease: Any? = null
+    var config: Any
 
     init {
-        expIncrease = 100
+        config = 100
+    }
+
+    constructor(conf: Int): this(){
+        config = conf
     }
 
     constructor(conf: ConfigurationSection) : this() {
-        expIncrease = conf
+        config = conf
     }
 
     constructor(conf: org.bukkit.configuration.ConfigurationSection) : this() {
-        expIncrease = conf
-    }
-
-    constructor(value: Int) : this() {
-        expIncrease = value
+        config = conf
     }
 
     override fun getLevel(target: String): Int {
@@ -64,7 +65,7 @@ open class Temp() : Level() {
                     }
                     return task(
                         target,
-                        value - LevelHandler.getNeedExp(target, getLevel(target) - 1, expIncrease!!)!!
+                        value - LevelHandler.getNeedExp(target, getLevel(target) - 1, config)!!
                     )
                 } else {
                     expData[target] = value
@@ -92,7 +93,7 @@ open class Temp() : Level() {
                     }
                     return task(
                         target,
-                        value - LevelHandler.getNeedExp(target, getLevel(target) - 1, expIncrease!!)!!
+                        value - LevelHandler.getNeedExp(target, getLevel(target) - 1, config)!!
                     )
                 } else {
                     expData[target] = getExp(target) + value
@@ -120,7 +121,7 @@ open class Temp() : Level() {
                     }
                     return task(
                         target,
-                        value - LevelHandler.getNeedExp(target, value, expIncrease!!)!!
+                        value - LevelHandler.getNeedExp(target, value, config)!!
                     )
                 } else {
                     expData[target] = getExp(target) - value

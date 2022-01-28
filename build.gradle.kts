@@ -1,8 +1,8 @@
 plugins {
     java
     id("io.izzel.taboolib") version "1.34"
-    id("org.jetbrains.kotlin.jvm") version "1.6.10"
     id("org.jetbrains.dokka") version "1.6.0"
+    kotlin("jvm") version "1.6.10"
 }
 
 taboolib {
@@ -17,7 +17,7 @@ taboolib {
     install("module-database")
     install("expansion-javascript")
     classifier = null
-    version = "6.0.7-23"
+    version = "6.0.7-26"
     description {
         contributors {
             name("Leosouthey")
