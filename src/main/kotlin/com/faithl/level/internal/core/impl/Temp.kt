@@ -25,7 +25,7 @@ open class Temp() : Level() {
         config = 100
     }
 
-    constructor(conf: Int): this(){
+    constructor(conf: Int) : this() {
         config = conf
     }
 
@@ -38,17 +38,22 @@ open class Temp() : Level() {
     }
 
     override fun getLevel(target: String): Int {
-        return levelData.getOrPut(target) { 0 }
+        val level = levelData.getOrPut(target) { 0 }
+        updateLevel(target)
+        return level
     }
 
     override fun getExp(target: String): Int {
-        return expData.getOrPut(target) { 0 }
+        val exp = expData.getOrPut(target) { 0 }
+        updateLevel(target)
+        return exp
     }
 
     override fun setLevel(target: String, value: Int): Boolean {
         val event = LevelUpdateEvent(this, target, getLevel(target), value)
         if (event.call()) {
             levelData[target] = event.newLevel
+            updateLevel(target)
             return true
         }
         return false
@@ -58,21 +63,9 @@ open class Temp() : Level() {
         val event = ExpUpdateEvent(this, target, ChangeType.SET, value)
         if (event.call()
         ) {
-            fun task(target: String, value: Int): Boolean {
-                if (LevelHandler.isLevelUp(this, target, value)) {
-                    if (!addLevel(target, 1)) {
-                        return false
-                    }
-                    return task(
-                        target,
-                        value - LevelHandler.getNeedExp(target, getLevel(target) - 1, config)!!
-                    )
-                } else {
-                    expData[target] = value
-                    return true
-                }
-            }
-            return task(target, event.value)
+            expData[target] = value
+            updateLevel(target)
+            return true
         }
         return false
     }
@@ -86,21 +79,9 @@ open class Temp() : Level() {
         )
         if (event.call()
         ) {
-            fun task(target: String, value: Int): Boolean {
-                if (LevelHandler.isLevelUp(this, target, value)) {
-                    if (!addLevel(target, 1)) {
-                        return false
-                    }
-                    return task(
-                        target,
-                        value - LevelHandler.getNeedExp(target, getLevel(target) - 1, config)!!
-                    )
-                } else {
-                    expData[target] = getExp(target) + value
-                    return true
-                }
-            }
-            return task(target, event.value)
+            expData[target] = getExp(target) + event.value
+            updateLevel(target)
+            return true
         }
         return false
     }
@@ -114,21 +95,9 @@ open class Temp() : Level() {
         )
         if (event.call()
         ) {
-            fun task(target: String, value: Int): Boolean {
-                if (getExp(target) - value < 0) {
-                    if (!takeLevel(target, 1)) {
-                        return false
-                    }
-                    return task(
-                        target,
-                        value - LevelHandler.getNeedExp(target, value, config)!!
-                    )
-                } else {
-                    expData[target] = getExp(target) - value
-                    return true
-                }
-            }
-            return task(target, event.value)
+            expData[target] = getExp(target) - event.value
+            updateLevel(target)
+            return true
         }
         return false
     }
@@ -152,6 +121,17 @@ open class Temp() : Level() {
             return true
         }
         return false
+    }
+
+    fun updateLevel(target: String) {
+        while (getExp(target) < 0) {
+            takeLevel(target, 1)
+            setExp(target, LevelHandler.getNeedExp(target, getLevel(target), config)?.plus(getExp(target)) ?: break)
+        }
+        while (getExp(target) >= (LevelHandler.getNeedExp(target, getLevel(target), config) ?: return)) {
+            addLevel(target, 1)
+            setExp(target, getExp(target) - LevelHandler.getNeedExp(target, getLevel(target), config)!!)
+        }
     }
 
 }

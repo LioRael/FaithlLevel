@@ -1,7 +1,6 @@
 package com.faithl.level.internal.util
 
 import com.faithl.level.api.FaithlLevelAPI
-import com.faithl.level.internal.data.PlayerIndex
 import taboolib.common.platform.ProxyPlayer
 import taboolib.common.platform.function.adaptPlayer
 import taboolib.common.util.asList
@@ -17,50 +16,51 @@ import taboolib.platform.compat.replacePlaceholder
  * @author Leosouthey
  * @since 2022/1/15 12:02
  **/
+class Result(val state: Boolean, val message: Any? = null)
 
-fun ProxyPlayer.condition(map: Map<*, *>): Boolean {
+fun ProxyPlayer.condition(map: Map<*, *>): Result {
     map["permission"]?.let { permissions ->
         permissions.asList().forEach { permission ->
             if (!hasPermission(permission)) {
-                return false
+                return Result(false, map["message"])
             }
         }
     }
     map["level"]?.let { levels ->
         (levels as List<*>).forEach { level ->
             val data = FaithlLevelAPI.getLevel((level as Map<*, *>)["key"] as String)
-                .getLevel(PlayerIndex.getTargetInformation(this))
+                .getLevel(this.name)
             val mode = level["mode"] as String
             val value = level["value"] as Int
             when (mode) {
                 ">" -> {
                     if (data <= value) {
-                        return false
+                        return Result(false, map["message"])
                     }
                 }
                 ">=" -> {
                     if (data < value) {
-                        return false
+                        return Result(false, map["message"])
                     }
                 }
                 "=", "==" -> {
                     if (data != value) {
-                        return false
+                        return Result(false, map["message"])
                     }
                 }
                 "!=" -> {
                     if (data == value) {
-                        return false
+                        return Result(false, map["message"])
                     }
                 }
                 "<" -> {
                     if (data >= value) {
-                        return false
+                        return Result(false, map["message"])
                     }
                 }
                 "<=" -> {
                     if (data > value) {
-                        return false
+                        return Result(false, map["message"])
                     }
                 }
             }
@@ -71,11 +71,11 @@ fun ProxyPlayer.condition(map: Map<*, *>): Boolean {
             val result =
                 KetherShell.eval(source = kether.asList(), namespace = listOf("faithllevel"), sender = this)
             if (!Coerce.toBoolean(result)) {
-                return false
+                return Result(false, map["message"])
             }
         } catch (e: Throwable) {
             e.printStackTrace()
-            return false
+            return Result(false, map["message"])
         }
     }
     map["placeholder"]?.let { placeholders ->
@@ -86,72 +86,83 @@ fun ProxyPlayer.condition(map: Map<*, *>): Boolean {
             when (mode) {
                 ">" -> {
                     if (Coerce.toBoolean(data) <= Coerce.toBoolean(value)) {
-                        return false
+                        return Result(false, map["message"])
                     }
                 }
                 ">=" -> {
                     if (data < value) {
                         if (Coerce.toBoolean(data) < Coerce.toBoolean(value)) {
-                            return false
+                            return Result(false, map["message"])
                         }
                     }
                 }
                 "=", "==" -> {
                     if (data != value) {
-                        return false
+                        return Result(false, map["message"])
                     }
                 }
                 "!=" -> {
                     if (data == value) {
-                        return false
+                        return Result(false, map["message"])
                     }
                 }
                 "<" -> {
                     if (Coerce.toBoolean(data) >= Coerce.toBoolean(value)) {
-                        return false
+                        return Result(false, map["message"])
                     }
                 }
                 "<=" -> {
                     if (Coerce.toBoolean(data) > Coerce.toBoolean(value)) {
-                        return false
+                        return Result(false, map["message"])
                     }
                 }
             }
         }
     }
-    return true
+    return Result(true)
 }
 
 fun ProxyPlayer.condition(config: List<Map<*, *>>): Boolean {
-    if (config.isEmpty()){
+    if (config.isEmpty()) {
         return true
     }
     config.forEach {
-        if (condition(it)) {
+        val result = condition(it)
+        if (result.state) {
             return true
+        } else {
+            val message = result.message
+            if (message is ConfigurationSection) {
+                message.sendMessage(this)
+                return false
+            }
+            if (message is org.bukkit.configuration.ConfigurationSection) {
+                message.sendMessage(this)
+                return false
+            }
         }
     }
     return false
 }
 
 fun ProxyPlayer.limit(map: Map<*, *>): Boolean {
-    if (map["permission"]!=null){
+    if (map["permission"] != null) {
 
     }
     return false
 }
 
-fun ProxyPlayer.limit(config: List<Map<*, *>>): Boolean {
-    if (config.isEmpty()){
-        return true
-    }
-    config.forEach {
-        if (condition(it)) {
-            return true
-        }
-    }
-    return false
-}
+//fun ProxyPlayer.limit(config: List<Map<*, *>>): Boolean {
+//    if (config.isEmpty()) {
+//        return true
+//    }
+//    config.forEach {
+//        if (condition(it)) {
+//            return true
+//        }
+//    }
+//    return false
+//}
 
 //fun ConfigurationSection.run(player: ProxyPlayer, level: Int) {
 //    val command = getConfigurationSection("command")

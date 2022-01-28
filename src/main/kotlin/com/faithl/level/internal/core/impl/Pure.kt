@@ -3,13 +3,10 @@ package com.faithl.level.internal.core.impl
 import com.faithl.level.api.FaithlLevelAPI
 import com.faithl.level.api.event.ExpUpdateEvent
 import com.faithl.level.api.event.LevelUpdateEvent
-import com.faithl.level.internal.core.TargetIndex
 import com.faithl.level.internal.data.Database
-import com.faithl.level.internal.data.PlayerIndex
 import org.bukkit.event.player.PlayerQuitEvent
 import taboolib.common.platform.event.SubscribeEvent
 import taboolib.common.platform.function.adaptPlayer
-import taboolib.common.platform.function.info
 import taboolib.common.platform.function.submit
 import taboolib.library.configuration.ConfigurationSection
 
@@ -80,7 +77,7 @@ open class Pure() : Temp() {
         fun e(e: PlayerQuitEvent) {
             FaithlLevelAPI.registeredLevels.values.forEach {
                 if (it is Pure) {
-                    it.levelData.remove(PlayerIndex.getTargetInformation(adaptPlayer(e.player)))
+                    it.levelData.remove(e.player.name)
                 }
             }
         }

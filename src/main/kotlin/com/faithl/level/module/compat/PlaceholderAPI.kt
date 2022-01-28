@@ -4,7 +4,6 @@ import com.faithl.level.api.FaithlLevelAPI
 import com.faithl.level.internal.core.LevelHandler
 import com.faithl.level.internal.core.impl.Basic
 import com.faithl.level.internal.core.impl.Temp
-import com.faithl.level.internal.data.PlayerIndex
 import org.bukkit.entity.Player
 import taboolib.common.platform.function.adaptPlayer
 import taboolib.common5.Coerce
@@ -19,11 +18,7 @@ object PlaceholderAPI : PlaceholderExpansion {
 
     override fun onPlaceholderRequest(player: Player?, args: String): String {
         val level = FaithlLevelAPI.getLevel(args.split("_")[0])
-        var target: String = if (player != null) {
-            PlayerIndex.getTargetInformation(adaptPlayer(player))
-        } else {
-            args
-        }
+        var target = args
         when (val type = args.split("_")[1]) {
             "level" -> return Coerce.toString(level.getLevel(target))
             "exp" -> return Coerce.toString(level.getExp(target))

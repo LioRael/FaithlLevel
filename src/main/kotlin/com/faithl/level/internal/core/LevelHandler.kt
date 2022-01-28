@@ -2,13 +2,12 @@ package com.faithl.level.internal.core
 
 import com.faithl.level.internal.core.impl.Basic
 import com.faithl.level.internal.core.impl.Temp
-import com.faithl.level.internal.data.PlayerIndex
 import com.faithl.level.internal.util.eval
 import com.faithl.level.internal.util.sendMessage
+import taboolib.common.platform.function.getProxyPlayer
 import taboolib.common.util.asList
 import taboolib.common5.Coerce
 import taboolib.library.configuration.ConfigurationSection
-import taboolib.module.chat.colored
 import taboolib.module.lang.sendLang
 import taboolib.platform.compat.replacePlaceholder
 
@@ -22,31 +21,25 @@ object LevelHandler {
 
     fun getNeedExp(target: String, levelData: Int, data: Any, eval: Boolean = false): Int? {
         val result = getValue(levelData, data, "data.increase")
-        val index = result.targetIndex
+        val player = getProxyPlayer(target)
         if (result.state == ValueResult.State.FAILURE) {
-            if (index == TargetIndex.PLAYER) {
-                val player = PlayerIndex.getPlayer(target)!!
-                if (result.reason == ValueResult.Reason.LEVEL_MAX) {
-                    getValue(levelData, data, "event.player-level-max.message").value?.let {
-                        if (it is ConfigurationSection) {
-                            it.sendMessage(player)
-                        }
-                    }
-                } else {
-                    player.sendLang("error-invalid-config-node", "data.increase")
-                }
+            if (result.reason == ValueResult.Reason.INVALID_TYPE) {
+                player?.sendLang("error-invalid-config-node", "data.increase")
             }
             return null
         }
-        return if (index == TargetIndex.PLAYER) {
-            PlayerIndex.getPlayer(target)?.let {
-                if (eval) {
+        return if (player != null) {
+            if (eval) {
+                println(
                     Coerce.toInteger(
-                        (result.value as String).replacePlaceholder(it.cast()).eval()
+                        (result.value as String).replacePlaceholder(player.cast()).eval()
                     )
-                } else {
-                    Coerce.toInteger((result.value as String).replacePlaceholder(it.cast()))
-                }
+                )
+                Coerce.toInteger(
+                    (result.value as String).replacePlaceholder(player.cast()).eval()
+                )
+            } else {
+                Coerce.toInteger((result.value as String).replacePlaceholder(player.cast()))
             }
         } else {
             if (eval) {
@@ -59,27 +52,33 @@ object LevelHandler {
         }
     }
 
+    fun getNodeValue(config: Any, key: String): Any? {
+        return if (config is ConfigurationSection) {
+            config.get(key)
+        } else {
+            (config as org.bukkit.configuration.ConfigurationSection).get(key)
+        }
+    }
+
     fun getValue(level: Int, data: Any, node: String): ValueResult {
         if (data is Int || data is String) {
-            return ValueResult(ValueResult.State.SUCCESS, TargetIndex.PLAYER, data)
+            return ValueResult(ValueResult.State.SUCCESS, data)
         }
         if (data is ConfigurationSection) {
-            val sortedData = data.getConfigurationSection(node)?.getKeys(false)?.sorted()
-            val index = data.getString("index") ?: "player"
+            val sortedData = data.getConfigurationSection(node)?.getKeys(false)?.map { Coerce.toInteger(it) }?.sorted()
             if (sortedData != null) {
                 for (key in sortedData) {
-                    if (level <= Coerce.toInteger(key)) {
-                        return ValueResult(ValueResult.State.SUCCESS, TargetIndex.valueOf(index), data[key])
+                    if (level <= key) {
+                        return ValueResult(ValueResult.State.SUCCESS, data["${node}.$key"])
                     }
                 }
-                val fixed = data["fixed"]
+                val fixed = data["${node}.fixed"]
                 if (fixed != null) {
-                    return ValueResult(ValueResult.State.SUCCESS, TargetIndex.valueOf(index), fixed)
+                    return ValueResult(ValueResult.State.SUCCESS, fixed)
                 }
-                if (level >= Coerce.toInteger(sortedData.last())) {
-                    ValueResult(
+                if (level > sortedData.last()) {
+                    return ValueResult(
                         ValueResult.State.FAILURE,
-                        TargetIndex.valueOf(index),
                         null,
                         ValueResult.Reason.LEVEL_MAX
                     )
@@ -87,33 +86,31 @@ object LevelHandler {
             }
         }
         if (data is org.bukkit.configuration.ConfigurationSection) {
-            val sortedData = data.getConfigurationSection(node)?.getKeys(false)?.sorted()
-            val index = data.getString("index") ?: "player"
+            val sortedData = data.getConfigurationSection(node)?.getKeys(false)?.map { Coerce.toInteger(it) }?.sorted()
             if (sortedData != null) {
                 for (key in sortedData) {
-                    if (level <= Coerce.toInteger(key)) {
-                        return ValueResult(ValueResult.State.SUCCESS, TargetIndex.valueOf(index), data[key])
+                    if (level <= key) {
+                        return ValueResult(ValueResult.State.SUCCESS, data["${node}.$key"])
                     }
                 }
-                val fixed = data["fixed"]
+                val fixed = data["${node}.fixed"]
                 if (fixed != null) {
-                    return ValueResult(ValueResult.State.SUCCESS, TargetIndex.valueOf(index), fixed)
+                    return ValueResult(ValueResult.State.SUCCESS, fixed)
                 }
-                if (level >= Coerce.toInteger(sortedData.last())) {
-                    ValueResult(
+                if (level > sortedData.last()) {
+                    return ValueResult(
                         ValueResult.State.FAILURE,
-                        TargetIndex.valueOf(index),
                         null,
                         ValueResult.Reason.LEVEL_MAX
                     )
                 }
             }
         }
-        return ValueResult(ValueResult.State.FAILURE, TargetIndex.PLAYER, null, ValueResult.Reason.INVALID_TYPE)
+        return ValueResult(ValueResult.State.FAILURE, null, ValueResult.Reason.INVALID_TYPE)
     }
 
     fun isLevelUp(level: Temp, target: String, value: Int): Boolean {
-        val expNeeded = getNeedExp(target, level.getLevel(target), level.config!!, level is Basic) ?: return false
+        val expNeeded = getNeedExp(target, level.getLevel(target), level.config, true) ?: return false
         val exp = level.getExp(target)
         return exp + value >= expNeeded
     }

@@ -10,11 +10,14 @@ name: '生存等级'
 type: 'basic'
 condition:
   - permission: 'faithl.use'
+    message:
+      lang: 'level-not-condition'
     level:
       - key: '临时等级'
         mode: '>'
         value: 60
 data:
+  overflow: true
   increase:
     10: '100'
     20: '200'
