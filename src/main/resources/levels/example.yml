@@ -108,8 +108,7 @@ event:
           e: [ ]
           1: [ ]
       message:
-        lang: [ 'lang-exp-up' ]
-
+        lang: [ 'level-max-warning' ]
     take: [ ]
     set: [ ]
   player-level-max:

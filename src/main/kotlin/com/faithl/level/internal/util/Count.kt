@@ -15,8 +15,8 @@ private fun isNumber(str: String): Boolean {
     return true
 }
 
-fun String.eval() :Double {
-    return getResult(this) ?: 0.0
+fun String.eval() :Double? {
+    return getResult(this)
 }
 
 /**

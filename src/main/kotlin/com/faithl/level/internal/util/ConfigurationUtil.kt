@@ -184,9 +184,7 @@ fun ConfigurationSection.sendMessage(player: ProxyPlayer, list: List<String> = l
         player.sendMessage(it.replacePlaceholder(player.cast()))
     }
     get("lang")?.asList()?.colored()?.forEach {
-        if (it.contains(" ")) {
-            player.sendLang(it.replacePlaceholder(player.cast()), it.split(" "), list)
-        }
+        player.sendLang(it.replacePlaceholder(player.cast()), it.split(" "), list)
     }
     get("sound")?.asList()?.colored()?.forEach {
         XSound.parse(it)?.forPlayer(player.cast())?.play()

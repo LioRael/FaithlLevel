@@ -43,8 +43,7 @@ object PlaceholderAPI : PlaceholderExpansion {
                         LevelHandler.getNeedExp(
                             target,
                             level.getLevel(target),
-                            data,
-                            level is Basic
+                            data
                         )
                     )
                 }
@@ -101,8 +100,7 @@ object PlaceholderAPI : PlaceholderExpansion {
                                 LevelHandler.getNeedExp(
                                     target,
                                     level.getLevel(target),
-                                    data,
-                                    level is Basic
+                                    data
                                 )
                             )
                         }

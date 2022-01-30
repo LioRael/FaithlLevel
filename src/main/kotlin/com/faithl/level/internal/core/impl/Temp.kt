@@ -50,7 +50,7 @@ open class Temp() : Level() {
     }
 
     override fun setLevel(target: String, value: Int): Boolean {
-        val event = LevelUpdateEvent(this, target, getLevel(target), value)
+        val event = LevelUpdateEvent.Before(this, target, getLevel(target), value)
         if (event.call()) {
             levelData[target] = event.newLevel
             updateLevel(target)
@@ -60,7 +60,7 @@ open class Temp() : Level() {
     }
 
     override fun setExp(target: String, value: Int): Boolean {
-        val event = ExpUpdateEvent(this, target, ChangeType.SET, value)
+        val event = ExpUpdateEvent.Before(this, target, ChangeType.SET, value)
         if (event.call()
         ) {
             expData[target] = value
@@ -71,7 +71,7 @@ open class Temp() : Level() {
     }
 
     override fun addExp(target: String, value: Int): Boolean {
-        val event = ExpUpdateEvent(
+        val event = ExpUpdateEvent.Before(
             this,
             target,
             ChangeType.ADD,
@@ -87,7 +87,7 @@ open class Temp() : Level() {
     }
 
     override fun takeExp(target: String, value: Int): Boolean {
-        val event = ExpUpdateEvent(
+        val event = ExpUpdateEvent.Before(
             this,
             target,
             ChangeType.TAKE,
@@ -95,7 +95,11 @@ open class Temp() : Level() {
         )
         if (event.call()
         ) {
-            expData[target] = getExp(target) - event.value
+            if (getLevel(target) == 0 && getExp(target) - event.value < 0) {
+                expData[target] = 0
+            } else {
+                expData[target] = getExp(target) - event.value
+            }
             updateLevel(target)
             return true
         }
@@ -103,7 +107,7 @@ open class Temp() : Level() {
     }
 
     override fun addLevel(target: String, value: Int): Boolean {
-        val event = LevelUpdateEvent(this, target, getLevel(target), getLevel(target).plus(value))
+        val event = LevelUpdateEvent.Before(this, target, getLevel(target), getLevel(target).plus(value))
         if (event.call()) {
             levelData[target] = event.newLevel
             return true
@@ -112,26 +116,36 @@ open class Temp() : Level() {
     }
 
     override fun takeLevel(target: String, value: Int): Boolean {
-        val event = LevelUpdateEvent(this, target, getLevel(target), getLevel(target).minus(value))
+        val event = LevelUpdateEvent.Before(this, target, getLevel(target), getLevel(target).minus(value))
         if (event.call()) {
-            if (event.newLevel < 0) {
-                return false
+            return if (event.newLevel < 0) {
+                levelData[target] = 0
+                true
+            } else {
+                levelData[target] = event.newLevel
+                true
             }
-            levelData[target] = event.newLevel
-            return true
         }
         return false
     }
 
     fun updateLevel(target: String) {
         while (getExp(target) < 0) {
-            takeLevel(target, 1)
-            setExp(target, LevelHandler.getNeedExp(target, getLevel(target), config)?.plus(getExp(target)) ?: break)
+            if (takeLevel(target, 1)) {
+                setExp(target, LevelHandler.getNeedExp(target, getLevel(target), config)?.plus(getExp(target)) ?: break)
+            } else {
+                break
+            }
         }
-        while (getExp(target) >= (LevelHandler.getNeedExp(target, getLevel(target), config) ?: return)) {
-            addLevel(target, 1)
-            setExp(target, getExp(target) - LevelHandler.getNeedExp(target, getLevel(target), config)!!)
+        fun task() {
+            val need = LevelHandler.getNeedExp(target, getLevel(target), config) ?: return
+            if (getExp(target) >= need) {
+                addLevel(target, 1)
+                setExp(target, getExp(target) - need)
+                task()
+            }
         }
+        task()
     }
 
 }

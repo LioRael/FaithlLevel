@@ -18,6 +18,7 @@ command-exp-description: '经验管理 &8(faithllevel.exp)'
 command-reload-description: '重载插件 &8(faithllevel.reload)'
 
 level-not-condition: '&7[&bFaithlLevel&7] &r你的等级不满足条件.'
+level-max-warning: '&7[&bFaithlLevel&7] &r你已达到最高等级.'
 
 error-invalid-config-node: '&7[&bFaithlLevel&7] &r配置节点 &b{0} &r不存在.'
 

@@ -1,9 +1,7 @@
 package com.faithl.level.internal.core
 
-import com.faithl.level.internal.core.impl.Basic
 import com.faithl.level.internal.core.impl.Temp
 import com.faithl.level.internal.util.eval
-import com.faithl.level.internal.util.sendMessage
 import taboolib.common.platform.function.getProxyPlayer
 import taboolib.common.util.asList
 import taboolib.common5.Coerce
@@ -19,7 +17,7 @@ import taboolib.platform.compat.replacePlaceholder
  **/
 object LevelHandler {
 
-    fun getNeedExp(target: String, levelData: Int, data: Any, eval: Boolean = false): Int? {
+    fun getNeedExp(target: String, levelData: Int, data: Any): Int? {
         val result = getValue(levelData, data, "data.increase")
         val player = getProxyPlayer(target)
         if (result.state == ValueResult.State.FAILURE) {
@@ -28,27 +26,17 @@ object LevelHandler {
             }
             return null
         }
+        if (!Coerce.asInteger(result.value).isPresent) {
+            return null
+        }
         return if (player != null) {
-            if (eval) {
-                println(
-                    Coerce.toInteger(
-                        (result.value as String).replacePlaceholder(player.cast()).eval()
-                    )
-                )
-                Coerce.toInteger(
-                    (result.value as String).replacePlaceholder(player.cast()).eval()
-                )
-            } else {
-                Coerce.toInteger((result.value as String).replacePlaceholder(player.cast()))
-            }
+            Coerce.toInteger(
+                ((result.value ?: return null) as String).replacePlaceholder(player.cast()).eval()
+            )
         } else {
-            if (eval) {
-                Coerce.toInteger(
-                    (result.value as String).eval()
-                )
-            } else {
-                Coerce.toInteger(result.value as String)
-            }
+            Coerce.toInteger(
+                ((result.value ?: return null) as String).eval()
+            )
         }
     }
 
@@ -67,6 +55,13 @@ object LevelHandler {
         if (data is ConfigurationSection) {
             val sortedData = data.getConfigurationSection(node)?.getKeys(false)?.map { Coerce.toInteger(it) }?.sorted()
             if (sortedData != null) {
+                if (level >= sortedData.last()) {
+                    return ValueResult(
+                        ValueResult.State.FAILURE,
+                        null,
+                        ValueResult.Reason.LEVEL_MAX
+                    )
+                }
                 for (key in sortedData) {
                     if (level <= key) {
                         return ValueResult(ValueResult.State.SUCCESS, data["${node}.$key"])
@@ -75,19 +70,19 @@ object LevelHandler {
                 val fixed = data["${node}.fixed"]
                 if (fixed != null) {
                     return ValueResult(ValueResult.State.SUCCESS, fixed)
-                }
-                if (level > sortedData.last()) {
-                    return ValueResult(
-                        ValueResult.State.FAILURE,
-                        null,
-                        ValueResult.Reason.LEVEL_MAX
-                    )
                 }
             }
         }
         if (data is org.bukkit.configuration.ConfigurationSection) {
             val sortedData = data.getConfigurationSection(node)?.getKeys(false)?.map { Coerce.toInteger(it) }?.sorted()
             if (sortedData != null) {
+                if (level >= sortedData.last()) {
+                    return ValueResult(
+                        ValueResult.State.FAILURE,
+                        null,
+                        ValueResult.Reason.LEVEL_MAX
+                    )
+                }
                 for (key in sortedData) {
                     if (level <= key) {
                         return ValueResult(ValueResult.State.SUCCESS, data["${node}.$key"])
@@ -96,13 +91,6 @@ object LevelHandler {
                 val fixed = data["${node}.fixed"]
                 if (fixed != null) {
                     return ValueResult(ValueResult.State.SUCCESS, fixed)
-                }
-                if (level > sortedData.last()) {
-                    return ValueResult(
-                        ValueResult.State.FAILURE,
-                        null,
-                        ValueResult.Reason.LEVEL_MAX
-                    )
                 }
             }
         }
@@ -110,7 +98,7 @@ object LevelHandler {
     }
 
     fun isLevelUp(level: Temp, target: String, value: Int): Boolean {
-        val expNeeded = getNeedExp(target, level.getLevel(target), level.config, true) ?: return false
+        val expNeeded = getNeedExp(target, level.getLevel(target), level.config) ?: return false
         val exp = level.getExp(target)
         return exp + value >= expNeeded
     }

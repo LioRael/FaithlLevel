@@ -13,44 +13,44 @@ import taboolib.library.configuration.ConfigurationSection
 object LevelMax {
 
     @SubscribeEvent
-    fun e(e: ExpUpdateEvent) {
+    fun e(e: ExpUpdateEvent.Before) {
         if (e.changeType == ChangeType.ADD) {
             if (e.level is Temp) {
-                if (LevelHandler.getNeedExp(e.target, e.level.getLevel(e.target) + 1, e.level.config, true) == null) {
+                if (LevelHandler.getNeedExp(e.target, e.level.getLevel(e.target), e.level.config) == null) {
                     getProxyPlayer(e.target)?.let {
-                        LevelHandler.getValue(
-                            e.level.getLevel(e.target),
-                            e.level.config,
-                            "event.player-level-max.message"
-                        ).value?.let { message ->
+                        val message = LevelHandler.getNodeValue(e.level.config, "event.player-level-max.message")
+                        if (message != null) {
                             if (message is ConfigurationSection) {
                                 message.sendMessage(it)
                             }
-                            e.isCancelled = (LevelHandler.getNodeValue(e.level.config, "overflow") ?: false) as Boolean
+                            if (message is org.bukkit.configuration.ConfigurationSection) {
+                                message.sendMessage(it)
+                            }
                         }
                     }
+                    e.isCancelled = (LevelHandler.getNodeValue(e.level.config, "overflow") ?: false) as Boolean
                 }
             }
         }
     }
 
     @SubscribeEvent
-    fun e(e: LevelUpdateEvent) {
+    fun e(e: LevelUpdateEvent.Before) {
         if (e.newLevel - e.oldLevel > 0) {
             if (e.level is Temp) {
-                if (LevelHandler.getNeedExp(e.target, e.newLevel, e.level.config, true) == null) {
+                if (LevelHandler.getNeedExp(e.target, e.oldLevel, e.level.config) == null) {
                     getProxyPlayer(e.target)?.let {
-                        LevelHandler.getValue(
-                            e.newLevel,
-                            e.level.config,
-                            "event.player-level-max.message"
-                        ).value?.let { message ->
+                        val message = LevelHandler.getNodeValue(e.level.config, "event.player-level-max.message")
+                        if (message != null) {
                             if (message is ConfigurationSection) {
                                 message.sendMessage(it)
                             }
-                            e.isCancelled = true
+                            if (message is org.bukkit.configuration.ConfigurationSection) {
+                                message.sendMessage(it)
+                            }
                         }
                     }
+                    e.isCancelled = true
                 }
             }
         }

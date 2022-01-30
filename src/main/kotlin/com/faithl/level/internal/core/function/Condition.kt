@@ -14,7 +14,7 @@ import taboolib.library.configuration.ConfigurationSection
 internal object Condition {
 
     @SubscribeEvent(priority = EventPriority.HIGHEST)
-    fun e(e: LevelUpdateEvent) {
+    fun e(e: LevelUpdateEvent.Before) {
         if (e.level is Basic) {
             kotlin.runCatching {
                 getProxyPlayer(e.target)?.let {
@@ -37,7 +37,7 @@ internal object Condition {
     }
 
     @SubscribeEvent(priority = EventPriority.HIGH)
-    fun e(e: ExpUpdateEvent) {
+    fun e(e: ExpUpdateEvent.Before) {
         if (e.changeType == ChangeType.ADD && e.level is Basic) {
             runCatching {
                 val config = e.level.config

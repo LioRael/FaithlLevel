@@ -23,7 +23,7 @@ open class Pure() : Temp() {
         config = 100
     }
 
-    constructor(conf: Int): this(){
+    constructor(conf: Int) : this() {
         config = conf
     }
 
@@ -60,14 +60,14 @@ open class Pure() : Temp() {
         }
 
         @SubscribeEvent
-        fun e(e: ExpUpdateEvent) {
+        fun e(e: ExpUpdateEvent.Before) {
             if (e.level is Pure) {
                 save(e.target, e.level)
             }
         }
 
         @SubscribeEvent
-        fun e(e: LevelUpdateEvent) {
+        fun e(e: LevelUpdateEvent.Before) {
             if (e.level is Pure) {
                 save(e.target, e.level)
             }
@@ -77,6 +77,7 @@ open class Pure() : Temp() {
         fun e(e: PlayerQuitEvent) {
             FaithlLevelAPI.registeredLevels.values.forEach {
                 if (it is Pure) {
+                    save(e.player.name, it)
                     it.levelData.remove(e.player.name)
                 }
             }
